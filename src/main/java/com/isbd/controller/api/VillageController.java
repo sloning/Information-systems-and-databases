@@ -27,7 +27,7 @@ public class VillageController {
         return new ResponseEntity<>(villageService.getVillage(id), HttpStatus.OK);
     }
 
-    @GetMapping()
+    @GetMapping("/nearest")
     public ResponseEntity<Village> getNearestVillage(@RequestParam final int xCoordinate,
                                                      @RequestParam final int zCoordinate) {
         return new ResponseEntity<>(villageService.getNearestVillage(xCoordinate, zCoordinate), HttpStatus.OK);

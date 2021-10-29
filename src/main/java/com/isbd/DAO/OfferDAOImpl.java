@@ -55,16 +55,89 @@ public class OfferDAOImpl implements DAO<Offer>, OfferDAO {
     }
 
     @Override
-    public List<Offer> getByVillager(int villager_id) {
+    public List<Offer> getByVillager(int villagerId) {
         String sql = "select * from offer where villager_id = ?";
 
-        return jdbcTemplate.query(sql, rowMapper, villager_id);
+        return jdbcTemplate.query(sql, rowMapper, villagerId);
     }
 
     @Override
-    public List<Long> getOfferIdsByVillager(int villager_id) {
+    public List<Long> getOfferIdsByVillager(int villagerId) {
         String sql = "select offer_id from offer where villager_id = ?";
 
-        return jdbcTemplate.queryForList(sql, Long.class, villager_id);
+        return jdbcTemplate.queryForList(sql, Long.class, villagerId);
+    }
+
+    @Override
+    public List<Offer> getOffersByItemId(int itemId) {
+        String sql = "select * from offer where buying_item_id = ?";
+
+        return jdbcTemplate.query(sql, rowMapper, itemId);
+    }
+
+    @Override
+    public List<Offer> getOffersByItemIdAndAmount(int itemId, int amount) {
+        String sql = "select * from offer where buying_item_id = ? and amount_of_buying_items <= ?";
+
+        return jdbcTemplate.query(sql, rowMapper, itemId, amount);
+    }
+
+    @Override
+    public List<Offer> getOffersByVillagerId(int villagerId) {
+        String sql = "select * from offer where villager_id = ?";
+
+        return jdbcTemplate.query(sql, rowMapper, villagerId);
+    }
+
+    @Override
+    public List<Offer> getOffersByReputationLevel(int reputationLevel) {
+        String sql = "select * from offer where needed_reputation_level = ?";
+
+        return jdbcTemplate.query(sql, rowMapper, reputationLevel);
+    }
+
+    @Override
+    public List<Offer> getOffersByVillagerIdAndItemId(int villagerId, int itemId) {
+        String sql = "select * from offer where villager_id = ? and buying_item_id = ?";
+
+        return jdbcTemplate.query(sql, rowMapper, villagerId, itemId);
+    }
+
+    @Override
+    public List<Offer> getOffersByVillagerIdAndItemIdAndAmount(int villagerId, int itemId, int amount) {
+        String sql = "select * from offer where buying_item_id = ? and amount_of_buying_items <= ? and villager_id = ?";
+
+        return jdbcTemplate.query(sql, rowMapper, itemId, amount, villagerId);
+    }
+
+    @Override
+    public List<Offer> getOffersByVillagerIdAndItemIdAndAmountAndReputationLevel(int villagerId, int itemId,
+                                                                                 int amount, int reputationLevel) {
+        String sql = "select * from offer where buying_item_id = ? and amount_of_buying_items <= ? and " +
+                "villager_id = ? and needed_reputation_level = ?";
+
+        return jdbcTemplate.query(sql, rowMapper, itemId, amount, villagerId, reputationLevel);
+    }
+
+    @Override
+    public List<Offer> getOffersByVillagerIdAndReputationLevel(int villagerId, int reputationLevel) {
+        String sql = "select * from offer where villager_id = ? and needed_reputation_level = ?";
+
+        return jdbcTemplate.query(sql, rowMapper, villagerId, reputationLevel);
+    }
+
+    @Override
+    public List<Offer> getOffersByItemIdAndAmountAndReputationLevel(int itemId, int amount, int reputationLevel) {
+        String sql = "select * from offer where buying_item_id = ? and amount_of_buying_items <= ? and " +
+                "needed_reputation_level = ?";
+
+        return jdbcTemplate.query(sql, rowMapper, itemId, amount, reputationLevel);
+    }
+
+    @Override
+    public List<Offer> getOffersByItemIdAndReputationLevel(int itemId, int reputationLevel) {
+        String sql = "select * from offer where buying_item_id = ? and needed_reputation_level = ?";
+
+        return jdbcTemplate.query(sql, rowMapper, itemId, reputationLevel);
     }
 }
