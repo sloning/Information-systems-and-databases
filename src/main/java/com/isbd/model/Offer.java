@@ -1,11 +1,13 @@
 package com.isbd.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class Offer {
-    private final int id;
-    private Villager villager;
+    private long id;
+    private int villager_id;
     private Item sellingItem;
     private Item buyingItem;
     private int amountOfSellingItems;

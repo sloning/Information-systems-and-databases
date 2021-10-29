@@ -1,12 +1,12 @@
 package com.isbd.model;
 
 import lombok.Data;
-
-import java.net.URL;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class Item {
-    private final int id;
+    private int id;
     private String name;
-    private URL iconAddress;
+    private String iconAddress;
 }

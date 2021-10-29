@@ -1,12 +1,14 @@
 package com.isbd.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class Player {
-    private final long id;
+    private long id;
     private String username;
     private String password;
     private int tradingExperience;
