@@ -22,12 +22,6 @@ public class OfferDAOImpl implements DAO<Offer>, OfferDAO {
         return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper, id));
     }
 
-    public List<Offer> getByVillager(int villager_id) {
-        String sql = "select * from offer where villager_id = ?";
-
-        return jdbcTemplate.query(sql, rowMapper, villager_id);
-    }
-
     @Override
     public List<Offer> getAll() {
         String sql = "select * from offer";
@@ -58,5 +52,19 @@ public class OfferDAOImpl implements DAO<Offer>, OfferDAO {
     @Override
     public int delete(Offer offer) {
         return jdbcTemplate.update("delete from offer where offer_id = ?", offer.getId());
+    }
+
+    @Override
+    public List<Offer> getByVillager(int villager_id) {
+        String sql = "select * from offer where villager_id = ?";
+
+        return jdbcTemplate.query(sql, rowMapper, villager_id);
+    }
+
+    @Override
+    public List<Long> getOfferIdsByVillager(int villager_id) {
+        String sql = "select offer_id from offer where villager_id = ?";
+
+        return jdbcTemplate.queryForList(sql, Long.class, villager_id);
     }
 }

@@ -12,5 +12,5 @@ public class Villager {
     private String name;
     private Profession profession;
     private Village village;
-    private List<Offer> offers;
+    private List<Long> offers;
 }

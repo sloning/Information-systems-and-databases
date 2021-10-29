@@ -2,7 +2,6 @@ package com.isbd.DAO.mapper;
 
 import com.isbd.DAO.DAO;
 import com.isbd.DAO.OfferDAO;
-import com.isbd.model.Offer;
 import com.isbd.model.Profession;
 import com.isbd.model.Village;
 import com.isbd.model.Villager;
@@ -26,14 +25,14 @@ public class VillagerMapper implements RowMapper<Villager> {
         int villagerId = rs.getInt("villager_id");
         Village village = villageDAO.get(rs.getInt("village_id")).get();
         Profession profession = professionDAO.get(rs.getInt("profession_id")).get();
-        List<Offer> offers = offerDAO.getByVillager(villagerId);
+        List<Long> offerIds = offerDAO.getOfferIdsByVillager(villagerId);
 
         Villager villager = new Villager();
         villager.setId(villagerId);
         villager.setName(rs.getString("name"));
         villager.setVillage(village);
         villager.setProfession(profession);
-        villager.setOffers(offers);
+        villager.setOffers(offerIds);
         return villager;
     }
 }
