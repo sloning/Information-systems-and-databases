@@ -3,38 +3,36 @@ package com.isbd.DAO;
 import com.isbd.model.Village;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class VillageDAO implements DAO<Village> {
+public class VillageDAOImpl implements DAO<Village> {
     private final JdbcTemplate jdbcTemplate;
-    private final SimpleJdbcInsert simpleJdbcInsert =
-            new SimpleJdbcInsert(Objects.requireNonNull(jdbcTemplate.getDataSource())).withTableName("village");
+    private final RowMapper<Village> rowMapper;
 
     @Override
     public Optional<Village> get(long id) {
-        return Optional.ofNullable(
-                jdbcTemplate.queryForObject("select * from village where village_id = ?", Village.class, id));
+        String sql = "select * from village where village_id = ?";
+
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper, id));
     }
 
     @Override
     public List<Village> getAll() {
-        return jdbcTemplate.queryForList("select * from village", Village.class);
+        String sql = "select * from village";
+
+        return jdbcTemplate.query(sql, rowMapper);
     }
 
     @Override
     public int save(Village village) {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("village_id", village.getId());
-        parameters.put("name", village.getName());
-        parameters.put("x_coordinate", village.getXCoordinate());
-        parameters.put("z_coordinate", village.getZCoordinate());
-
-        return simpleJdbcInsert.execute(parameters);
+        return jdbcTemplate.update("insert into village(name, x_coordinate, z_coordinate) values(?, ?, ?)",
+                village.getName(), village.getXCoordinate(), village.getZCoordinate());
     }
 
     @Override

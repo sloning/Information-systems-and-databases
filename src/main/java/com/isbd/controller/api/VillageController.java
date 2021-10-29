@@ -29,4 +29,9 @@ public class VillageController {
     public ResponseEntity<Village> getVillage(@PathVariable int id) {
         return new ResponseEntity<>(villageService.getVillage(id), HttpStatus.OK);
     }
+
+    @GetMapping("/?x_coordinate={xCoordinate}&z_coordinate={zCoordinate}")
+    public ResponseEntity<Village> getNearestVillage(@PathVariable int xCoordinate, @PathVariable int zCoordinate) {
+        return new ResponseEntity<>(villageService.getNearestVillage(xCoordinate, zCoordinate), HttpStatus.OK);
+    }
 }
