@@ -26,12 +26,12 @@ public class VillagerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Villager> getVillager(@PathVariable int id) {
+    public ResponseEntity<Villager> getVillager(@PathVariable final int id) {
         return new ResponseEntity<>(villagerService.getVillager(id), HttpStatus.OK);
     }
 
     @GetMapping("/village/{villageId}")
-    public ResponseEntity<List<Villager>> getVillagersOfVillage(@PathVariable int villageId) {
+    public ResponseEntity<List<Villager>> getVillagersOfVillage(@PathVariable final int villageId) {
         return new ResponseEntity<>(villagerService.getVillagersOfVillage(villageId), HttpStatus.OK);
     }
 }

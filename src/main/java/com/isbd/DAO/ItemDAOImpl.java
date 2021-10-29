@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class ItemDAOImpl implements DAO<Item> {
+public class ItemDAOImpl implements DAO<Item>, ItemDAO {
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Item> rowMapper;
 
@@ -45,5 +45,12 @@ public class ItemDAOImpl implements DAO<Item> {
     @Override
     public int delete(Item item) {
         return jdbcTemplate.update("delete from item where item_id = ?", item.getId());
+    }
+
+    @Override
+    public String getIconAddress(int id) {
+        String sql = "select icon_address from item where item_id = ?";
+
+        return jdbcTemplate.queryForObject(sql, String.class, id);
     }
 }

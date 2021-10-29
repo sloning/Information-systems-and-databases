@@ -6,10 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,12 +23,13 @@ public class VillageController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Village> getVillage(@PathVariable int id) {
+    public ResponseEntity<Village> getVillage(@PathVariable final int id) {
         return new ResponseEntity<>(villageService.getVillage(id), HttpStatus.OK);
     }
 
-    @GetMapping("/?x_coordinate={xCoordinate}&z_coordinate={zCoordinate}")
-    public ResponseEntity<Village> getNearestVillage(@PathVariable int xCoordinate, @PathVariable int zCoordinate) {
+    @GetMapping()
+    public ResponseEntity<Village> getNearestVillage(@RequestParam final int xCoordinate,
+                                                     @RequestParam final int zCoordinate) {
         return new ResponseEntity<>(villageService.getNearestVillage(xCoordinate, zCoordinate), HttpStatus.OK);
     }
 }
