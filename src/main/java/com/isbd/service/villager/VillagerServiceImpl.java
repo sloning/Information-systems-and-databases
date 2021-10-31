@@ -28,7 +28,7 @@ public class VillagerServiceImpl implements VillagerService {
     public List<Villager> getVillagersOfVillage(int villageId) {
         List<Villager> villagers = villagerDAO.getVillagersByVillage(villageId);
         if (villagers.isEmpty()) throw new EntityNotFoundException(
-                String.format("There are no villagers in village with id: %d", villageId));
+                String.format("There are no villagers in the village with id: %d", villageId));
         return villagers;
     }
 }

@@ -34,7 +34,7 @@ public class OfferDAOImpl implements DAO<Offer>, OfferDAO {
         String sql = "insert into offer(villager_id, selling_item_id, amount_of_selling_items, buying_item_id, " +
                 "amount_of_buying_items, needed_reputation_level) values(?, ?, ?, ?, ?, ?)";
 
-        return jdbcTemplate.update(sql, offer.getVillager_id(), offer.getSellingItem(), offer.getAmountOfSellingItems(),
+        return jdbcTemplate.update(sql, offer.getVillager().getId(), offer.getSellingItem(), offer.getAmountOfSellingItems(),
                 offer.getBuyingItem(), offer.getAmountOfBuyingItems(), offer.getReputationLevel());
     }
 
@@ -44,7 +44,7 @@ public class OfferDAOImpl implements DAO<Offer>, OfferDAO {
                 "buying_item_id = ?, amount_of_buying_items = ?, needed_reputation_level = ? where offer_id = ?";
 
         return jdbcTemplate.
-                update(sql, offer.getVillager_id(), offer.getSellingItem(), offer.getAmountOfSellingItems(),
+                update(sql, offer.getVillager().getId(), offer.getSellingItem(), offer.getAmountOfSellingItems(),
                         offer.getBuyingItem(), offer.getAmountOfBuyingItems(), offer.getReputationLevel(),
                         offer.getId());
     }

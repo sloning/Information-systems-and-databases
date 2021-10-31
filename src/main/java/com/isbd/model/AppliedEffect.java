@@ -3,11 +3,12 @@ package com.isbd.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
-public class Withdrawal {
-    private long id;
+public class AppliedEffect extends Effect {
     private long playerId;
-    private Village village;
-    private Inventory inventory;
+    private Date startTime;
+    private Date endTime;
 }

@@ -6,9 +6,15 @@ import java.util.Set;
 
 public class Inventory {
     private final Map<Item, Integer> itemMap;
+    private long playerId;
 
     public Inventory() {
         this.itemMap = new HashMap<>();
+    }
+
+    public Inventory(long playerId) {
+        this.itemMap = new HashMap<>();
+        this.playerId = playerId;
     }
 
     public Set<Item> getItems() {
@@ -26,5 +32,13 @@ public class Inventory {
     public void addAmount(Item item, int amount) {
         int current_amount = itemMap.get(item);
         itemMap.put(item, current_amount + amount);
+    }
+
+    public long getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(long playerId) {
+        this.playerId = playerId;
     }
 }

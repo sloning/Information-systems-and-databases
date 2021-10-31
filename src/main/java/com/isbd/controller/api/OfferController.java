@@ -28,6 +28,7 @@ public class OfferController {
         return new ResponseEntity<>(offerService.getOffer(id), HttpStatus.OK);
     }
 
+
     @GetMapping("/filter/")
     public ResponseEntity<List<Offer>> getFilteredOffers(@RequestParam final Map<String, String> params) {
         return new ResponseEntity<>(offerService.getOffers(params), HttpStatus.OK);
