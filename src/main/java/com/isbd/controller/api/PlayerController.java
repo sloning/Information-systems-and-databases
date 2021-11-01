@@ -1,7 +1,5 @@
 package com.isbd.controller.api;
 
-import com.isbd.DTO.DealDTO;
-import com.isbd.DTO.WithdrawalDTO;
 import com.isbd.model.Player;
 import com.isbd.service.player.PlayerService;
 import lombok.RequiredArgsConstructor;
@@ -16,18 +14,18 @@ import org.springframework.web.bind.annotation.*;
 public class PlayerController {
     private final PlayerService playerService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Player> getPlayer(@PathVariable final long id) {
-        return ResponseEntity.ok(playerService.getPlayer(id));
+    @GetMapping()
+    public ResponseEntity<Player> getPlayer() {
+        return ResponseEntity.ok(playerService.getPlayer());
     }
 
     @PostMapping("/withdrawal")
-    public void makeNewWithdrawal(@RequestBody WithdrawalDTO withdrawalDTO) {
-        playerService.makeNewWithdrawal(withdrawalDTO);
+    public void makeNewWithdrawal(@RequestBody final int villageId) {
+        playerService.makeNewWithdrawal(villageId);
     }
 
     @PostMapping("/deal")
-    public void makeNewDeal(@RequestBody DealDTO dealDTO) {
-        playerService.makeNewDeal(dealDTO);
+    public void makeNewDeal(@RequestBody final long offerId) {
+        playerService.makeNewDeal(offerId);
     }
 }

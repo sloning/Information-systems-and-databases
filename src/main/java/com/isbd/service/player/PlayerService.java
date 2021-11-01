@@ -1,13 +1,11 @@
 package com.isbd.service.player;
 
-import com.isbd.DTO.DealDTO;
-import com.isbd.DTO.WithdrawalDTO;
 import com.isbd.model.Player;
 
 public interface PlayerService {
-    Player getPlayer(long id);
+    Player getPlayer();
 
-    void makeNewWithdrawal(WithdrawalDTO withdrawalDTO);
+    void makeNewWithdrawal(int villageId);
 
-    void makeNewDeal(DealDTO dealDTO);
+    void makeNewDeal(long offerId);
 }
