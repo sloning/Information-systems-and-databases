@@ -1,8 +1,8 @@
 version: '3.8'
 
 services:
-  postgres_db:
-    container_name: postgres_db
+  isbd_postgres_db:
+    container_name: isbd_postgres_db
     image: postgres
     restart: always
     network_mode: bridge
@@ -31,13 +31,14 @@ services:
     ports:
       - "80:8080"
     depends_on:
-      - postgres_db
+      - isbd_postgres_db
     links:
-      - postgres_db
+      - isbd_postgres_db
     environment:
       db_host: $db_host
       db_username: postgres
       db_password: $db_password
+      SECURITY_SECRET: $SECURITY_SECRET
 
 volumes:
   postgres_data:
