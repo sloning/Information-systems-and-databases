@@ -3,7 +3,6 @@ package com.isbd.controller.api;
 import com.isbd.model.Offer;
 import com.isbd.service.offer.OfferService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,17 +19,17 @@ public class OfferController {
 
     @GetMapping()
     public ResponseEntity<List<Offer>> getOffers() {
-        return new ResponseEntity<>(offerService.getOffers(), HttpStatus.OK);
+        return ResponseEntity.ok(offerService.getOffers());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Offer> getOffer(@PathVariable final long id) {
-        return new ResponseEntity<>(offerService.getOffer(id), HttpStatus.OK);
+        return ResponseEntity.ok(offerService.getOffer(id));
     }
 
 
     @GetMapping("/filter/")
     public ResponseEntity<List<Offer>> getFilteredOffers(@RequestParam final Map<String, String> params) {
-        return new ResponseEntity<>(offerService.getOffers(params), HttpStatus.OK);
+        return ResponseEntity.ok(offerService.getOffers(params));
     }
 }

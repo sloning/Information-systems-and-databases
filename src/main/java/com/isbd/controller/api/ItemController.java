@@ -3,7 +3,6 @@ package com.isbd.controller.api;
 import com.isbd.model.Item;
 import com.isbd.service.item.ItemService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +18,12 @@ public class ItemController {
 
     @GetMapping()
     public ResponseEntity<List<Item>> getItems() {
-        return new ResponseEntity<>(itemService.getItems(), HttpStatus.OK);
+        return ResponseEntity.ok(itemService.getItems());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Item> getItem(@PathVariable final int id) {
-        return new ResponseEntity<>(itemService.getItem(id), HttpStatus.OK);
+        return ResponseEntity.ok(itemService.getItem(id));
     }
 
     @GetMapping(

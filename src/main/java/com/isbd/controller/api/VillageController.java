@@ -3,7 +3,6 @@ package com.isbd.controller.api;
 import com.isbd.model.Village;
 import com.isbd.service.village.VillageService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,17 +18,17 @@ public class VillageController {
 
     @GetMapping()
     public ResponseEntity<List<Village>> getVillages() {
-        return new ResponseEntity<>(villageService.getVillages(), HttpStatus.OK);
+        return ResponseEntity.ok(villageService.getVillages());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Village> getVillage(@PathVariable final int id) {
-        return new ResponseEntity<>(villageService.getVillage(id), HttpStatus.OK);
+        return ResponseEntity.ok(villageService.getVillage(id));
     }
 
     @GetMapping("/nearest")
     public ResponseEntity<Village> getNearestVillage(@RequestParam final int xCoordinate,
                                                      @RequestParam final int zCoordinate) {
-        return new ResponseEntity<>(villageService.getNearestVillage(xCoordinate, zCoordinate), HttpStatus.OK);
+        return ResponseEntity.ok(villageService.getNearestVillage(xCoordinate, zCoordinate));
     }
 }

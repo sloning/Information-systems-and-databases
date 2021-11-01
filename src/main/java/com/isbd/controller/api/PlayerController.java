@@ -5,7 +5,6 @@ import com.isbd.DTO.WithdrawalDTO;
 import com.isbd.model.Player;
 import com.isbd.service.player.PlayerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,7 @@ public class PlayerController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Player> getPlayer(@PathVariable final long id) {
-        return new ResponseEntity<>(playerService.getPlayer(id), HttpStatus.OK);
+        return ResponseEntity.ok(playerService.getPlayer(id));
     }
 
     @PostMapping("/withdrawal")

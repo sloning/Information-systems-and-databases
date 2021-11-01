@@ -19,13 +19,10 @@ public class InventoryResultSetExtractor implements ResultSetExtractor<Inventory
     @Override
     public Inventory extractData(ResultSet rs) throws SQLException, DataAccessException {
         Inventory inventory = new Inventory();
-        if (rs.next()) {
-            inventory.setPlayerId(rs.getLong("player_id"));
-            do {
-                Item item = itemDAO.get(rs.getInt("item_id")).get();
-                int amount = rs.getInt("amount");
-                inventory.addItem(item, amount);
-            } while (rs.next());
+        while (rs.next()) {
+            Item item = itemDAO.get(rs.getInt("item_id")).get();
+            int amount = rs.getInt("amount");
+            inventory.addItem(item, amount);
         }
 
         return inventory;

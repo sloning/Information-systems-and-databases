@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class PlayerDAOImpl implements DAO<Player> {
+public class PlayerDAOImpl implements DAO<Player>, PlayerDAO {
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Player> rowMapper;
 
@@ -32,7 +32,7 @@ public class PlayerDAOImpl implements DAO<Player> {
     public int save(Player player) {
         String sql = "insert into player(username, password, trading_experience) values(?, ?, ?)";
 
-        return jdbcTemplate.update(sql, player.getUsername(), player.getPassword(), player.getTradingExperience());
+        return jdbcTemplate.update(sql, player.getUsername(), player.getPassword(), 0);
     }
 
     @Override
@@ -48,5 +48,21 @@ public class PlayerDAOImpl implements DAO<Player> {
         String sql = "delete from player where player_id = ?";
 
         return jdbcTemplate.update(sql, player.getId());
+    }
+
+    @Override
+    public Optional<Player> getByUsername(String username) {
+        String sql = "select * from player where username = ?";
+
+        List<Player> playerList = jdbcTemplate.query(sql, rowMapper, username);
+        if (playerList.isEmpty()) return Optional.empty();
+        else return Optional.ofNullable(playerList.get(0));
+    }
+
+    @Override
+    public Optional<Player> getByUsernameAndPassword(String username, String password) {
+        String sql = "select * from player where username = ? and password = ?";
+
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper, username, password));
     }
 }
