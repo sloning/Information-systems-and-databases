@@ -1,33 +1,35 @@
 package com.isbd.DAO.mapper;
 
-import com.isbd.DAO.DAO;
-import com.isbd.DAO.InventoryDAO;
-import com.isbd.model.Inventory;
+import com.isbd.DAO.WithdrawalCompositionDao;
+import com.isbd.model.InventoryItem;
 import com.isbd.model.Village;
 import com.isbd.model.Withdrawal;
+import com.isbd.service.village.VillageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class WithdrawalMapper implements RowMapper<Withdrawal> {
-    private final DAO<Village> villageDAO;
-    private final InventoryDAO inventoryDAO;
+    private final VillageService villageService;
+    private final WithdrawalCompositionDao withdrawalCompositionDao;
 
     @Override
     public Withdrawal mapRow(ResultSet rs, int rowNum) throws SQLException {
         long playerId = rs.getLong("player_id");
-        Village village = villageDAO.get(rs.getInt("village_id")).get();
-        Inventory inventory = inventoryDAO.get(playerId).get();
+        long withdrawalId = rs.getLong("withdrawal_id");
+        Village village = villageService.getVillage(rs.getInt("village_id"));
+        List<InventoryItem> items = withdrawalCompositionDao.getByWithdrawal(withdrawalId);
 
         Withdrawal withdrawal = new Withdrawal();
-        withdrawal.setId(rs.getInt("withdrawal_id"));
+        withdrawal.setId(withdrawalId);
         withdrawal.setVillage(village);
-        withdrawal.setInventory(inventory);
+        withdrawal.setItems(items);
         withdrawal.setPlayerId(playerId);
         return withdrawal;
     }

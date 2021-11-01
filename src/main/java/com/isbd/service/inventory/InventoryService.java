@@ -1,7 +1,9 @@
 package com.isbd.service.inventory;
 
-import com.isbd.model.Inventory;
+import com.isbd.model.InventoryItem;
+
+import java.util.List;
 
 public interface InventoryService {
-    Inventory getByPlayerId(long playerId);
+    List<InventoryItem> getByPlayerId(long playerId);
 }

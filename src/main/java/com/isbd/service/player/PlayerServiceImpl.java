@@ -46,7 +46,7 @@ public class PlayerServiceImpl implements PlayerService {
         Withdrawal withdrawal = new Withdrawal();
         withdrawal.setPlayerId(withdrawalDTO.getPlayerId());
         withdrawal.setVillage(villageService.getVillage(withdrawalDTO.getVillageId()));
-        withdrawal.setInventory(inventoryService.getByPlayerId(withdrawalDTO.getPlayerId()));
+        withdrawal.setItems(inventoryService.getByPlayerId(withdrawalDTO.getPlayerId()));
         withdrawalDAO.save(withdrawal);
     }
 

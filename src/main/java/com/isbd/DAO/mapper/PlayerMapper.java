@@ -2,9 +2,9 @@ package com.isbd.DAO.mapper;
 
 import com.isbd.DAO.AppliedEffectDAO;
 import com.isbd.DAO.DealDAO;
-import com.isbd.DAO.InventoryDAO;
-import com.isbd.DAO.WithdrawalDAO;
 import com.isbd.model.*;
+import com.isbd.service.inventory.InventoryService;
+import com.isbd.service.withdrawal.WithdrawalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -16,18 +16,18 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class PlayerMapper implements RowMapper<Player> {
-    private final WithdrawalDAO withdrawalDAO;
+    private final WithdrawalService withdrawalService;
     private final DealDAO dealDAO;
     private final AppliedEffectDAO appliedEffectDAO;
-    private final InventoryDAO inventoryDAO;
+    private final InventoryService inventoryService;
 
     @Override
     public Player mapRow(ResultSet rs, int rowNum) throws SQLException {
         long playerId = rs.getLong("player_id");
-        List<Withdrawal> withdrawals = withdrawalDAO.getByPlayer(playerId);
+        List<Withdrawal> withdrawals = withdrawalService.getByPlayer(playerId);
         List<Deal> deals = dealDAO.getByPlayer(playerId);
         List<AppliedEffect> appliedEffects = appliedEffectDAO.getByPlayer(playerId);
-        Inventory inventory = inventoryDAO.get(playerId).get();
+        List<InventoryItem> items = inventoryService.getByPlayerId(playerId);
 
         Player player = new Player();
         player.setId(playerId);
@@ -37,7 +37,7 @@ public class PlayerMapper implements RowMapper<Player> {
         player.setWithdrawals(withdrawals);
         player.setDeals(deals);
         player.setAppliedEffects(appliedEffects);
-        player.setInventory(inventory);
+        player.setInventory(items);
         return player;
     }
 }

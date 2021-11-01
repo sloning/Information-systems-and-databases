@@ -13,7 +13,7 @@ public class Player {
     private String password;
     private int tradingExperience;
     private List<AppliedEffect> appliedEffects;
-    private Inventory inventory;
+    private List<InventoryItem> inventory;
     private List<Deal> deals;
     private List<Withdrawal> withdrawals;
 }

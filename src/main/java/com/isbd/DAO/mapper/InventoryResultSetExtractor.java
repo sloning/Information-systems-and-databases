@@ -1,8 +1,8 @@
 package com.isbd.DAO.mapper;
 
-import com.isbd.DAO.ItemDAO;
-import com.isbd.model.Inventory;
+import com.isbd.model.InventoryItem;
 import com.isbd.model.Item;
+import com.isbd.service.item.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -10,21 +10,24 @@ import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class InventoryResultSetExtractor implements ResultSetExtractor<Inventory> {
-    private final ItemDAO itemDAO;
+public class InventoryResultSetExtractor implements ResultSetExtractor<List<InventoryItem>> {
+    private final ItemService itemService;
 
     @Override
-    public Inventory extractData(ResultSet rs) throws SQLException, DataAccessException {
-        Inventory inventory = new Inventory();
+    public List<InventoryItem> extractData(ResultSet rs) throws SQLException, DataAccessException {
+        List<InventoryItem> items = new ArrayList<>();
         while (rs.next()) {
-            Item item = itemDAO.get(rs.getInt("item_id")).get();
-            int amount = rs.getInt("amount");
-            inventory.addItem(item, amount);
+            Item item = itemService.getItem(rs.getInt("item_id"));
+            InventoryItem inventoryItem = new InventoryItem(item.getId(), item.getName(), item.getIconAddress(),
+                    rs.getInt("amount"));
+            items.add(inventoryItem);
         }
 
-        return inventory;
+        return items;
     }
 }

@@ -14,7 +14,7 @@ import java.util.List;
 
 @Configuration
 public class SwaggerConfig {
-    public static final String AUTHORIZATION_HEADER = "Authorization: Bearer ";
+    public static final String AUTHORIZATION_HEADER = "Authorization";
 
     private ApiInfo apiInfo() {
         return new ApiInfo("Village Carrier rest api",
