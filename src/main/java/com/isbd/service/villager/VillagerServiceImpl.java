@@ -1,6 +1,6 @@
 package com.isbd.service.villager;
 
-import com.isbd.DAO.VillagerDAO;
+import com.isbd.Dao.VillagerDao;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.Villager;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class VillagerServiceImpl implements VillagerService {
-    private final VillagerDAO villagerDAO;
+    private final VillagerDao villagerDAO;
 
     @Override
     public List<Villager> getVillagers() {

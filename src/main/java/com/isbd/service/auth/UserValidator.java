@@ -1,10 +1,10 @@
 package com.isbd.service.auth;
 
-import com.isbd.DTO.UserDTO;
+import com.isbd.Dto.UserDto;
 import com.isbd.exception.ValidationException;
 
 public class UserValidator {
-    public static void validateUser(UserDTO userDTO) {
+    public static void validateUser(UserDto userDTO) {
         validateUsername(userDTO.getUsername());
         validatePassword(userDTO.getPassword());
     }

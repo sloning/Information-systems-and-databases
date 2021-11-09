@@ -1,7 +1,7 @@
 package com.isbd.service.auth;
 
-import com.isbd.DAO.PlayerDAO;
-import com.isbd.DTO.UserDTO;
+import com.isbd.Dao.PlayerDao;
+import com.isbd.Dto.UserDto;
 import com.isbd.exception.EntityAlreadyExists;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.Player;
@@ -16,7 +16,7 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
-    private final PlayerDAO playerDAO;
+    private final PlayerDao playerDAO;
     private final JwtTokenProvider jwtTokenProvider;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -40,7 +40,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Map<String, String> login(UserDTO userDTO) {
+    public Map<String, String> login(UserDto userDTO) {
         UserValidator.validateUser(userDTO);
         Player player = getByUsernameAndPassword(userDTO.getUsername(), userDTO.getPassword());
 
@@ -48,7 +48,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Map<String, String> register(UserDTO userDTO) {
+    public Map<String, String> register(UserDto userDTO) {
         UserValidator.validateUser(userDTO);
         if (isPlayerExists(userDTO.getUsername()))
             throw new EntityAlreadyExists(String.format("User with username: %s already exists",

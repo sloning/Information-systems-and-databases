@@ -1,8 +1,8 @@
 package com.isbd.service.player;
 
-import com.isbd.DAO.DAO;
-import com.isbd.DAO.DealDAO;
-import com.isbd.DAO.WithdrawalDAO;
+import com.isbd.Dao.Dao;
+import com.isbd.Dao.DealDao;
+import com.isbd.Dao.WithdrawalDao;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.exception.WrongCredentialsException;
 import com.isbd.model.Deal;
@@ -23,9 +23,9 @@ import java.util.Date;
 @Service
 @RequiredArgsConstructor
 public class PlayerServiceImpl implements PlayerService {
-    private final DAO<Player> playerDAO;
-    private final WithdrawalDAO withdrawalDAO;
-    private final DealDAO dealDAO;
+    private final Dao<Player> playerDao;
+    private final WithdrawalDao withdrawalDAO;
+    private final DealDao dealDAO;
     private final InventoryService inventoryService;
     private final VillageService villageService;
     private final OfferService offerService;
@@ -34,7 +34,7 @@ public class PlayerServiceImpl implements PlayerService {
     public Player getPlayer() {
         final long playerId = getPlayerId();
 
-        return playerDAO.get(playerId).orElseThrow(() ->
+        return playerDao.get(playerId).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Player with id: %d was not found", playerId)));
     }
 

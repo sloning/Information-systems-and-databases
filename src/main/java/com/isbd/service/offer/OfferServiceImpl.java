@@ -1,6 +1,6 @@
 package com.isbd.service.offer;
 
-import com.isbd.DAO.OfferDAO;
+import com.isbd.Dao.OfferDao;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.Offer;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class OfferServiceImpl implements OfferService {
-    private final OfferDAO offerDAO;
+    private final OfferDao offerDAO;
 
     @Override
     public List<Offer> getOffers() {

@@ -1,6 +1,6 @@
 package com.isbd.service.inventory;
 
-import com.isbd.DAO.InventoryDAO;
+import com.isbd.Dao.InventoryDao;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.InventoryItem;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class InventoryServiceImpl implements InventoryService {
-    private final InventoryDAO inventoryDAO;
+    private final InventoryDao inventoryDAO;
 
     @Override
     public List<InventoryItem> getByPlayerId(long playerId) {

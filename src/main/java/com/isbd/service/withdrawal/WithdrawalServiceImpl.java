@@ -1,6 +1,6 @@
 package com.isbd.service.withdrawal;
 
-import com.isbd.DAO.WithdrawalDAO;
+import com.isbd.Dao.WithdrawalDao;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.Withdrawal;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class WithdrawalServiceImpl implements WithdrawalService {
-    private final WithdrawalDAO withdrawalDAO;
+    private final WithdrawalDao withdrawalDAO;
 
     @Override
     public Withdrawal getWithdrawal(long id) {

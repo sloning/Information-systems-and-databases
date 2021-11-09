@@ -1,6 +1,6 @@
 package com.isbd.service.item;
 
-import com.isbd.DAO.ItemDAO;
+import com.isbd.Dao.ItemDao;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.Item;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
-    private final ItemDAO itemDAO;
+    private final ItemDao itemDAO;
 
     @Override
     public List<Item> getItems() {
