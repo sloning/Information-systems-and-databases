@@ -1,7 +1,6 @@
 package com.isbd.security.jwt;
 
 import com.isbd.exception.JwtAuthenticationException;
-import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -27,7 +26,7 @@ public class JwtTokenFilter extends GenericFilterBean {
         try {
             String token = jwtTokenProvider.resolveToken((HttpServletRequest) servletRequest);
 
-            if (token != null && jwtTokenProvider.validateToken(token)) {
+            if (token != null && jwtTokenProvider.verifyToken(token)) {
                 Authentication authentication = jwtTokenProvider.getAuthentication(token);
 
                 if (authentication != null) {
@@ -35,7 +34,7 @@ public class JwtTokenFilter extends GenericFilterBean {
                 }
             }
             filterChain.doFilter(servletRequest, servletResponse);
-        } catch (ExpiredJwtException | JwtAuthenticationException e) {
+        } catch (JwtAuthenticationException e) {
             HttpServletResponse resp = ((HttpServletResponse) servletResponse);
             resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You must be authenticated");
         }

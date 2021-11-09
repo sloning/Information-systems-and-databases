@@ -1,6 +1,6 @@
-package com.isbd.security;
+package com.isbd.config;
 
-public interface SecurityConstants {
+public interface AuthenticationConfigConstants {
     String SECRET = System.getenv("SECURITY_SECRET");
     String TOKEN_PREFIX = "Bearer ";
     String HEADER_STRING = "Authorization";

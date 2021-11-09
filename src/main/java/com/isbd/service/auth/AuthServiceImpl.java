@@ -44,29 +44,29 @@ public class AuthServiceImpl implements AuthService {
         UserValidator.validateUser(userDTO);
         Player player = getByUsernameAndPassword(userDTO.getUsername(), userDTO.getPassword());
 
-        return getToken(player.getId(), player.getUsername());
+        return getToken(player.getId());
     }
 
     @Override
     public Map<String, String> register(UserDTO userDTO) {
         UserValidator.validateUser(userDTO);
         if (isPlayerExists(userDTO.getUsername()))
-            throw new EntityAlreadyExists(String.format("Player with username: %s already exists",
+            throw new EntityAlreadyExists(String.format("User with username: %s already exists",
                     userDTO.getUsername()));
 
         Player player = new Player();
         player.setUsername(userDTO.getUsername());
         player.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
         playerDAO.save(player);
+        player = getPlayerByUsername(player.getUsername());
 
-        return getToken(player.getId(), player.getUsername());
+        return getToken(player.getId());
     }
 
-    private Map<String, String> getToken(long playerId, String username) {
-        String token = jwtTokenProvider.createToken(playerId);
+    private Map<String, String> getToken(Long playerId) {
+        String token = jwtTokenProvider.createToken(playerId.toString());
 
         Map<String, String> response = new HashMap<>();
-        response.put("username", username);
         response.put("token", token);
         return response;
     }
