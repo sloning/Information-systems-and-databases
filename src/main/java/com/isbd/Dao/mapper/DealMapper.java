@@ -1,8 +1,8 @@
 package com.isbd.Dao.mapper;
 
-import com.isbd.Dao.OfferDao;
 import com.isbd.model.Deal;
 import com.isbd.model.Offer;
+import com.isbd.service.offer.OfferService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -13,11 +13,11 @@ import java.sql.SQLException;
 @Component
 @RequiredArgsConstructor
 public class DealMapper implements RowMapper<Deal> {
-    private final OfferDao offerDAO;
+    private final OfferService offerService;
 
     @Override
     public Deal mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Offer offer = offerDAO.get(rs.getLong("offer_id")).get();
+        Offer offer = offerService.getOffer(rs.getLong("offer_id"));
 
         Deal deal = new Deal();
         deal.setId(rs.getLong("deal_id"));

@@ -1,11 +1,12 @@
 package com.isbd.Dao.mapper;
 
 import com.isbd.Dao.Dao;
-import com.isbd.Dao.VillagerDao;
 import com.isbd.model.Item;
 import com.isbd.model.Offer;
 import com.isbd.model.ReputationLevel;
 import com.isbd.model.Villager;
+import com.isbd.service.item.ItemService;
+import com.isbd.service.villager.VillagerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -16,16 +17,16 @@ import java.sql.SQLException;
 @Component
 @RequiredArgsConstructor
 public class OfferMapper implements RowMapper<Offer> {
-    private final Dao<Item> itemDao;
+    private final ItemService itemService;
     private final Dao<ReputationLevel> reputationLevelDao;
-    private final VillagerDao villagerDAO;
+    private final VillagerService villagerService;
 
     @Override
     public Offer mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Item buyingItem = itemDao.get(rs.getInt("buying_item_id")).get();
-        Item sellingItem = itemDao.get(rs.getInt("selling_item_id")).get();
+        Item buyingItem = itemService.getItem(rs.getInt("buying_item_id"));
+        Item sellingItem = itemService.getItem(rs.getInt("selling_item_id"));
         ReputationLevel reputationLevel = reputationLevelDao.get(rs.getInt("needed_reputation_level")).get();
-        Villager villager = villagerDAO.get(rs.getInt("villager_id")).get();
+        Villager villager = villagerService.getVillager(rs.getInt("villager_id"));
 
         Offer offer = new Offer();
         offer.setId(rs.getLong("offer_id"));
