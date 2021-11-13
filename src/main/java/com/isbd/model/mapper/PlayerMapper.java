@@ -1,4 +1,4 @@
-package com.isbd.Dao.mapper;
+package com.isbd.model.mapper;
 
 import com.isbd.Dao.AppliedEffectDao;
 import com.isbd.Dao.DealDao;

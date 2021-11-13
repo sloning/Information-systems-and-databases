@@ -1,4 +1,4 @@
-package com.isbd.Dao.mapper;
+package com.isbd.model.mapper;
 
 import com.isbd.model.Effect;
 import org.postgresql.util.PGInterval;
