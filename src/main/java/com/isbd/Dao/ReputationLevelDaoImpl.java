@@ -19,7 +19,7 @@ public class ReputationLevelDaoImpl implements Dao<ReputationLevel> {
     public Optional<ReputationLevel> get(long id) {
         String sql = "select * from reputation_level where reputation_level_id = ?";
 
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper, id));
+        return jdbcTemplate.query(sql, ResultSetExtractorFactory.optionalExtractor(rowMapper), id);
     }
 
     @Override

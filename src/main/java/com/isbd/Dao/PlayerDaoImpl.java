@@ -24,7 +24,6 @@ public class PlayerDaoImpl implements Dao<Player>, PlayerDao {
 
     @Override
     public List<Player> getAll() {
-        // TODO implement
         return null;
     }
 

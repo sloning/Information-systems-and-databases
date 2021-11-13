@@ -2,6 +2,8 @@ package com.isbd.Dao;
 
 import com.isbd.model.Item;
 
+import java.util.Optional;
+
 public interface ItemDao extends Dao<Item> {
-    String getIconAddress(int id);
+    Optional<String> getIconAddress(int id);
 }

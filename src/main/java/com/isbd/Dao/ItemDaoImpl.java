@@ -2,6 +2,7 @@ package com.isbd.Dao;
 
 import com.isbd.model.Item;
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -19,7 +20,7 @@ public class ItemDaoImpl implements Dao<Item>, ItemDao {
     public Optional<Item> get(long id) {
         String sql = "select * from item where item_id = ?";
 
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper, id));
+        return jdbcTemplate.query(sql, ResultSetExtractorFactory.optionalExtractor(rowMapper), id);
     }
 
     @Override
@@ -48,9 +49,10 @@ public class ItemDaoImpl implements Dao<Item>, ItemDao {
     }
 
     @Override
-    public String getIconAddress(int id) {
+    public Optional<String> getIconAddress(int id) {
         String sql = "select icon_address from item where item_id = ?";
 
-        return jdbcTemplate.queryForObject(sql, String.class, id);
+        return jdbcTemplate.query(sql,
+                ResultSetExtractorFactory.optionalExtractor(BeanPropertyRowMapper.newInstance(String.class)), id);
     }
 }

@@ -19,7 +19,7 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfo("Village Carrier rest api",
                 "ISBD course work",
-                "1.0",
+                "1.1",
                 "Terms of service",
                 new Contact("Kuznetsov Vladislav", "github.com/sloning", "Kuznetsov.Vladislav@protonmail.com"),
                 "License of API",

@@ -4,21 +4,18 @@ import com.isbd.Dao.Dao;
 import com.isbd.Dao.DealDao;
 import com.isbd.Dao.WithdrawalDao;
 import com.isbd.exception.EntityNotFoundException;
-import com.isbd.exception.WrongCredentialsException;
 import com.isbd.model.Deal;
 import com.isbd.model.Player;
 import com.isbd.model.Withdrawal;
-import com.isbd.security.jwt.JwtUser;
 import com.isbd.service.inventory.InventoryService;
 import com.isbd.service.offer.OfferService;
 import com.isbd.service.village.VillageService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+
+import static com.isbd.config.SecurityConfig.getPlayerId;
 
 @Service
 @RequiredArgsConstructor
@@ -58,14 +55,5 @@ public class PlayerServiceImpl implements PlayerService {
         deal.setOffer(offerService.getOffer(offerId));
         deal.setTime(new Date());
         dealDAO.save(deal);
-    }
-
-    private long getPlayerId() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            JwtUser jwtUser = (JwtUser) auth.getPrincipal();
-            return jwtUser.getId();
-        }
-        throw new WrongCredentialsException("Access blocked");
     }
 }

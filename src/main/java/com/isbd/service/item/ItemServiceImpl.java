@@ -27,8 +27,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
     public byte[] getIcon(int id) {
-        String icon_address = itemDAO.getIconAddress(id);
-        File fi = new File(icon_address);
+        String iconAddress = itemDAO.getIconAddress(id).orElseThrow(() ->
+                new EntityNotFoundException(String.format("Item with id: %d not found or has not icon", id)));
+        File fi = new File(iconAddress);
         byte[] image;
         try {
             image = Files.readAllBytes(fi.toPath());

@@ -19,7 +19,7 @@ public class WithdrawalDaoImpl implements Dao<Withdrawal>, WithdrawalDao {
     public Optional<Withdrawal> get(long id) {
         String sql = "select * from withdrawal where withdrawal_id = ?";
 
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper, id));
+        return jdbcTemplate.query(sql, ResultSetExtractorFactory.optionalExtractor(rowMapper), id);
     }
 
     public List<Withdrawal> getByPlayer(long playerId) {

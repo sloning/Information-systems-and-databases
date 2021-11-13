@@ -19,7 +19,7 @@ public class ProfessionDaoImpl implements Dao<Profession> {
     public Optional<Profession> get(long id) {
         String sql = "select * from profession where profession_id = ?";
 
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper, id));
+        return jdbcTemplate.query(sql, ResultSetExtractorFactory.optionalExtractor(rowMapper), id);
     }
 
     @Override

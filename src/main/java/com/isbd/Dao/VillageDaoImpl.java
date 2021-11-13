@@ -19,7 +19,7 @@ public class VillageDaoImpl implements Dao<Village> {
     public Optional<Village> get(long id) {
         String sql = "select * from village where village_id = ?";
 
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper, id));
+        return jdbcTemplate.query(sql, ResultSetExtractorFactory.optionalExtractor(rowMapper), id);
     }
 
     @Override

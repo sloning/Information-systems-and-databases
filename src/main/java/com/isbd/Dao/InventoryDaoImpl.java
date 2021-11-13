@@ -24,7 +24,6 @@ public class InventoryDaoImpl implements InventoryDao {
 
     @Override
     public List<List<InventoryItem>> getAll() {
-        // TODO implement
         return null;
     }
 

@@ -22,7 +22,7 @@ public class DealDaoImpl implements Dao<Deal>, DealDao {
     public Optional<Deal> get(long id) {
         String sql = "select * from deal where deal_id = ?";
 
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper, id));
+        return jdbcTemplate.query(sql, ResultSetExtractorFactory.optionalExtractor(rowMapper), id);
     }
 
     @Override
