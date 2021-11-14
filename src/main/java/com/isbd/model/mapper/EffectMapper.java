@@ -1,7 +1,6 @@
 package com.isbd.model.mapper;
 
 import com.isbd.model.Effect;
-import org.postgresql.util.PGInterval;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +15,7 @@ public class EffectMapper implements RowMapper<Effect> {
         effect.setId(rs.getInt("effect_id"));
         effect.setName(rs.getString("name"));
         effect.setPower(rs.getInt("power"));
-        effect.setDuration(new PGInterval(rs.getString("duration")));
+        effect.setDuration(rs.getInt("duration"));
         return effect;
     }
 }
