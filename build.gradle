@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.5.6'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id "org.liquibase.gradle" version "2.1.0"
 }
 
 group = 'com.ISBD'
@@ -24,7 +25,11 @@ dependencies {
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
     implementation 'org.postgresql:postgresql:42.3.1'
     implementation 'com.auth0:java-jwt:3.18.2'
+    implementation 'org.liquibase:liquibase-core:4.6.1'
     compileOnly 'org.projectlombok:lombok:1.18.22'
+    liquibaseRuntime 'org.liquibase:liquibase-core:4.6.1'
+    liquibaseRuntime 'info.picocli:picocli:4.6.2'
+    liquibaseRuntime 'org.postgresql:postgresql:42.3.1'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.6'
     testImplementation 'org.springframework.security:spring-security-test:5.5.1'
@@ -32,4 +37,19 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+liquibase {
+    activities {
+        main {
+            changeLogFile 'src/main/resources/db/changelog/db.changelog-master.xml'
+            dataOutputDirectory 'src/main/resources/db/data'
+            url System.getenv("db_host")
+            username System.getenv("db_username")
+            password System.getenv("db_password")
+            diffTypes 'catalog,tables,functions,views,columns,indexes,foreignkeys,primarykeys,\n' +
+                    'uniqueconstraints,data,storedprocedure,triggers,sequences'
+            liquibaseProLicenseKey System.getenv("liquibaseProKey")
+        }
+    }
 }
