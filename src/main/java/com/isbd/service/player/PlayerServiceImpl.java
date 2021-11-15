@@ -1,13 +1,10 @@
 package com.isbd.service.player;
 
-import com.isbd.Dao.Dao;
-import com.isbd.Dao.DealDao;
-import com.isbd.Dao.WithdrawalDao;
+import com.isbd.Dao.*;
 import com.isbd.exception.EntityNotFoundException;
+import com.isbd.exception.KitHaveBeenAlreadyGivenException;
 import com.isbd.exception.WrongCredentialsException;
-import com.isbd.model.Deal;
-import com.isbd.model.Player;
-import com.isbd.model.Withdrawal;
+import com.isbd.model.*;
 import com.isbd.security.jwt.JwtUser;
 import com.isbd.service.inventory.InventoryService;
 import com.isbd.service.offer.OfferService;
@@ -18,7 +15,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -30,6 +31,8 @@ public class PlayerServiceImpl implements PlayerService {
     private final InventoryService inventoryService;
     private final VillageService villageService;
     private final OfferService offerService;
+    private final KitObtainmentDao kitObtainmentDao;
+    private final KitDao kitDao;
     private long playerId;
 
     @Override
@@ -57,6 +60,32 @@ public class PlayerServiceImpl implements PlayerService {
         deal.setOffer(offerService.getOffer(offerId));
         deal.setTime(new Date());
         dealDAO.save(deal);
+    }
+
+    @Override
+    public List<InventoryItem> obtainKit(int kitId) {
+        playerId = getPlayerId();
+        List<Kit> kits = kitDao.getAll();
+        if (kits.stream().map(Kit::getId).noneMatch(i -> i == kitId))
+            throw new EntityNotFoundException(String.format("Kit with id: %d was not found", kitId));
+
+        Optional<ObtainedKit> obtainedKitOptional = kitObtainmentDao.getByPlayerAndKit(playerId, kitId);
+        if (obtainedKitOptional.isPresent()) {
+            long hours = ChronoUnit.HOURS.between(obtainedKitOptional.get().getLastObtained(), LocalDateTime.now());
+            if (hours < 24) {
+                throw new KitHaveBeenAlreadyGivenException(String.format("You must wait another %d hours to get this kit",
+                        24 - hours));
+            }
+        }
+
+        kitDao.obtainKit(playerId, kitId);
+        return inventoryService.getByPlayerId(playerId);
+    }
+
+    @Override
+    public List<ObtainedKit> getKits() {
+        playerId = getPlayerId();
+        return kitObtainmentDao.getByPlayer(playerId);
     }
 
     private long getPlayerId() {

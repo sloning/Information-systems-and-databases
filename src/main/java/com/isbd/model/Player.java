@@ -16,4 +16,5 @@ public class Player {
     private List<InventoryItem> inventory;
     private List<Deal> deals;
     private List<Withdrawal> withdrawals;
+    private List<ObtainedKit> lastObtainedKits;
 }

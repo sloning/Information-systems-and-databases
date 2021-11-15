@@ -10,5 +10,5 @@ import java.util.List;
 public class Kit {
     private int id;
     private String name;
-    private List<Item> items;
+    private List<InventoryItem> items;
 }

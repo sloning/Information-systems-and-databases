@@ -44,4 +44,10 @@ public class ExceptionController {
     public ResponseEntity<String> handleValidationException(Exception ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(KitHaveBeenAlreadyGivenException.class)
+    public ResponseEntity<String> handleKitHaveBeenAlreadyGivenException(Exception ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }

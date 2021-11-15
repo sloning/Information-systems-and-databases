@@ -2,6 +2,7 @@ package com.isbd.model.mapper;
 
 import com.isbd.Dao.AppliedEffectDao;
 import com.isbd.Dao.DealDao;
+import com.isbd.Dao.KitObtainmentDao;
 import com.isbd.model.*;
 import com.isbd.service.inventory.InventoryService;
 import com.isbd.service.withdrawal.WithdrawalService;
@@ -20,6 +21,7 @@ public class PlayerMapper implements RowMapper<Player> {
     private final DealDao dealDAO;
     private final AppliedEffectDao appliedEffectDAO;
     private final InventoryService inventoryService;
+    private final KitObtainmentDao kitObtainmentDao;
 
     @Override
     public Player mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -28,6 +30,7 @@ public class PlayerMapper implements RowMapper<Player> {
         List<Deal> deals = dealDAO.getByPlayer(playerId);
         List<AppliedEffect> appliedEffects = appliedEffectDAO.getByPlayer(playerId);
         List<InventoryItem> items = inventoryService.getByPlayerId(playerId);
+        List<ObtainedKit> lastObtainedKits = kitObtainmentDao.getByPlayer(playerId);
 
         Player player = new Player();
         player.setId(playerId);
@@ -38,6 +41,7 @@ public class PlayerMapper implements RowMapper<Player> {
         player.setDeals(deals);
         player.setAppliedEffects(appliedEffects);
         player.setInventory(items);
+        player.setLastObtainedKits(lastObtainedKits);
         return player;
     }
 }
