@@ -18,4 +18,9 @@ public class InventoryServiceImpl implements InventoryService {
         return inventoryDAO.get(playerId).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Inventory of user: %d was not found", playerId)));
     }
+
+    @Override
+    public void deleteByPlayerId(long playerId) {
+        inventoryDAO.delete(playerId);
+    }
 }

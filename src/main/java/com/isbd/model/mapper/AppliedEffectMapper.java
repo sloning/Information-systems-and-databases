@@ -22,8 +22,8 @@ public class AppliedEffectMapper implements RowMapper<AppliedEffect> {
 
         AppliedEffect appliedEffect = new AppliedEffect();
         appliedEffect.setPlayerId(rs.getLong("player_id"));
-        appliedEffect.setStartTime(rs.getDate("start_time"));
-        appliedEffect.setEndTime(rs.getDate("end_time"));
+        appliedEffect.setStartTime(rs.getTimestamp("start_time").toLocalDateTime());
+        appliedEffect.setEndTime(rs.getTimestamp("end_time").toLocalDateTime());
         appliedEffect.setId(effectId);
         appliedEffect.setName(effect.getName());
         appliedEffect.setDuration(effect.getDuration());

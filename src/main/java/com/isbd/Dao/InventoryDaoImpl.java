@@ -23,22 +23,9 @@ public class InventoryDaoImpl implements InventoryDao {
     }
 
     @Override
-    public List<List<InventoryItem>> getAll() {
-        return null;
-    }
+    public int delete(long playerId) {
+        String sql = "delete from inventory where player_id = ?";
 
-    @Override
-    public int save(List<InventoryItem> inventoryItems) {
-        return 0;
-    }
-
-    @Override
-    public int update(List<InventoryItem> inventoryItems) {
-        return 0;
-    }
-
-    @Override
-    public int delete(List<InventoryItem> inventoryItems) {
-        return 0;
+        return jdbcTemplate.update(sql, playerId);
     }
 }

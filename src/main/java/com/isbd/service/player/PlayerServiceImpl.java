@@ -1,6 +1,7 @@
 package com.isbd.service.player;
 
 import com.isbd.Dao.*;
+import com.isbd.Dto.RaidDto;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.exception.KitHaveBeenAlreadyGivenException;
 import com.isbd.exception.WrongCredentialsException;
@@ -8,6 +9,7 @@ import com.isbd.model.*;
 import com.isbd.security.jwt.JwtUser;
 import com.isbd.service.inventory.InventoryService;
 import com.isbd.service.offer.OfferService;
+import com.isbd.service.raid.RaidService;
 import com.isbd.service.village.VillageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -33,6 +35,7 @@ public class PlayerServiceImpl implements PlayerService {
     private final OfferService offerService;
     private final KitObtainmentDao kitObtainmentDao;
     private final KitDao kitDao;
+    private final RaidService raidService;
     private long playerId;
 
     @Override
@@ -86,6 +89,11 @@ public class PlayerServiceImpl implements PlayerService {
     public List<ObtainedKit> getKits() {
         playerId = getPlayerId();
         return kitObtainmentDao.getByPlayer(playerId);
+    }
+
+    @Override
+    public RaidDto fightRaid(int raidId) {
+        return raidService.fightRaid(getPlayerId(), raidId);
     }
 
     private long getPlayerId() {

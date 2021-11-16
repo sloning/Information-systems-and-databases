@@ -7,18 +7,12 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class AppliedEffectDaoImpl implements Dao<AppliedEffect>, AppliedEffectDao {
+public class AppliedEffectDaoImpl implements AppliedEffectDao {
     private final RowMapper<AppliedEffect> rowMapper;
     private final JdbcTemplate jdbcTemplate;
-
-    @Override
-    public Optional<AppliedEffect> get(long id) {
-        return Optional.empty();
-    }
 
     @Override
     public List<AppliedEffect> getByPlayer(long playerId) {
@@ -28,22 +22,11 @@ public class AppliedEffectDaoImpl implements Dao<AppliedEffect>, AppliedEffectDa
     }
 
     @Override
-    public List<AppliedEffect> getAll() {
-        return null;
-    }
-
-    @Override
     public int save(AppliedEffect appliedEffect) {
-        return 0;
-    }
+        String sql = "insert into applied_effect values(?, ?, ?, ?)" +
+                "on conflict(player_id, effect_id) do update set end_time = ?";
 
-    @Override
-    public int update(AppliedEffect appliedEffect) {
-        return 0;
-    }
-
-    @Override
-    public int delete(AppliedEffect appliedEffect) {
-        return 0;
+        return jdbcTemplate.update(sql, appliedEffect.getId(), appliedEffect.getPlayerId(), appliedEffect.getStartTime(),
+                appliedEffect.getEndTime(), appliedEffect.getEndTime());
     }
 }

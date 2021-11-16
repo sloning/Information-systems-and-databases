@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface InventoryService {
     List<InventoryItem> getByPlayerId(long playerId);
+
+    void deleteByPlayerId(long playerId);
 }
