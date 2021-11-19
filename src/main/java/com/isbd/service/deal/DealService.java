@@ -7,7 +7,7 @@ import java.util.List;
 public interface DealService {
     Deal getDeal(long id);
 
-    List<Deal> getByPlayer(long id);
+    List<Deal> getByPlayer();
 
-    void save(Deal deal);
+    void createDeal(long offerId);
 }

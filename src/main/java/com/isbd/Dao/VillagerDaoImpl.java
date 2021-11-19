@@ -33,14 +33,14 @@ public class VillagerDaoImpl implements Dao<Villager>, VillagerDao {
     @Override
     public int save(Villager villager) {
         return jdbcTemplate.update("insert into villager(name, profession_id, village_id) values(?, ?, ?)",
-                villager.getName(), villager.getProfession().getId(), villager.getVillage().getId());
+                villager.getName(), villager.getProfession().getId(), villager.getVillageId());
     }
 
     @Override
     public int update(Villager villager) {
         return jdbcTemplate.
                 update("update villager set name = ?, profession_id = ?, village_id = ? where villager_id = ?",
-                        villager.getName(), villager.getProfession().getId(), villager.getVillage().getId(),
+                        villager.getName(), villager.getProfession().getId(), villager.getVillageId(),
                         villager.getId());
     }
 

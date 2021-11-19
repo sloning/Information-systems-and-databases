@@ -34,7 +34,7 @@ public class OfferDaoImpl implements Dao<Offer>, OfferDao {
         String sql = "insert into offer(villager_id, selling_item_id, amount_of_selling_items, buying_item_id, " +
                 "amount_of_buying_items, needed_reputation_level) values(?, ?, ?, ?, ?, ?)";
 
-        return jdbcTemplate.update(sql, offer.getVillager().getId(), offer.getSellingItem(), offer.getAmountOfSellingItems(),
+        return jdbcTemplate.update(sql, offer.getVillagerId(), offer.getSellingItem(), offer.getAmountOfSellingItems(),
                 offer.getBuyingItem(), offer.getAmountOfBuyingItems(), offer.getReputationLevel());
     }
 
@@ -44,7 +44,7 @@ public class OfferDaoImpl implements Dao<Offer>, OfferDao {
                 "buying_item_id = ?, amount_of_buying_items = ?, needed_reputation_level = ? where offer_id = ?";
 
         return jdbcTemplate.
-                update(sql, offer.getVillager().getId(), offer.getSellingItem(), offer.getAmountOfSellingItems(),
+                update(sql, offer.getVillagerId(), offer.getSellingItem(), offer.getAmountOfSellingItems(),
                         offer.getBuyingItem(), offer.getAmountOfBuyingItems(), offer.getReputationLevel(),
                         offer.getId());
     }
@@ -55,89 +55,101 @@ public class OfferDaoImpl implements Dao<Offer>, OfferDao {
     }
 
     @Override
-    public List<Offer> getByVillager(int villagerId) {
-        String sql = "select * from offer where villager_id = ?";
+    public List<Offer> getAllWithPagination(int limit, int offset) {
+        String sql = "select * from offer limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, villagerId);
+        return jdbcTemplate.query(sql, rowMapper, limit, offset);
     }
 
     @Override
-    public List<Long> getOfferIdsByVillager(int villagerId) {
-        String sql = "select offer_id from offer where villager_id = ?";
+    public List<Offer> getByVillager(int villagerId, int limit, int offset) {
+        String sql = "select * from offer where villager_id = ? limit ? offset ?";
 
-        return jdbcTemplate.queryForList(sql, Long.class, villagerId);
+        return jdbcTemplate.query(sql, rowMapper, villagerId, limit, offset);
     }
 
     @Override
-    public List<Offer> getOffersByItemId(int itemId) {
-        String sql = "select * from offer where buying_item_id = ?";
+    public List<Long> getOfferIdsByVillager(int villagerId, int limit, int offset) {
+        String sql = "select offer_id from offer where villager_id = ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, itemId);
+        return jdbcTemplate.queryForList(sql, Long.class, villagerId, limit, offset);
     }
 
     @Override
-    public List<Offer> getOffersByItemIdAndAmount(int itemId, int amount) {
-        String sql = "select * from offer where buying_item_id = ? and amount_of_buying_items <= ?";
+    public List<Offer> getOffersByItemId(int itemId, int limit, int offset) {
+        String sql = "select * from offer where buying_item_id = ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, itemId, amount);
+        return jdbcTemplate.query(sql, rowMapper, itemId, limit, offset);
     }
 
     @Override
-    public List<Offer> getOffersByVillagerId(int villagerId) {
-        String sql = "select * from offer where villager_id = ?";
+    public List<Offer> getOffersByItemIdAndAmount(int itemId, int amount, int limit, int offset) {
+        String sql = "select * from offer where buying_item_id = ? and amount_of_buying_items <= ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, villagerId);
+        return jdbcTemplate.query(sql, rowMapper, itemId, amount, limit, offset);
     }
 
     @Override
-    public List<Offer> getOffersByReputationLevel(int reputationLevel) {
-        String sql = "select * from offer where needed_reputation_level = ?";
+    public List<Offer> getOffersByVillagerId(int villagerId, int limit, int offset) {
+        String sql = "select * from offer where villager_id = ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, reputationLevel);
+        return jdbcTemplate.query(sql, rowMapper, villagerId, limit, offset);
     }
 
     @Override
-    public List<Offer> getOffersByVillagerIdAndItemId(int villagerId, int itemId) {
-        String sql = "select * from offer where villager_id = ? and buying_item_id = ?";
+    public List<Offer> getOffersByReputationLevel(int reputationLevel, int limit, int offset) {
+        String sql = "select * from offer where needed_reputation_level <= ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, villagerId, itemId);
+        return jdbcTemplate.query(sql, rowMapper, reputationLevel, limit, offset);
     }
 
     @Override
-    public List<Offer> getOffersByVillagerIdAndItemIdAndAmount(int villagerId, int itemId, int amount) {
-        String sql = "select * from offer where buying_item_id = ? and amount_of_buying_items <= ? and villager_id = ?";
+    public List<Offer> getOffersByVillagerIdAndItemId(int villagerId, int itemId, int limit, int offset) {
+        String sql = "select * from offer where villager_id = ? and buying_item_id = ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, itemId, amount, villagerId);
+        return jdbcTemplate.query(sql, rowMapper, villagerId, itemId, limit, offset);
+    }
+
+    @Override
+    public List<Offer> getOffersByVillagerIdAndItemIdAndAmount(int villagerId, int itemId, int amount,
+                                                               int limit, int offset) {
+        String sql = "select * from offer where buying_item_id = ? and amount_of_buying_items <= ? and villager_id = ?" +
+                " limit ? offset ?";
+
+        return jdbcTemplate.query(sql, rowMapper, itemId, amount, villagerId, limit, offset);
     }
 
     @Override
     public List<Offer> getOffersByVillagerIdAndItemIdAndAmountAndReputationLevel(int villagerId, int itemId,
-                                                                                 int amount, int reputationLevel) {
+                                                                                 int amount, int reputationLevel,
+                                                                                 int limit, int offset) {
         String sql = "select * from offer where buying_item_id = ? and amount_of_buying_items <= ? and " +
-                "villager_id = ? and needed_reputation_level = ?";
+                "villager_id = ? and needed_reputation_level <= ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, itemId, amount, villagerId, reputationLevel);
+        return jdbcTemplate.query(sql, rowMapper, itemId, amount, villagerId, reputationLevel, limit, offset);
     }
 
     @Override
-    public List<Offer> getOffersByVillagerIdAndReputationLevel(int villagerId, int reputationLevel) {
-        String sql = "select * from offer where villager_id = ? and needed_reputation_level = ?";
+    public List<Offer> getOffersByVillagerIdAndReputationLevel(int villagerId, int reputationLevel,
+                                                               int limit, int offset) {
+        String sql = "select * from offer where villager_id = ? and needed_reputation_level <= ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, villagerId, reputationLevel);
+        return jdbcTemplate.query(sql, rowMapper, villagerId, reputationLevel, limit, offset);
     }
 
     @Override
-    public List<Offer> getOffersByItemIdAndAmountAndReputationLevel(int itemId, int amount, int reputationLevel) {
+    public List<Offer> getOffersByItemIdAndAmountAndReputationLevel(int itemId, int amount, int reputationLevel,
+                                                                    int limit, int offset) {
         String sql = "select * from offer where buying_item_id = ? and amount_of_buying_items <= ? and " +
-                "needed_reputation_level = ?";
+                "needed_reputation_level <= ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, itemId, amount, reputationLevel);
+        return jdbcTemplate.query(sql, rowMapper, itemId, amount, reputationLevel, limit, offset);
     }
 
     @Override
-    public List<Offer> getOffersByItemIdAndReputationLevel(int itemId, int reputationLevel) {
-        String sql = "select * from offer where buying_item_id = ? and needed_reputation_level = ?";
+    public List<Offer> getOffersByItemIdAndReputationLevel(int itemId, int reputationLevel, int limit, int offset) {
+        String sql = "select * from offer where buying_item_id = ? and needed_reputation_level <= ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, itemId, reputationLevel);
+        return jdbcTemplate.query(sql, rowMapper, itemId, reputationLevel, limit, offset);
     }
 }

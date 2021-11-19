@@ -1,4 +1,4 @@
-package com.isbd.controller.api;
+package com.isbd.controller.api.v1;
 
 import com.isbd.Dto.UserDto;
 import com.isbd.service.auth.AuthService;
@@ -10,22 +10,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/api/auth",
+@RequestMapping(path = "/api/v1/auth",
         produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody UserDto userDTO) {
+    public ResponseEntity<Map<String, String>> login(@Valid @RequestBody final UserDto userDTO) {
         return ResponseEntity.ok(authService.login(userDTO));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Map<String, String>> register(@RequestBody UserDto userDTO) {
+    public ResponseEntity<Map<String, String>> register(@Valid @RequestBody final UserDto userDTO) {
         return ResponseEntity.ok(authService.register(userDTO));
     }
 }

@@ -22,7 +22,7 @@ public class DealMapper implements RowMapper<Deal> {
         Deal deal = new Deal();
         deal.setId(rs.getLong("deal_id"));
         deal.setOffer(offer);
-        deal.setTime(rs.getDate("time"));
+        deal.setTime(rs.getTimestamp("time").toLocalDateTime());
         deal.setPlayerId(rs.getLong("player_id"));
         return deal;
     }

@@ -41,7 +41,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Map<String, String> login(UserDto userDTO) {
-        UserValidator.validateUser(userDTO);
         Player player = getByUsernameAndPassword(userDTO.getUsername(), userDTO.getPassword());
 
         return getToken(player.getId());
@@ -49,7 +48,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Map<String, String> register(UserDto userDTO) {
-        UserValidator.validateUser(userDTO);
         if (isPlayerExists(userDTO.getUsername()))
             throw new EntityAlreadyExists(String.format("User with username: %s already exists",
                     userDTO.getUsername()));
@@ -68,6 +66,7 @@ public class AuthServiceImpl implements AuthService {
 
         Map<String, String> response = new HashMap<>();
         response.put("token", token);
+        response.put("playerId", playerId.toString());
         return response;
     }
 }

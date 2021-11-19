@@ -1,15 +1,17 @@
 package com.isbd.service.offer;
 
+import com.isbd.Dto.OfferDto;
 import com.isbd.model.Offer;
 
 import java.util.List;
-import java.util.Map;
 
 public interface OfferService {
-    List<Offer> getOffers();
+    List<Offer> getOffers(int limit, int offset);
 
     Offer getOffer(long id);
 
-    List<Offer> getOffers(Map<String, String> params);
+    List<OfferDto> getOffers(Integer itemId, Integer amount, Integer villagerId, Integer reputationLevel,
+                             int limit, int offset);
 
+    long getAmountOfOffersByVillagerIdAndReputationLevel(int villagerId, int reputationLevel);
 }

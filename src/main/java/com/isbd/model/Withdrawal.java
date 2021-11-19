@@ -10,6 +10,6 @@ import java.util.List;
 public class Withdrawal {
     private long id;
     private long playerId;
-    private Village village;
+    private int villageId;
     private List<InventoryItem> items;
 }

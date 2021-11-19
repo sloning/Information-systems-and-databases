@@ -12,6 +12,7 @@ public class ProfessionMapper implements RowMapper<Profession> {
     @Override
     public Profession mapRow(ResultSet rs, int rowNum) throws SQLException {
         Profession profession = new Profession();
+        profession.setId(rs.getInt("profession_id"));
         profession.setName(rs.getString("name"));
         return profession;
     }

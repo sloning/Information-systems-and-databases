@@ -10,5 +10,5 @@ public interface RaidService {
 
     List<Raid> getRaids();
 
-    RaidDto fightRaid(long playerId, int raidId);
+    RaidDto fightRaid(int raidId);
 }

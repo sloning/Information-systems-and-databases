@@ -8,4 +8,6 @@ public interface AppliedEffectDao {
     List<AppliedEffect> getByPlayer(long playerId);
 
     int save(AppliedEffect appliedEffect);
+
+    int deleteEndedEffectsOfPlayer(long playerId);
 }

@@ -1,4 +1,4 @@
-package com.isbd.controller.api;
+package com.isbd.controller.api.v1;
 
 import com.isbd.model.Item;
 import com.isbd.service.item.ItemService;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/api/item",
+@RequestMapping(path = "/api/v1/items",
         produces = MediaType.APPLICATION_JSON_VALUE)
 public class ItemController {
     private final ItemService itemService;
@@ -27,7 +27,7 @@ public class ItemController {
     }
 
     @GetMapping(
-            value = "/icon/{id}",
+            value = "/{id}/icon",
             produces = MediaType.IMAGE_PNG_VALUE
     )
     public @ResponseBody

@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class VillageDaoImpl implements Dao<Village> {
+public class VillageDaoImpl implements VillageDao {
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Village> rowMapper;
 
@@ -23,10 +23,10 @@ public class VillageDaoImpl implements Dao<Village> {
     }
 
     @Override
-    public List<Village> getAll() {
-        String sql = "select * from village";
+    public List<Village> getAll(int limit, int offset) {
+        String sql = "select * from village limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper);
+        return jdbcTemplate.query(sql, rowMapper, limit, offset);
     }
 
     @Override

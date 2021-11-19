@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class ReputationLevelDaoImpl implements Dao<ReputationLevel> {
+public class ReputationLevelDaoImpl implements Dao<ReputationLevel>, ReputationLevelDao {
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<ReputationLevel> rowMapper;
 

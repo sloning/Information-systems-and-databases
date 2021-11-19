@@ -5,28 +5,31 @@ import com.isbd.model.Offer;
 import java.util.List;
 
 public interface OfferDao extends Dao<Offer> {
-    List<Offer> getByVillager(int villagerId);
+    List<Offer> getAllWithPagination(int limit, int offset);
 
-    List<Long> getOfferIdsByVillager(int villagerId);
+    List<Offer> getByVillager(int villagerId, int limit, int offset);
 
-    List<Offer> getOffersByItemId(int itemId);
+    List<Long> getOfferIdsByVillager(int villagerId, int limit, int offset);
 
-    List<Offer> getOffersByItemIdAndAmount(int itemId, int amount);
+    List<Offer> getOffersByItemId(int itemId, int limit, int offset);
 
-    List<Offer> getOffersByVillagerId(int villagerId);
+    List<Offer> getOffersByItemIdAndAmount(int itemId, int amount, int limit, int offset);
 
-    List<Offer> getOffersByReputationLevel(int reputationLevel);
+    List<Offer> getOffersByVillagerId(int villagerId, int limit, int offset);
 
-    List<Offer> getOffersByVillagerIdAndItemId(int villagerId, int itemId);
+    List<Offer> getOffersByReputationLevel(int reputationLevel, int limit, int offset);
 
-    List<Offer> getOffersByVillagerIdAndItemIdAndAmount(int villagerId, int itemId, int amount);
+    List<Offer> getOffersByVillagerIdAndItemId(int villagerId, int itemId, int limit, int offset);
+
+    List<Offer> getOffersByVillagerIdAndItemIdAndAmount(int villagerId, int itemId, int amount, int limit, int offset);
 
     List<Offer> getOffersByVillagerIdAndItemIdAndAmountAndReputationLevel(int villagerId, int itemId, int amount,
-                                                                          int reputationLevel);
+                                                                          int reputationLevel, int limit, int offset);
 
-    List<Offer> getOffersByVillagerIdAndReputationLevel(int villagerId, int reputationLevel);
+    List<Offer> getOffersByVillagerIdAndReputationLevel(int villagerId, int reputationLevel, int limit, int offset);
 
-    List<Offer> getOffersByItemIdAndAmountAndReputationLevel(int itemId, int amount, int reputationLevel);
+    List<Offer> getOffersByItemIdAndAmountAndReputationLevel(int itemId, int amount, int reputationLevel,
+                                                             int limit, int offset);
 
-    List<Offer> getOffersByItemIdAndReputationLevel(int itemId, int reputationLevel);
+    List<Offer> getOffersByItemIdAndReputationLevel(int itemId, int reputationLevel, int limit, int offset);
 }

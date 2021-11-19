@@ -37,7 +37,7 @@ public class WithdrawalDaoImpl implements Dao<Withdrawal>, WithdrawalDao {
     public int save(Withdrawal withdrawal) {
         String sql1 = "insert into withdrawal(village_id, player_id) values(?, ?)";
 
-        return jdbcTemplate.update(sql1, withdrawal.getVillage().getId(), withdrawal.getPlayerId());
+        return jdbcTemplate.update(sql1, withdrawal.getVillageId(), withdrawal.getPlayerId());
     }
 
     @Override

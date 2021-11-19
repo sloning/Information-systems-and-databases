@@ -1,22 +1,32 @@
 package com.isbd.service.village;
 
-import com.isbd.Dao.Dao;
+import com.isbd.Dao.VillageDao;
+import com.isbd.Dto.VillageDto;
 import com.isbd.exception.EntityNotFoundException;
+import com.isbd.model.Raid;
 import com.isbd.model.Village;
+import com.isbd.service.raid.RaidService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class VillageServiceImpl implements VillageService {
-    private final Dao<Village> villageDao;
+    private final VillageDao villageDao;
+    private final RaidService raidService;
 
     @Override
-    public List<Village> getVillages() {
-        return villageDao.getAll();
+    public List<Village> getVillages(int limit, int offset) {
+        return villageDao.getAll(limit, offset);
+    }
+
+    @Override
+    public List<VillageDto> getVillagesWithExtraData(int limit, int offset) {
+        return getVillages(limit, offset).stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @Override
@@ -25,10 +35,9 @@ public class VillageServiceImpl implements VillageService {
                 new EntityNotFoundException(String.format("Village with id: %d was not found", id)));
     }
 
-    // TODO test
     @Override
     public Village getNearestVillage(int xCoordinate, int zCoordinate) {
-        ArrayList<Village> villages = new ArrayList<>(villageDao.getAll());
+        ArrayList<Village> villages = new ArrayList<>(villageDao.getAll(Integer.MAX_VALUE, 0));
         if (villages.isEmpty()) throw new EntityNotFoundException("There are no villages");
         Village nearestVillage = villages.get(0);
         int current_distance = Math.abs(xCoordinate - nearestVillage.getXCoordinate()) +
@@ -38,8 +47,21 @@ public class VillageServiceImpl implements VillageService {
                     Math.abs(zCoordinate - village.getZCoordinate());
             if (distance < current_distance) {
                 nearestVillage = village;
+                current_distance = distance;
             }
         }
         return nearestVillage;
+    }
+
+    private VillageDto convertToDto(Village village) {
+        boolean hasRaid = raidService.getRaids().stream().map(Raid::getVillageId).anyMatch(villageID ->
+                villageID == village.getId());
+        VillageDto villageDto = new VillageDto();
+        villageDto.setId(village.getId());
+        villageDto.setName(village.getName());
+        villageDto.setXCoordinate(village.getXCoordinate());
+        villageDto.setZCoordinate(village.getZCoordinate());
+        villageDto.setHasRaid(hasRaid);
+        return villageDto;
     }
 }

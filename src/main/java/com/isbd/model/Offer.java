@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Offer {
     private long id;
-    private Villager villager;
+    private int villagerId;
     private Item sellingItem;
     private Item buyingItem;
     private int amountOfSellingItems;

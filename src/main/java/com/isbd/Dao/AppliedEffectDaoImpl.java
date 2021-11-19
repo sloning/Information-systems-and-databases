@@ -29,4 +29,11 @@ public class AppliedEffectDaoImpl implements AppliedEffectDao {
         return jdbcTemplate.update(sql, appliedEffect.getId(), appliedEffect.getPlayerId(), appliedEffect.getStartTime(),
                 appliedEffect.getEndTime(), appliedEffect.getEndTime());
     }
+
+    @Override
+    public int deleteEndedEffectsOfPlayer(long playerId) {
+        String sql = "delete from applied_effect where player_id = ? and end_time <= current_timestamp";
+
+        return jdbcTemplate.update(sql, playerId);
+    }
 }

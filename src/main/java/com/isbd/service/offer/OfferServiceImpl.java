@@ -1,22 +1,31 @@
 package com.isbd.service.offer;
 
 import com.isbd.Dao.OfferDao;
+import com.isbd.Dto.OfferDto;
 import com.isbd.exception.EntityNotFoundException;
+import com.isbd.model.AppliedEffect;
+import com.isbd.model.InventoryItem;
 import com.isbd.model.Offer;
+import com.isbd.security.AuthenticationFacade;
+import com.isbd.service.effect.AppliedEffectService;
+import com.isbd.service.inventory.InventoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class OfferServiceImpl implements OfferService {
     private final OfferDao offerDAO;
+    private final AppliedEffectService appliedEffectService;
+    private final InventoryService inventoryService;
+    private final AuthenticationFacade authenticationFacade;
 
     @Override
-    public List<Offer> getOffers() {
-        return offerDAO.getAll();
+    public List<Offer> getOffers(int limit, int offset) {
+        return offerDAO.getAllWithPagination(offset, limit);
     }
 
     @Override
@@ -27,63 +36,92 @@ public class OfferServiceImpl implements OfferService {
 
     // TODO добавить предмет продажи
     @Override
-    public List<Offer> getOffers(Map<String, String> params) {
-        Integer itemId = null;
-        Integer amount = null;
-        Integer villagerId = null;
-        Integer reputationLevel = null;
-        try {
-            itemId = Integer.parseInt(params.get("itemId"));
-        } catch (Exception ignored) {
-        }
-        try {
-            amount = Integer.parseInt(params.get("amount"));
-        } catch (Exception ignored) {
-        }
-        try {
-            villagerId = Integer.parseInt(params.get("villagerId"));
-        } catch (Exception ignored) {
-        }
-        try {
-            reputationLevel = Integer.parseInt(params.get("reputationLevel"));
-        } catch (Exception ignored) {
-        }
-
-        return getFilteredOffers(itemId, amount, villagerId, reputationLevel);
+    public List<OfferDto> getOffers(Integer itemId, Integer amount, Integer villagerId, Integer reputationLevel,
+                                    int limit, int offset) {
+        List<Offer> offers = getFilteredOffers(itemId, amount, villagerId, reputationLevel, limit, offset);
+        return convertToDtoList(offers);
     }
 
-    private List<Offer> getFilteredOffers(Integer itemId, Integer amount, Integer villagerId, Integer reputationLevel) {
+    @Override
+    public long getAmountOfOffersByVillagerIdAndReputationLevel(int villagerId, int reputationLevel) {
+        return offerDAO.getOffersByVillagerIdAndReputationLevel(villagerId, reputationLevel,
+                Integer.MAX_VALUE, 0).size();
+    }
+
+    private List<Offer> getFilteredOffers(Integer itemId, Integer amount, Integer villagerId, Integer reputationLevel,
+                                          int limit, int offset) {
         if (itemId != null && amount != null && villagerId != null && reputationLevel != null) {
             return offerDAO.getOffersByVillagerIdAndItemIdAndAmountAndReputationLevel(villagerId, itemId, amount,
-                    reputationLevel);
+                    reputationLevel, limit, offset);
         }
         if (itemId != null && amount != null && villagerId != null) {
-            return offerDAO.getOffersByVillagerIdAndItemIdAndAmount(villagerId, itemId, amount);
+            return offerDAO.getOffersByVillagerIdAndItemIdAndAmount(villagerId, itemId, amount, limit, offset);
         }
         if (itemId != null && amount != null && reputationLevel != null) {
-            return offerDAO.getOffersByItemIdAndAmountAndReputationLevel(itemId, amount, reputationLevel);
+            return offerDAO.getOffersByItemIdAndAmountAndReputationLevel(itemId, amount, reputationLevel, limit, offset);
         }
         if (itemId != null && amount != null) {
-            return offerDAO.getOffersByItemIdAndAmount(itemId, amount);
+            return offerDAO.getOffersByItemIdAndAmount(itemId, amount, limit, offset);
         }
         if (itemId != null && reputationLevel != null) {
-            return offerDAO.getOffersByItemIdAndReputationLevel(itemId, reputationLevel);
+            return offerDAO.getOffersByItemIdAndReputationLevel(itemId, reputationLevel, limit, offset);
         }
         if (itemId != null && villagerId != null) {
-            return offerDAO.getOffersByVillagerIdAndItemId(villagerId, itemId);
+            return offerDAO.getOffersByVillagerIdAndItemId(villagerId, itemId, limit, offset);
         }
         if (villagerId != null && reputationLevel != null) {
-            return offerDAO.getOffersByVillagerIdAndReputationLevel(villagerId, reputationLevel);
+            return offerDAO.getOffersByVillagerIdAndReputationLevel(villagerId, reputationLevel, limit, offset);
         }
         if (itemId != null) {
-            return offerDAO.getOffersByItemId(itemId);
+            return offerDAO.getOffersByItemId(itemId, limit, offset);
         }
         if (villagerId != null) {
-            return offerDAO.getOffersByVillagerId(villagerId);
+            return offerDAO.getOffersByVillagerId(villagerId, limit, offset);
         }
         if (reputationLevel != null) {
-            return offerDAO.getOffersByReputationLevel(reputationLevel);
+            return offerDAO.getOffersByReputationLevel(reputationLevel, limit, offset);
         }
         return null;
+    }
+
+    // TODO fabric?
+    private List<OfferDto> convertToDtoList(List<Offer> offers) {
+        List<OfferDto> offerDtos = new ArrayList<>();
+        long playerId = authenticationFacade.getPlayerId();
+        List<AppliedEffect> appliedEffects = appliedEffectService.getAppliedEffectsByPlayer(playerId);
+        List<InventoryItem> items = inventoryService.getByPlayerId(playerId);
+        boolean hasDiscount = false;
+        for (AppliedEffect appliedEffect : appliedEffects) {
+            if (appliedEffect.getId() == 1) {
+                hasDiscount = true;
+                break;
+            }
+        }
+
+        for (Offer offer : offers) {
+            OfferDto offerDto = new OfferDto();
+            offerDto.setOfferId(offer.getId());
+            offerDto.setBuyingItem(offer.getBuyingItem());
+            offerDto.setSellingItem(offer.getSellingItem());
+            offerDto.setAmountOfBuyingItems(offer.getAmountOfBuyingItems());
+            offerDto.setAmountOfSellingItems(offer.getAmountOfSellingItems());
+            if (hasDiscount) {
+                offerDto.setHasDiscount(true);
+                int amountOfBuyingItemsWithDiscount = offer.getAmountOfBuyingItems() / 2;
+                offerDto.setAmountOfBuyingItemsWithDiscount(amountOfBuyingItemsWithDiscount);
+            }
+
+            for (InventoryItem item : items) {
+                if (item.getId() == offer.getBuyingItem().getId()) {
+                    if (hasDiscount)
+                        offerDto.setCanBeTraded(offerDto.getAmountOfBuyingItemsWithDiscount() <= item.getAmount());
+                    else offerDto.setCanBeTraded(offerDto.getAmountOfBuyingItems() <= item.getAmount());
+                    if (offerDto.isCanBeTraded()) break;
+                }
+            }
+            offerDtos.add(offerDto);
+        }
+
+        return offerDtos;
     }
 }

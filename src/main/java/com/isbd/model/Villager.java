@@ -9,5 +9,5 @@ public class Villager {
     private int id;
     private String name;
     private Profession profession;
-    private Village village;
+    private int villageId;
 }
