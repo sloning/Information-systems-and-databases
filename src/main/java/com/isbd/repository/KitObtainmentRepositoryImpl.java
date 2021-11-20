@@ -1,8 +1,8 @@
 package com.isbd.repository;
 
+import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.Kit;
 import com.isbd.model.ObtainedKit;
-import com.isbd.service.kit.KitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,7 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class KitObtainmentRepositoryImpl implements KitObtainmentRepository {
     private final JdbcTemplate jdbcTemplate;
-    private final KitService kitService;
+    private final KitRepository kitRepository;
 
     @Override
     public List<ObtainedKit> getByKit(int kitId) {
@@ -45,7 +45,9 @@ public class KitObtainmentRepositoryImpl implements KitObtainmentRepository {
     private List<ObtainedKit> extractData(ResultSet rs) throws SQLException, DataAccessException {
         List<ObtainedKit> lastObtainedKits = new ArrayList<>();
         while (rs.next()) {
-            Kit kit = kitService.getKit(rs.getInt("kit_id"));
+            int kitId = rs.getInt("kit_id");
+            Kit kit = kitRepository.get(kitId).orElseThrow(() ->
+                    new EntityNotFoundException(String.format("Kit with id: %d was not found", kitId)));
             ObtainedKit obtainedKit = new ObtainedKit();
             obtainedKit.setLastObtained(rs.getTimestamp("last_obtainment").toLocalDateTime());
             obtainedKit.setId(kit.getId());
