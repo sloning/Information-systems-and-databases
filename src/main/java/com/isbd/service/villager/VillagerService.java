@@ -1,6 +1,6 @@
 package com.isbd.service.villager;
 
-import com.isbd.Dto.VillagerDto;
+import com.isbd.dto.VillagerDto;
 import com.isbd.model.Villager;
 
 import java.util.List;

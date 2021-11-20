@@ -1,8 +1,8 @@
 package com.isbd.service.deal;
 
-import com.isbd.Dao.DealDao;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.Deal;
+import com.isbd.repository.DealRepository;
 import com.isbd.security.AuthenticationFacade;
 import com.isbd.service.offer.OfferService;
 import lombok.RequiredArgsConstructor;
@@ -14,20 +14,20 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class DealServiceImpl implements DealService {
-    private final DealDao dealDAO;
+    private final DealRepository dealRepository;
     private final AuthenticationFacade authenticationFacade;
     private final OfferService offerService;
 
     @Override
     public Deal getDeal(long id) {
-        return dealDAO.get(id).orElseThrow(() ->
+        return dealRepository.get(id).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Deal with id: %d was not found", id)));
     }
 
     @Override
     public List<Deal> getByPlayer() {
         long playerId = authenticationFacade.getPlayerId();
-        return dealDAO.getByPlayer(playerId);
+        return dealRepository.getByPlayer(playerId);
     }
 
     @Override
@@ -37,6 +37,6 @@ public class DealServiceImpl implements DealService {
         deal.setPlayerId(playerId);
         deal.setOffer(offerService.getOffer(offerId));
         deal.setTime(LocalDateTime.now());
-        dealDAO.save(deal);
+        dealRepository.save(deal);
     }
 }

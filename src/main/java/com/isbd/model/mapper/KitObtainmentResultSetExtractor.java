@@ -1,8 +1,8 @@
 package com.isbd.model.mapper;
 
-import com.isbd.Dao.KitDao;
 import com.isbd.model.Kit;
 import com.isbd.model.ObtainedKit;
+import com.isbd.repository.KitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -16,7 +16,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class KitObtainmentResultSetExtractor implements ResultSetExtractor<List<ObtainedKit>> {
-    private final KitDao kitDao;
+    private final KitRepository kitDao;
 
     @Override
     public List<ObtainedKit> extractData(ResultSet rs) throws SQLException, DataAccessException {

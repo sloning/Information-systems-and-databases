@@ -1,6 +1,6 @@
 package com.isbd.controller.api.v1;
 
-import com.isbd.Dto.ErrorResponse;
+import com.isbd.dto.ErrorResponse;
 import com.isbd.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

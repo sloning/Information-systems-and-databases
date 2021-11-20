@@ -1,6 +1,6 @@
 package com.isbd.service.village;
 
-import com.isbd.Dto.VillageDto;
+import com.isbd.dto.VillageDto;
 import com.isbd.model.Village;
 
 import java.util.List;

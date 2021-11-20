@@ -1,6 +1,6 @@
 package com.isbd.controller.api.v1;
 
-import com.isbd.Dto.OfferDto;
+import com.isbd.dto.OfferDto;
 import com.isbd.model.Offer;
 import com.isbd.service.offer.OfferService;
 import io.swagger.annotations.ApiOperation;

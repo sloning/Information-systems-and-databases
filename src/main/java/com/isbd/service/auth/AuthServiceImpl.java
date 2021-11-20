@@ -1,10 +1,10 @@
 package com.isbd.service.auth;
 
-import com.isbd.Dao.PlayerDao;
-import com.isbd.Dto.UserDto;
+import com.isbd.dto.UserDto;
 import com.isbd.exception.EntityAlreadyExists;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.Player;
+import com.isbd.repository.PlayerRepository;
 import com.isbd.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,13 +16,13 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
-    private final PlayerDao playerDAO;
+    private final PlayerRepository playerRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public Player getPlayerByUsername(String username) {
-        return playerDAO.getByUsername(username).orElseThrow(() ->
+        return playerRepository.getByUsername(username).orElseThrow(() ->
                 new EntityNotFoundException(String.format("User with username: %s was not found", username)));
     }
 
@@ -36,7 +36,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean isPlayerExists(String username) {
-        return playerDAO.getByUsername(username).isPresent();
+        return playerRepository.getByUsername(username).isPresent();
     }
 
     @Override
@@ -55,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
         Player player = new Player();
         player.setUsername(userDTO.getUsername());
         player.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
-        playerDAO.save(player);
+        playerRepository.save(player);
         player = getPlayerByUsername(player.getUsername());
 
         return getToken(player.getId());

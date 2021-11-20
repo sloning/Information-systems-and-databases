@@ -1,8 +1,8 @@
 package com.isbd.model.mapper;
 
-import com.isbd.Dao.WithdrawalCompositionDao;
 import com.isbd.model.InventoryItem;
 import com.isbd.model.Withdrawal;
+import com.isbd.repository.WithdrawalCompositionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -14,13 +14,13 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class WithdrawalMapper implements RowMapper<Withdrawal> {
-    private final WithdrawalCompositionDao withdrawalCompositionDao;
+    private final WithdrawalCompositionRepository withdrawalCompositionRepository;
 
     @Override
     public Withdrawal mapRow(ResultSet rs, int rowNum) throws SQLException {
         long playerId = rs.getLong("player_id");
         long withdrawalId = rs.getLong("withdrawal_id");
-        List<InventoryItem> items = withdrawalCompositionDao.getByWithdrawal(withdrawalId);
+        List<InventoryItem> items = withdrawalCompositionRepository.getByWithdrawal(withdrawalId);
 
         Withdrawal withdrawal = new Withdrawal();
         withdrawal.setId(withdrawalId);

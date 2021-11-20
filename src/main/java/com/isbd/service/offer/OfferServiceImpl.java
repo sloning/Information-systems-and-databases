@@ -1,11 +1,11 @@
 package com.isbd.service.offer;
 
-import com.isbd.Dao.OfferDao;
-import com.isbd.Dto.OfferDto;
+import com.isbd.dto.OfferDto;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.AppliedEffect;
 import com.isbd.model.InventoryItem;
 import com.isbd.model.Offer;
+import com.isbd.repository.OfferRepository;
 import com.isbd.security.AuthenticationFacade;
 import com.isbd.service.effect.AppliedEffectService;
 import com.isbd.service.inventory.InventoryService;
@@ -18,19 +18,19 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class OfferServiceImpl implements OfferService {
-    private final OfferDao offerDAO;
+    private final OfferRepository offerRepository;
     private final AppliedEffectService appliedEffectService;
     private final InventoryService inventoryService;
     private final AuthenticationFacade authenticationFacade;
 
     @Override
     public List<Offer> getOffers(int limit, int offset) {
-        return offerDAO.getAllWithPagination(offset, limit);
+        return offerRepository.getAllWithPagination(offset, limit);
     }
 
     @Override
     public Offer getOffer(long id) {
-        return offerDAO.get(id).orElseThrow(() ->
+        return offerRepository.get(id).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Offer with id: %d was not found", id)));
     }
 
@@ -44,42 +44,42 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     public long getAmountOfOffersByVillagerIdAndReputationLevel(int villagerId, int reputationLevel) {
-        return offerDAO.getOffersByVillagerIdAndReputationLevel(villagerId, reputationLevel,
+        return offerRepository.getOffersByVillagerIdAndReputationLevel(villagerId, reputationLevel,
                 Integer.MAX_VALUE, 0).size();
     }
 
     private List<Offer> getFilteredOffers(Integer itemId, Integer amount, Integer villagerId, Integer reputationLevel,
                                           int limit, int offset) {
         if (itemId != null && amount != null && villagerId != null && reputationLevel != null) {
-            return offerDAO.getOffersByVillagerIdAndItemIdAndAmountAndReputationLevel(villagerId, itemId, amount,
+            return offerRepository.getOffersByVillagerIdAndItemIdAndAmountAndReputationLevel(villagerId, itemId, amount,
                     reputationLevel, limit, offset);
         }
         if (itemId != null && amount != null && villagerId != null) {
-            return offerDAO.getOffersByVillagerIdAndItemIdAndAmount(villagerId, itemId, amount, limit, offset);
+            return offerRepository.getOffersByVillagerIdAndItemIdAndAmount(villagerId, itemId, amount, limit, offset);
         }
         if (itemId != null && amount != null && reputationLevel != null) {
-            return offerDAO.getOffersByItemIdAndAmountAndReputationLevel(itemId, amount, reputationLevel, limit, offset);
+            return offerRepository.getOffersByItemIdAndAmountAndReputationLevel(itemId, amount, reputationLevel, limit, offset);
         }
         if (itemId != null && amount != null) {
-            return offerDAO.getOffersByItemIdAndAmount(itemId, amount, limit, offset);
+            return offerRepository.getOffersByItemIdAndAmount(itemId, amount, limit, offset);
         }
         if (itemId != null && reputationLevel != null) {
-            return offerDAO.getOffersByItemIdAndReputationLevel(itemId, reputationLevel, limit, offset);
+            return offerRepository.getOffersByItemIdAndReputationLevel(itemId, reputationLevel, limit, offset);
         }
         if (itemId != null && villagerId != null) {
-            return offerDAO.getOffersByVillagerIdAndItemId(villagerId, itemId, limit, offset);
+            return offerRepository.getOffersByVillagerIdAndItemId(villagerId, itemId, limit, offset);
         }
         if (villagerId != null && reputationLevel != null) {
-            return offerDAO.getOffersByVillagerIdAndReputationLevel(villagerId, reputationLevel, limit, offset);
+            return offerRepository.getOffersByVillagerIdAndReputationLevel(villagerId, reputationLevel, limit, offset);
         }
         if (itemId != null) {
-            return offerDAO.getOffersByItemId(itemId, limit, offset);
+            return offerRepository.getOffersByItemId(itemId, limit, offset);
         }
         if (villagerId != null) {
-            return offerDAO.getOffersByVillagerId(villagerId, limit, offset);
+            return offerRepository.getOffersByVillagerId(villagerId, limit, offset);
         }
         if (reputationLevel != null) {
-            return offerDAO.getOffersByReputationLevel(reputationLevel, limit, offset);
+            return offerRepository.getOffersByReputationLevel(reputationLevel, limit, offset);
         }
         return null;
     }

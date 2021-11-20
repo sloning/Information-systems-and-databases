@@ -1,9 +1,9 @@
 package com.isbd.model.mapper;
 
-import com.isbd.Dao.Dao;
 import com.isbd.model.Item;
 import com.isbd.model.Offer;
 import com.isbd.model.ReputationLevel;
+import com.isbd.repository.Repository;
 import com.isbd.service.item.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,13 +16,13 @@ import java.sql.SQLException;
 @RequiredArgsConstructor
 public class OfferMapper implements RowMapper<Offer> {
     private final ItemService itemService;
-    private final Dao<ReputationLevel> reputationLevelDao;
+    private final Repository<ReputationLevel> reputationLevelRepository;
 
     @Override
     public Offer mapRow(ResultSet rs, int rowNum) throws SQLException {
         Item buyingItem = itemService.getItem(rs.getInt("buying_item_id"));
         Item sellingItem = itemService.getItem(rs.getInt("selling_item_id"));
-        ReputationLevel reputationLevel = reputationLevelDao.get(rs.getInt("needed_reputation_level")).get();
+        ReputationLevel reputationLevel = reputationLevelRepository.get(rs.getInt("needed_reputation_level")).get();
 
         Offer offer = new Offer();
         offer.setId(rs.getLong("offer_id"));

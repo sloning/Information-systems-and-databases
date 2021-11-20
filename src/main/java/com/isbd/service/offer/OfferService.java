@@ -1,6 +1,6 @@
 package com.isbd.service.offer;
 
-import com.isbd.Dto.OfferDto;
+import com.isbd.dto.OfferDto;
 import com.isbd.model.Offer;
 
 import java.util.List;

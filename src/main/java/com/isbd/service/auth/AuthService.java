@@ -1,6 +1,6 @@
 package com.isbd.service.auth;
 
-import com.isbd.Dto.UserDto;
+import com.isbd.dto.UserDto;
 import com.isbd.model.Player;
 
 import java.util.Map;

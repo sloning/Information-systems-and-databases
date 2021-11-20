@@ -1,7 +1,7 @@
 package com.isbd.controller.api.v1;
 
-import com.isbd.Dto.VillageDto;
-import com.isbd.Dto.VillagerDto;
+import com.isbd.dto.VillageDto;
+import com.isbd.dto.VillagerDto;
 import com.isbd.model.Village;
 import com.isbd.model.Villager;
 import com.isbd.service.village.VillageService;

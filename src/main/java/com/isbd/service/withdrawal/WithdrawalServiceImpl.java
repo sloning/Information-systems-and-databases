@@ -1,8 +1,8 @@
 package com.isbd.service.withdrawal;
 
-import com.isbd.Dao.WithdrawalDao;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.Withdrawal;
+import com.isbd.repository.WithdrawalRepository;
 import com.isbd.security.AuthenticationFacade;
 import com.isbd.service.inventory.InventoryService;
 import lombok.RequiredArgsConstructor;
@@ -13,20 +13,20 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class WithdrawalServiceImpl implements WithdrawalService {
-    private final WithdrawalDao withdrawalDAO;
+    private final WithdrawalRepository withdrawalRepository;
     private final AuthenticationFacade authenticationFacade;
     private final InventoryService inventoryService;
 
     @Override
     public Withdrawal getWithdrawal(long id) {
-        return withdrawalDAO.get(id).orElseThrow(() ->
+        return withdrawalRepository.get(id).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Withdrawal with id: %d was not found", id)));
     }
 
     @Override
     public List<Withdrawal> getByPlayer() {
         long playerId = authenticationFacade.getPlayerId();
-        return withdrawalDAO.getByPlayer(playerId);
+        return withdrawalRepository.getByPlayer(playerId);
     }
 
     @Override
@@ -36,6 +36,6 @@ public class WithdrawalServiceImpl implements WithdrawalService {
         withdrawal.setPlayerId(playerId);
         withdrawal.setVillageId(villageId);
         withdrawal.setItems(inventoryService.getByPlayerId(playerId));
-        withdrawalDAO.save(withdrawal);
+        withdrawalRepository.save(withdrawal);
     }
 }

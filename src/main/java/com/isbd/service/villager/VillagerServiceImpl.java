@@ -1,13 +1,13 @@
 package com.isbd.service.villager;
 
-import com.isbd.Dao.ReputationLevelDao;
-import com.isbd.Dao.TradingReputationDao;
-import com.isbd.Dao.VillagerDao;
-import com.isbd.Dto.VillagerDto;
+import com.isbd.dto.VillagerDto;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.ReputationLevel;
 import com.isbd.model.TradingReputation;
 import com.isbd.model.Villager;
+import com.isbd.repository.ReputationLevelRepository;
+import com.isbd.repository.TradingReputationRepository;
+import com.isbd.repository.VillagerRepository;
 import com.isbd.security.AuthenticationFacade;
 import com.isbd.service.offer.OfferService;
 import lombok.RequiredArgsConstructor;
@@ -20,26 +20,26 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class VillagerServiceImpl implements VillagerService {
-    private final VillagerDao villagerDAO;
+    private final VillagerRepository villagerRepository;
     private final OfferService offerService;
-    private final ReputationLevelDao reputationLevelDao;
+    private final ReputationLevelRepository reputationLevelRepository;
     private final AuthenticationFacade authenticationFacade;
-    private final TradingReputationDao tradingReputationDao;
+    private final TradingReputationRepository tradingReputationRepository;
 
     @Override
     public List<Villager> getVillagers(int limit, int offset) {
-        return villagerDAO.getAll();
+        return villagerRepository.getAll();
     }
 
     @Override
     public Villager getVillager(int id) {
-        return villagerDAO.get(id).orElseThrow(() ->
+        return villagerRepository.get(id).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Villager with id: %d was not found", id)));
     }
 
     @Override
     public List<Villager> getVillagersOfVillage(int villageId, int limit, int offset) {
-        List<Villager> villagers = villagerDAO.getVillagersByVillage(villageId);
+        List<Villager> villagers = villagerRepository.getVillagersByVillage(villageId);
         if (villagers.isEmpty()) throw new EntityNotFoundException(
                 String.format("There are no villagers in the village with id: %d", villageId));
         return villagers;
@@ -50,7 +50,7 @@ public class VillagerServiceImpl implements VillagerService {
         List<VillagerDto> villagerDtos = new ArrayList<>();
         List<Villager> villagers = getVillagersOfVillage(villageId, Integer.MAX_VALUE, 0);
         long playerId = authenticationFacade.getPlayerId();
-        List<ReputationLevel> reputationLevels = reputationLevelDao.getAll();
+        List<ReputationLevel> reputationLevels = reputationLevelRepository.getAll();
         if (reputationLevels.isEmpty()) throw new EntityNotFoundException("No reputation levels. Contact admins.");
 
         for (Villager villager : villagers) {
@@ -60,7 +60,7 @@ public class VillagerServiceImpl implements VillagerService {
     }
 
     private VillagerDto convertToDto(Villager villager, long playerId, List<ReputationLevel> reputationLevels) {
-        Optional<TradingReputation> optionalTradingReputation = tradingReputationDao.getByPlayerAndVillager(playerId,
+        Optional<TradingReputation> optionalTradingReputation = tradingReputationRepository.getByPlayerAndVillager(playerId,
                 villager.getId());
         TradingReputation tradingReputation;
         if (optionalTradingReputation.isEmpty()) {
@@ -68,7 +68,7 @@ public class VillagerServiceImpl implements VillagerService {
             newTradingReputation.setReputation(0);
             newTradingReputation.setPlayerId(playerId);
             newTradingReputation.setVillagerId(villager.getId());
-            tradingReputationDao.save(newTradingReputation);
+            tradingReputationRepository.save(newTradingReputation);
             tradingReputation = newTradingReputation;
         } else {
             tradingReputation = optionalTradingReputation.get();

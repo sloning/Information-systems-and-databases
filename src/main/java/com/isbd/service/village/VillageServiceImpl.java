@@ -1,10 +1,10 @@
 package com.isbd.service.village;
 
-import com.isbd.Dao.VillageDao;
-import com.isbd.Dto.VillageDto;
+import com.isbd.dto.VillageDto;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.Raid;
 import com.isbd.model.Village;
+import com.isbd.repository.VillageRepository;
 import com.isbd.service.raid.RaidService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class VillageServiceImpl implements VillageService {
-    private final VillageDao villageDao;
+    private final VillageRepository villageRepository;
     private final RaidService raidService;
 
     @Override
     public List<Village> getVillages(int limit, int offset) {
-        return villageDao.getAll(limit, offset);
+        return villageRepository.getAll(limit, offset);
     }
 
     @Override
@@ -31,13 +31,13 @@ public class VillageServiceImpl implements VillageService {
 
     @Override
     public Village getVillage(int id) {
-        return villageDao.get(id).orElseThrow(() ->
+        return villageRepository.get(id).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Village with id: %d was not found", id)));
     }
 
     @Override
     public Village getNearestVillage(int xCoordinate, int zCoordinate) {
-        ArrayList<Village> villages = new ArrayList<>(villageDao.getAll(Integer.MAX_VALUE, 0));
+        ArrayList<Village> villages = new ArrayList<>(villageRepository.getAll(Integer.MAX_VALUE, 0));
         if (villages.isEmpty()) throw new EntityNotFoundException("There are no villages");
         Village nearestVillage = villages.get(0);
         int current_distance = Math.abs(xCoordinate - nearestVillage.getXCoordinate()) +
