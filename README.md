@@ -8,16 +8,9 @@
 
 ![Даталогическая модель](docs/datalogical_model.png)
 
-## Сборка
-
-```
-gradle bootJar
-```
-
-## Запуск
-
+## Сборка и запуск
 Необходимо задать следующие системные переменные: db_host, db_username, db_password.
 
 ```
-java -jar ISBD.jar
+gradle bootRun
 ```
