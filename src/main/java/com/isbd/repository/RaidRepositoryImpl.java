@@ -3,9 +3,10 @@ package com.isbd.repository;
 import com.isbd.model.Raid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,20 +14,19 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RaidRepositoryImpl implements RaidRepository {
     private final JdbcTemplate jdbcTemplate;
-    private final RowMapper<Raid> rowMapper;
 
     @Override
     public Optional<Raid> get(long raidId) {
         String sql = "select * from raid where raid_id = ?";
 
-        return jdbcTemplate.query(sql, ResultSetExtractorFactory.optionalExtractor(rowMapper), raidId);
+        return jdbcTemplate.query(sql, ResultSetExtractorFactory.optionalExtractor(this::mapRowToRaid), raidId);
     }
 
     @Override
     public List<Raid> getAll() {
         String sql = "select * from raid";
 
-        return jdbcTemplate.query(sql, rowMapper);
+        return jdbcTemplate.query(sql, this::mapRowToRaid);
     }
 
     @Override
@@ -46,5 +46,14 @@ public class RaidRepositoryImpl implements RaidRepository {
         String sql = "delete from raid where raid_id = ?";
 
         return jdbcTemplate.update(sql, raid.getId());
+    }
+
+    private Raid mapRowToRaid(ResultSet rs, int rowNum) throws SQLException {
+        Raid raid = new Raid();
+        raid.setId(rs.getInt("raid_id"));
+        raid.setVillageId(rs.getInt("village_id"));
+        raid.setStartTime(rs.getTimestamp("start_time").toLocalDateTime());
+        raid.setEndTime(rs.getTimestamp("end_time").toLocalDateTime());
+        return raid;
     }
 }

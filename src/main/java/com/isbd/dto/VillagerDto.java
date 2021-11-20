@@ -1,4 +1,4 @@
-package com.isbd.Dto;
+package com.isbd.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

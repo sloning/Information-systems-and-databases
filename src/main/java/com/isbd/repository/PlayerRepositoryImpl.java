@@ -3,22 +3,23 @@ package com.isbd.repository;
 import com.isbd.model.Player;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-@org.springframework.stereotype.Repository
+@Repository
 @RequiredArgsConstructor
-public class PlayerRepositoryImpl implements Repository<Player>, PlayerRepository {
+public class PlayerRepositoryImpl implements PlayerRepository {
     private final JdbcTemplate jdbcTemplate;
-    private final RowMapper<Player> rowMapper;
 
     @Override
     public Optional<Player> get(long id) {
         String sql = "select * from player where player_id = ?";
 
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper, id));
+        return jdbcTemplate.query(sql, ResultSetExtractorFactory.optionalExtractor(this::mapRowToPlayer), id);
     }
 
     @Override
@@ -52,7 +53,7 @@ public class PlayerRepositoryImpl implements Repository<Player>, PlayerRepositor
     public Optional<Player> getByUsername(String username) {
         String sql = "select * from player where username = ?";
 
-        List<Player> playerList = jdbcTemplate.query(sql, rowMapper, username);
+        List<Player> playerList = jdbcTemplate.query(sql, this::mapRowToPlayer, username);
         if (playerList.isEmpty()) return Optional.empty();
         else return Optional.ofNullable(playerList.get(0));
     }
@@ -61,6 +62,17 @@ public class PlayerRepositoryImpl implements Repository<Player>, PlayerRepositor
     public Optional<Player> getByUsernameAndPassword(String username, String password) {
         String sql = "select * from player where username = ? and password = ?";
 
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper, username, password));
+        return jdbcTemplate.query(sql, ResultSetExtractorFactory.optionalExtractor(this::mapRowToPlayer), username, password);
+    }
+
+    private Player mapRowToPlayer(ResultSet rs, int rowNum) throws SQLException {
+        long playerId = rs.getLong("player_id");
+
+        Player player = new Player();
+        player.setId(playerId);
+        player.setUsername(rs.getString("username"));
+        player.setPassword(rs.getString("password"));
+        player.setTradingExperience(rs.getInt("trading_experience"));
+        return player;
     }
 }

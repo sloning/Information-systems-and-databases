@@ -3,22 +3,23 @@ package com.isbd.repository;
 import com.isbd.model.TradingReputation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
 public class TradingReputationRepositoryImpl implements TradingReputationRepository {
     private final JdbcTemplate jdbcTemplate;
-    private final RowMapper<TradingReputation> rowMapper;
 
     @Override
     public Optional<TradingReputation> getByPlayerAndVillager(long playerId, int villagerId) {
         String sql = "select * from trading_reputation where player_id = ? and villager_id = ?";
 
-        return jdbcTemplate.query(sql, ResultSetExtractorFactory.optionalExtractor(rowMapper), playerId, villagerId);
+        return jdbcTemplate.query(sql, ResultSetExtractorFactory.optionalExtractor(this::mapRowToTradingReputation),
+                playerId, villagerId);
     }
 
     @Override
@@ -27,5 +28,13 @@ public class TradingReputationRepositoryImpl implements TradingReputationReposit
 
         return jdbcTemplate.update(sql, tradingReputation.getPlayerId(), tradingReputation.getVillagerId(),
                 tradingReputation.getReputation());
+    }
+
+    private TradingReputation mapRowToTradingReputation(ResultSet rs, int rowNum) throws SQLException {
+        TradingReputation tradingReputation = new TradingReputation();
+        tradingReputation.setPlayerId(rs.getLong("player_id"));
+        tradingReputation.setVillagerId(rs.getInt("villager_id"));
+        tradingReputation.setReputation(rs.getInt("reputation_level"));
+        return tradingReputation;
     }
 }

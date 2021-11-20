@@ -1,31 +1,38 @@
 package com.isbd.repository;
 
+import com.isbd.exception.EntityNotFoundException;
+import com.isbd.model.Item;
 import com.isbd.model.Offer;
+import com.isbd.model.ReputationLevel;
+import com.isbd.service.item.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-@org.springframework.stereotype.Repository
+@Repository
 @RequiredArgsConstructor
-public class OfferRepositoryImpl implements Repository<Offer>, OfferRepository {
+public class OfferRepositoryImpl implements OfferRepository {
     private final JdbcTemplate jdbcTemplate;
-    private final RowMapper<Offer> rowMapper;
+    private final ItemService itemService;
+    private final ReputationLevelRepository reputationLevelRepository;
 
     @Override
     public Optional<Offer> get(long id) {
         String sql = "select * from offer where offer_id = ?";
 
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper, id));
+        return jdbcTemplate.query(sql, ResultSetExtractorFactory.optionalExtractor(this::mapRowToOffer), id);
     }
 
     @Override
     public List<Offer> getAll() {
         String sql = "select * from offer";
 
-        return jdbcTemplate.query(sql, rowMapper);
+        return jdbcTemplate.query(sql, this::mapRowToOffer);
     }
 
     @Override
@@ -57,14 +64,14 @@ public class OfferRepositoryImpl implements Repository<Offer>, OfferRepository {
     public List<Offer> getAllWithPagination(int limit, int offset) {
         String sql = "select * from offer limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, limit, offset);
+        return jdbcTemplate.query(sql, this::mapRowToOffer, limit, offset);
     }
 
     @Override
     public List<Offer> getByVillager(int villagerId, int limit, int offset) {
         String sql = "select * from offer where villager_id = ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, villagerId, limit, offset);
+        return jdbcTemplate.query(sql, this::mapRowToOffer, villagerId, limit, offset);
     }
 
     @Override
@@ -78,35 +85,35 @@ public class OfferRepositoryImpl implements Repository<Offer>, OfferRepository {
     public List<Offer> getOffersByItemId(int itemId, int limit, int offset) {
         String sql = "select * from offer where buying_item_id = ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, itemId, limit, offset);
+        return jdbcTemplate.query(sql, this::mapRowToOffer, itemId, limit, offset);
     }
 
     @Override
     public List<Offer> getOffersByItemIdAndAmount(int itemId, int amount, int limit, int offset) {
         String sql = "select * from offer where buying_item_id = ? and amount_of_buying_items <= ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, itemId, amount, limit, offset);
+        return jdbcTemplate.query(sql, this::mapRowToOffer, itemId, amount, limit, offset);
     }
 
     @Override
     public List<Offer> getOffersByVillagerId(int villagerId, int limit, int offset) {
         String sql = "select * from offer where villager_id = ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, villagerId, limit, offset);
+        return jdbcTemplate.query(sql, this::mapRowToOffer, villagerId, limit, offset);
     }
 
     @Override
     public List<Offer> getOffersByReputationLevel(int reputationLevel, int limit, int offset) {
         String sql = "select * from offer where needed_reputation_level <= ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, reputationLevel, limit, offset);
+        return jdbcTemplate.query(sql, this::mapRowToOffer, reputationLevel, limit, offset);
     }
 
     @Override
     public List<Offer> getOffersByVillagerIdAndItemId(int villagerId, int itemId, int limit, int offset) {
         String sql = "select * from offer where villager_id = ? and buying_item_id = ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, villagerId, itemId, limit, offset);
+        return jdbcTemplate.query(sql, this::mapRowToOffer, villagerId, itemId, limit, offset);
     }
 
     @Override
@@ -115,7 +122,7 @@ public class OfferRepositoryImpl implements Repository<Offer>, OfferRepository {
         String sql = "select * from offer where buying_item_id = ? and amount_of_buying_items <= ? and villager_id = ?" +
                 " limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, itemId, amount, villagerId, limit, offset);
+        return jdbcTemplate.query(sql, this::mapRowToOffer, itemId, amount, villagerId, limit, offset);
     }
 
     @Override
@@ -125,7 +132,7 @@ public class OfferRepositoryImpl implements Repository<Offer>, OfferRepository {
         String sql = "select * from offer where buying_item_id = ? and amount_of_buying_items <= ? and " +
                 "villager_id = ? and needed_reputation_level <= ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, itemId, amount, villagerId, reputationLevel, limit, offset);
+        return jdbcTemplate.query(sql, this::mapRowToOffer, itemId, amount, villagerId, reputationLevel, limit, offset);
     }
 
     @Override
@@ -133,7 +140,7 @@ public class OfferRepositoryImpl implements Repository<Offer>, OfferRepository {
                                                                int limit, int offset) {
         String sql = "select * from offer where villager_id = ? and needed_reputation_level <= ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, villagerId, reputationLevel, limit, offset);
+        return jdbcTemplate.query(sql, this::mapRowToOffer, villagerId, reputationLevel, limit, offset);
     }
 
     @Override
@@ -142,13 +149,32 @@ public class OfferRepositoryImpl implements Repository<Offer>, OfferRepository {
         String sql = "select * from offer where buying_item_id = ? and amount_of_buying_items <= ? and " +
                 "needed_reputation_level <= ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, itemId, amount, reputationLevel, limit, offset);
+        return jdbcTemplate.query(sql, this::mapRowToOffer, itemId, amount, reputationLevel, limit, offset);
     }
 
     @Override
     public List<Offer> getOffersByItemIdAndReputationLevel(int itemId, int reputationLevel, int limit, int offset) {
         String sql = "select * from offer where buying_item_id = ? and needed_reputation_level <= ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, rowMapper, itemId, reputationLevel, limit, offset);
+        return jdbcTemplate.query(sql, this::mapRowToOffer, itemId, reputationLevel, limit, offset);
+    }
+
+    private Offer mapRowToOffer(ResultSet rs, int rowNum) throws SQLException {
+        int neededReputationLevel = rs.getInt("needed_reputation_level");
+        Item buyingItem = itemService.getItem(rs.getInt("buying_item_id"));
+        Item sellingItem = itemService.getItem(rs.getInt("selling_item_id"));
+        ReputationLevel reputationLevel = reputationLevelRepository.get(neededReputationLevel).orElseThrow(() ->
+                new EntityNotFoundException(String.format("Reputation level with id: %d was not found",
+                        neededReputationLevel)));
+
+        Offer offer = new Offer();
+        offer.setId(rs.getLong("offer_id"));
+        offer.setBuyingItem(buyingItem);
+        offer.setSellingItem(sellingItem);
+        offer.setAmountOfBuyingItems(rs.getInt("amount_of_buying_items"));
+        offer.setAmountOfSellingItems(rs.getInt("amount_of_selling_items"));
+        offer.setVillagerId(rs.getInt("villager_id"));
+        offer.setReputationLevel(reputationLevel);
+        return offer;
     }
 }

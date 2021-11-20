@@ -1,7 +1,6 @@
 package com.isbd.repository;
 
 import com.isbd.model.InventoryItem;
-import com.isbd.model.mapper.InventoryResultSetExtractor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

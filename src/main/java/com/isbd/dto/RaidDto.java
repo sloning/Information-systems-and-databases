@@ -1,4 +1,4 @@
-package com.isbd.Dto;
+package com.isbd.dto;
 
 import com.isbd.model.AppliedEffect;
 import lombok.Data;

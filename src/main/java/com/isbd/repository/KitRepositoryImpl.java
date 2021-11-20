@@ -1,34 +1,38 @@
 package com.isbd.repository;
 
+import com.isbd.exception.EntityNotFoundException;
+import com.isbd.model.InventoryItem;
 import com.isbd.model.Kit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.SqlParameter;
+import org.springframework.stereotype.Repository;
 
 import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Types;
 import java.util.List;
 import java.util.Optional;
 
-@org.springframework.stereotype.Repository
+@Repository
 @RequiredArgsConstructor
-public class KitRepositoryImpl implements Repository<Kit>, KitRepository {
+public class KitRepositoryImpl implements KitRepository {
     private final JdbcTemplate jdbcTemplate;
-    private final RowMapper<Kit> rowMapper;
+    private final KitItemsRepository kitItemsRepository;
 
     @Override
     public Optional<Kit> get(long kitId) {
         String sql = "select * from kit where kit_id = ?";
 
-        return jdbcTemplate.query(sql, ResultSetExtractorFactory.optionalExtractor(rowMapper), kitId);
+        return jdbcTemplate.query(sql, ResultSetExtractorFactory.optionalExtractor(this::mapRowToKit), kitId);
     }
 
     @Override
     public List<Kit> getAll() {
         String sql = "select * from kit";
 
-        return jdbcTemplate.query(sql, rowMapper);
+        return jdbcTemplate.query(sql, this::mapRowToKit);
     }
 
     @Override
@@ -57,5 +61,17 @@ public class KitRepositoryImpl implements Repository<Kit>, KitRepository {
             cs.setInt(2, kitId);
             return cs;
         }, parameters);
+    }
+
+    private Kit mapRowToKit(ResultSet rs, int rowNum) throws SQLException {
+        int kitId = rs.getInt("kit_id");
+        List<InventoryItem> items = kitItemsRepository.get(kitId).orElseThrow(() ->
+                new EntityNotFoundException(String.format("Items for kid: %d was not found", kitId)));
+
+        Kit kit = new Kit();
+        kit.setId(kitId);
+        kit.setName(rs.getString("name"));
+        kit.setItems(items);
+        return kit;
     }
 }

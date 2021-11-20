@@ -1,4 +1,4 @@
-package com.isbd.model.mapper;
+package com.isbd.repository;
 
 import com.isbd.model.InventoryItem;
 import com.isbd.model.Item;

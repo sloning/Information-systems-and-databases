@@ -26,6 +26,12 @@ public class KitServiceImpl implements KitService {
     private final AuthenticationFacade authenticationFacade;
 
     @Override
+    public Kit getKit(int kitId) {
+        return kitRepository.get(kitId).orElseThrow(() ->
+                new EntityNotFoundException(String.format("Kit with id: %d was not found", kitId)));
+    }
+
+    @Override
     public List<ObtainedKit> getAll() {
         long playerId = authenticationFacade.getPlayerId();
         return kitObtainmentRepository.getByPlayer(playerId);
