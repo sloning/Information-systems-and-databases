@@ -28,7 +28,7 @@ public class KitServiceImpl implements KitService {
     @Override
     public Kit getKit(int kitId) {
         return kitRepository.get(kitId).orElseThrow(() ->
-                new EntityNotFoundException(String.format("Kit with id: %d was not found", kitId)));
+                new EntityNotFoundException(String.format("Набор с идентификатором %d не найден", kitId)));
     }
 
     @Override
@@ -42,14 +42,14 @@ public class KitServiceImpl implements KitService {
         long playerId = authenticationFacade.getPlayerId();
         List<Kit> kits = kitRepository.getAll();
         if (kits.stream().map(Kit::getId).noneMatch(i -> i == kitId))
-            throw new EntityNotFoundException(String.format("Kit with id: %d was not found", kitId));
+            throw new EntityNotFoundException(String.format("Набор с идентификатором %d не найден", kitId));
 
         Optional<ObtainedKit> obtainedKitOptional = kitObtainmentRepository.getByPlayerAndKit(playerId, kitId);
         if (obtainedKitOptional.isPresent()) {
             long hours = ChronoUnit.HOURS.between(obtainedKitOptional.get().getLastObtained(), LocalDateTime.now());
             if (hours < 24) {
-                throw new KitHaveBeenAlreadyGivenException(String.format("You must wait another %d hours to get this kit",
-                        24 - hours));
+                throw new KitHaveBeenAlreadyGivenException(
+                        String.format("Для получения данного набора вы должны подождать ещё %d часов", 24 - hours));
             }
         }
 

@@ -31,7 +31,7 @@ public class OfferServiceImpl implements OfferService {
     @Override
     public Offer getOffer(long id) {
         return offerRepository.get(id).orElseThrow(() ->
-                new EntityNotFoundException(String.format("Offer with id: %d was not found", id)));
+                new EntityNotFoundException(String.format("Предложение с идентификатором %d не найден", id)));
     }
 
     // TODO добавить предмет продажи

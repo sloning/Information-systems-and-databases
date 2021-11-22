@@ -32,13 +32,13 @@ public class VillageServiceImpl implements VillageService {
     @Override
     public Village getVillage(int id) {
         return villageRepository.get(id).orElseThrow(() ->
-                new EntityNotFoundException(String.format("Village with id: %d was not found", id)));
+                new EntityNotFoundException(String.format("Дервня с идентификатором %d не найдена", id)));
     }
 
     @Override
     public Village getNearestVillage(int xCoordinate, int zCoordinate) {
         ArrayList<Village> villages = new ArrayList<>(villageRepository.getAll(Integer.MAX_VALUE, 0));
-        if (villages.isEmpty()) throw new EntityNotFoundException("There are no villages");
+        if (villages.isEmpty()) throw new EntityNotFoundException("Деревень не существует");
         Village nearestVillage = villages.get(0);
         int current_distance = Math.abs(xCoordinate - nearestVillage.getXCoordinate()) +
                 Math.abs(zCoordinate - nearestVillage.getZCoordinate());

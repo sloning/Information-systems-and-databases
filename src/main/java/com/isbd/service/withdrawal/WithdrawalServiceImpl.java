@@ -20,7 +20,7 @@ public class WithdrawalServiceImpl implements WithdrawalService {
     @Override
     public Withdrawal getWithdrawal(long id) {
         return withdrawalRepository.get(id).orElseThrow(() ->
-                new EntityNotFoundException(String.format("Withdrawal with id: %d was not found", id)));
+                new EntityNotFoundException(String.format("Вывод с идентификатором %d не найден", id)));
     }
 
     @Override

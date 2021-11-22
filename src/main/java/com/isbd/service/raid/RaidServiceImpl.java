@@ -54,7 +54,7 @@ public class RaidServiceImpl implements RaidService {
         long playerId = authenticationFacade.getPlayerId();
         AppliedEffect appliedEffect;
         Raid raid = raidRepository.get(raidId).orElseThrow(() ->
-                new EntityNotFoundException(String.format("Raid with id: %d was not found", raidId)));
+                new EntityNotFoundException(String.format("Рейд с идентификатором %d не найден", raidId)));
         if (raid.getEndTime().isBefore(LocalDateTime.now())) raidRepository.delete(raid);
 
         if (Math.random() < 0.5) {

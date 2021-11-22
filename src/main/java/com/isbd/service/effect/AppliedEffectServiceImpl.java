@@ -24,7 +24,7 @@ public class AppliedEffectServiceImpl implements AppliedEffectService {
     public AppliedEffect applyEffect(int effectId, long playerId) {
         AppliedEffect appliedEffect = new AppliedEffect();
         Effect effect = effectRepository.get(effectId).orElseThrow(() ->
-                new EntityNotFoundException(String.format("Effect with id: %d was not found", effectId)));
+                new EntityNotFoundException(String.format("Эффект с идентификатором %d не найден", effectId)));
         appliedEffect.setId(effect.getId());
         appliedEffect.setPlayerId(playerId);
         appliedEffect.setName(effect.getName());
@@ -38,7 +38,8 @@ public class AppliedEffectServiceImpl implements AppliedEffectService {
 
     @Override
     public List<AppliedEffect> getAppliedEffectsByPlayer(long playerId) {
-        if (playerId != authenticationFacade.getPlayerId()) throw new WrongCredentialsException("Access blocked");
+        if (playerId != authenticationFacade.getPlayerId())
+            throw new WrongCredentialsException("У вас не прав на просмотр данной информации");
         deleteEndedEffectsOfPlayer(playerId);
         return appliedEffectRepository.getByPlayer(playerId);
     }

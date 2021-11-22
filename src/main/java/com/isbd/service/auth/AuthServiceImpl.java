@@ -23,7 +23,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Player getPlayerByUsername(String username) {
         return playerRepository.getByUsername(username).orElseThrow(() ->
-                new EntityNotFoundException(String.format("User with username: %s was not found", username)));
+                new EntityNotFoundException("Пользователь не найден"));
     }
 
     @Override
@@ -31,7 +31,7 @@ public class AuthServiceImpl implements AuthService {
         Player player = getPlayerByUsername(username);
 
         if (bCryptPasswordEncoder.matches(password, player.getPassword())) return player;
-        throw new EntityNotFoundException("Incorrect password");
+        throw new EntityNotFoundException("Неверный пароль");
     }
 
     @Override
@@ -49,8 +49,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Map<String, String> register(UserDto userDTO) {
         if (isPlayerExists(userDTO.getUsername()))
-            throw new EntityAlreadyExists(String.format("User with username: %s already exists",
-                    userDTO.getUsername()));
+            throw new EntityAlreadyExists("Пользователь с таким именем уже зарегестрирован");
 
         Player player = new Player();
         player.setUsername(userDTO.getUsername());

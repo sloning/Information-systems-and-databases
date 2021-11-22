@@ -34,14 +34,14 @@ public class VillagerServiceImpl implements VillagerService {
     @Override
     public Villager getVillager(int id) {
         return villagerRepository.get(id).orElseThrow(() ->
-                new EntityNotFoundException(String.format("Villager with id: %d was not found", id)));
+                new EntityNotFoundException(String.format("Житель с идентификатором %d не найден", id)));
     }
 
     @Override
     public List<Villager> getVillagersOfVillage(int villageId, int limit, int offset) {
         List<Villager> villagers = villagerRepository.getVillagersByVillage(villageId);
         if (villagers.isEmpty()) throw new EntityNotFoundException(
-                String.format("There are no villagers in the village with id: %d", villageId));
+                String.format("В деревне с идентификатором %d нет жителей", villageId));
         return villagers;
     }
 
@@ -51,7 +51,7 @@ public class VillagerServiceImpl implements VillagerService {
         List<Villager> villagers = getVillagersOfVillage(villageId, Integer.MAX_VALUE, 0);
         long playerId = authenticationFacade.getPlayerId();
         List<ReputationLevel> reputationLevels = reputationLevelRepository.getAll();
-        if (reputationLevels.isEmpty()) throw new EntityNotFoundException("No reputation levels. Contact admins.");
+        if (reputationLevels.isEmpty()) throw new EntityNotFoundException("Уровни репутации не существуют");
 
         for (Villager villager : villagers) {
             villagerDtos.add(convertToDto(villager, playerId, reputationLevels));

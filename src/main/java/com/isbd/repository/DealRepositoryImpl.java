@@ -51,7 +51,7 @@ public class DealRepositoryImpl implements DealRepository {
             rowsAffected += jdbcTemplate.update(sql, deal.getOffer().getId(), deal.getPlayerId(), deal.getTime());
         } catch (DataAccessException e) {
             if (e instanceof UncategorizedSQLException)
-                throw new EntityNotSavedException(String.format("Player: %d has not enough items", deal.getPlayerId()));
+                throw new EntityNotSavedException("Недостаточно предметов");
         }
         return rowsAffected;
     }

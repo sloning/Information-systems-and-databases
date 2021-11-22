@@ -21,7 +21,7 @@ public class DealServiceImpl implements DealService {
     @Override
     public Deal getDeal(long id) {
         return dealRepository.get(id).orElseThrow(() ->
-                new EntityNotFoundException(String.format("Deal with id: %d was not found", id)));
+                new EntityNotFoundException(String.format("Сделка с идентификатором %d не найдена", id)));
     }
 
     @Override

@@ -18,6 +18,6 @@ public class PlayerServiceImpl implements PlayerService {
     public Player getPlayer() {
         long playerId = authenticationFacade.getPlayerId();
         return playerRepository.get(playerId).orElseThrow(() ->
-                new EntityNotFoundException(String.format("Player with id: %d was not found", playerId)));
+                new EntityNotFoundException(String.format("Игрок с идентификатором %d не найден", playerId)));
     }
 }

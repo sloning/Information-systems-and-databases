@@ -44,7 +44,7 @@ public class JwtTokenProvider {
             verifier.verify(token);
             return true;
         } catch (JWTVerificationException e) {
-            throw new JwtAuthenticationException("JWT token is expired or invalid");
+            throw new JwtAuthenticationException("Ваша сессия устарела, пожалуйста, пройдите аутентификацию вновь");
         }
     }
 

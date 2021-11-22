@@ -36,7 +36,8 @@ public class JwtTokenFilter extends GenericFilterBean {
             filterChain.doFilter(servletRequest, servletResponse);
         } catch (JwtAuthenticationException e) {
             HttpServletResponse resp = ((HttpServletResponse) servletResponse);
-            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You must be authenticated");
+            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+                    "Чтобы просмотреть этот контент, вы должны быть аутентифицированы");
         }
     }
 }
