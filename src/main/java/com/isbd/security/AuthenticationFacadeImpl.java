@@ -21,6 +21,6 @@ public class AuthenticationFacadeImpl implements AuthenticationFacade {
             JwtUser jwtUser = (JwtUser) auth.getPrincipal();
             return jwtUser.getId();
         }
-        throw new WrongCredentialsException("Access blocked");
+        throw new WrongCredentialsException("У вас не прав на просмотр данной информации");
     }
 }
