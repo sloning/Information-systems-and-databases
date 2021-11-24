@@ -1,6 +1,6 @@
 package com.isbd.controller.api.v1;
 
-import com.isbd.model.Player;
+import com.isbd.dto.PlayerDto;
 import com.isbd.service.player.PlayerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -17,7 +17,7 @@ public class PlayerController {
     private final PlayerService playerService;
 
     @GetMapping()
-    public ResponseEntity<Player> getPlayer() {
+    public ResponseEntity<PlayerDto> getPlayer() {
         return ResponseEntity.ok(playerService.getPlayer());
     }
 }

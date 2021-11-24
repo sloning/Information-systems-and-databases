@@ -28,4 +28,15 @@ public class InventoryRepositoryImpl implements InventoryRepository {
 
         return jdbcTemplate.update(sql, playerId);
     }
+
+    @Override
+    public Optional<InventoryItem> getPlayersEmeralds(long playerId) {
+        String sql = "select * from inventory where player_id = ? and item_id = 1";
+
+        List<InventoryItem> emeralds = jdbcTemplate.query(sql, resultSetExtractor, playerId);
+        if (emeralds.size() == 0) {
+            return Optional.empty();
+        }
+        return Optional.of(emeralds.get(0));
+    }
 }

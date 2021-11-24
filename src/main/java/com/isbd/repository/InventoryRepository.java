@@ -9,4 +9,6 @@ public interface InventoryRepository {
     Optional<List<InventoryItem>> get(long playerId);
 
     int delete(long playerId);
+
+    Optional<InventoryItem> getPlayersEmeralds(long playerId);
 }

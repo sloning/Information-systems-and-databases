@@ -1,7 +1,7 @@
 package com.isbd.service.player;
 
-import com.isbd.model.Player;
+import com.isbd.dto.PlayerDto;
 
 public interface PlayerService {
-    Player getPlayer();
+    PlayerDto getPlayer();
 }
