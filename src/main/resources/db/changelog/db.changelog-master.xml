@@ -2,7 +2,7 @@
 <databaseChangeLog xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
-    <changeSet author="Vladislav (generated)" id="1636984275245-1">
+    <changeSet author="Vladislav (generated)" id="1637784631729-1">
         <createTable tableName="item">
             <column autoIncrement="true" name="item_id" type="INTEGER">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="item_pkey"/>
@@ -13,7 +13,7 @@
             <column defaultValue="default.png" name="icon_address" type="TEXT"/>
         </createTable>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-2">
+    <changeSet author="Vladislav (generated)" id="1637784631729-2">
         <loadData commentLineStartsWith="#" encoding="UTF-8" file="src/main/resources/db/data/item.csv"
                   quotchar="&quot;" separator="," tableName="item">
             <column header="item_id" name="item_id" type="NUMERIC"/>
@@ -21,7 +21,7 @@
             <column header="icon_address" name="icon_address" type="STRING"/>
         </loadData>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-3">
+    <changeSet author="Vladislav (generated)" id="1637784631729-3">
         <createTable tableName="player">
             <column autoIncrement="true" name="player_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="player_pkey"/>
@@ -37,84 +37,16 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-4">
-        <createTable tableName="village">
-            <column autoIncrement="true" name="village_id" type="INTEGER">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="village_pkey"/>
-            </column>
-            <column name="name" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="x_coordinate" type="INTEGER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="z_coordinate" type="INTEGER">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-5">
-        <loadData commentLineStartsWith="#" encoding="UTF-8" file="src/main/resources/db/data/village.csv"
-                  quotchar="&quot;" separator="," tableName="village">
-            <column header="village_id" name="village_id" type="NUMERIC"/>
-            <column header="name" name="name" type="STRING"/>
-            <column header="x_coordinate" name="x_coordinate" type="NUMERIC"/>
-            <column header="z_coordinate" name="z_coordinate" type="NUMERIC"/>
+    <changeSet author="Vladislav (generated)" id="1637784631729-4">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="src/main/resources/db/data/player.csv"
+                  quotchar="&quot;" separator="," tableName="player">
+            <column header="player_id" name="player_id" type="NUMERIC"/>
+            <column header="username" name="username" type="STRING"/>
+            <column header="password" name="password" type="STRING"/>
+            <column header="trading_experience" name="trading_experience" type="NUMERIC"/>
         </loadData>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-6">
-        <createTable tableName="profession">
-            <column autoIncrement="true" name="profession_id" type="INTEGER">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="profession_pkey"/>
-            </column>
-            <column name="name" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-7">
-        <loadData commentLineStartsWith="#" encoding="UTF-8" file="src/main/resources/db/data/profession.csv"
-                  quotchar="&quot;" separator="," tableName="profession">
-            <column header="profession_id" name="profession_id" type="NUMERIC"/>
-            <column header="name" name="name" type="STRING"/>
-        </loadData>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-8">
-        <createTable tableName="villager">
-            <column autoIncrement="true" name="villager_id" type="INTEGER">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="villager_pkey"/>
-            </column>
-            <column name="name" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="profession_id" type="INTEGER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="village_id" type="INTEGER"/>
-        </createTable>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-9">
-        <loadData commentLineStartsWith="#" encoding="UTF-8" file="src/main/resources/db/data/villager.csv"
-                  quotchar="&quot;" separator="," tableName="villager">
-            <column header="villager_id" name="villager_id" type="NUMERIC"/>
-            <column header="name" name="name" type="STRING"/>
-            <column header="profession_id" name="profession_id" type="NUMERIC"/>
-            <column header="village_id" name="village_id" type="NUMERIC"/>
-        </loadData>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-10">
-        <createTable tableName="raid">
-            <column autoIncrement="true" name="raid_id" type="INTEGER">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="raid_pkey"/>
-            </column>
-            <column name="village_id" type="INTEGER">
-                <constraints nullable="false"/>
-            </column>
-            <column name="start_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
-            <column name="end_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
-        </createTable>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-11">
+    <changeSet author="Vladislav (generated)" id="1637784631729-5">
         <createTable tableName="trading_reputation">
             <column name="player_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="trading_reputation_pkey"/>
@@ -127,24 +59,88 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-12">
-        <createTable tableName="kit">
-            <column autoIncrement="true" name="kit_id" type="INTEGER">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="kit_pkey"/>
-            </column>
-            <column name="name" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-13">
-        <loadData commentLineStartsWith="#" encoding="UTF-8" file="src/main/resources/db/data/kit.csv" quotchar="&quot;"
-                  separator="," tableName="kit">
-            <column header="kit_id" name="kit_id" type="NUMERIC"/>
-            <column header="name" name="name" type="STRING"/>
+    <changeSet author="Vladislav (generated)" id="1637784631729-6">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="src/main/resources/db/data/trading_reputation.csv"
+                  quotchar="&quot;" separator="," tableName="trading_reputation">
+            <column header="player_id" name="player_id" type="NUMERIC"/>
+            <column header="villager_id" name="villager_id" type="NUMERIC"/>
+            <column header="reputation_level" name="reputation_level" type="NUMERIC"/>
         </loadData>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-14">
+    <changeSet author="Vladislav (generated)" id="1637784631729-7">
+        <pro:createFunction functionName="clear_inventory" path="objects/function/clear_inventory-bcd8b0c2.sql"
+                            relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-8">
+        <createTable tableName="withdrawal">
+            <column autoIncrement="true" name="withdrawal_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="withdrawal_pkey"/>
+            </column>
+            <column name="village_id" type="INTEGER"/>
+            <column name="player_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-9">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="src/main/resources/db/data/withdrawal.csv"
+                  quotchar="&quot;" separator="," tableName="withdrawal">
+            <column header="withdrawal_id" name="withdrawal_id" type="NUMERIC"/>
+            <column header="village_id" name="village_id" type="NUMERIC"/>
+            <column header="player_id" name="player_id" type="NUMERIC"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-10">
+        <pro:createFunction functionName="give_kit_starter" path="objects/function/give_kit_starter-bcd8b0c2.sql"
+                            relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-11">
+        <createTable tableName="deal">
+            <column autoIncrement="true" name="deal_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="deal_pkey"/>
+            </column>
+            <column name="offer_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="player_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-12">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="src/main/resources/db/data/deal.csv"
+                  quotchar="&quot;" separator="," tableName="deal">
+            <column header="deal_id" name="deal_id" type="NUMERIC"/>
+            <column header="offer_id" name="offer_id" type="NUMERIC"/>
+            <column header="player_id" name="player_id" type="NUMERIC"/>
+            <column header="time" name="time" type="DATE"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-13">
+        <pro:createFunction functionName="make_new_deal" path="objects/function/make_new_deal-bcd8b0c2.sql"
+                            relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-14">
+        <createTable tableName="applied_effect">
+            <column name="effect_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="applied_effect_pkey"/>
+            </column>
+            <column name="player_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="applied_effect_pkey"/>
+            </column>
+            <column name="start_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="end_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-15">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="src/main/resources/db/data/applied_effect.csv"
+                  quotchar="&quot;" separator="," tableName="applied_effect">
+            <column header="effect_id" name="effect_id" type="NUMERIC"/>
+            <column header="player_id" name="player_id" type="NUMERIC"/>
+            <column header="start_time" name="start_time" type="DATE"/>
+            <column header="end_time" name="end_time" type="DATE"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-16">
         <createTable tableName="effect">
             <column autoIncrement="true" name="effect_id" type="INTEGER">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="effect_pkey"/>
@@ -156,7 +152,7 @@
             <column name="power" type="INTEGER"/>
         </createTable>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-15">
+    <changeSet author="Vladislav (generated)" id="1637784631729-17">
         <loadData commentLineStartsWith="#" encoding="UTF-8" file="src/main/resources/db/data/effect.csv"
                   quotchar="&quot;" separator="," tableName="effect">
             <column header="effect_id" name="effect_id" type="NUMERIC"/>
@@ -165,16 +161,7 @@
             <column header="power" name="power" type="NUMERIC"/>
         </loadData>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-16">
-        <createTable tableName="withdrawal">
-            <column autoIncrement="true" name="withdrawal_id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="withdrawal_pkey"/>
-            </column>
-            <column name="village_id" type="INTEGER"/>
-            <column name="player_id" type="BIGINT"/>
-        </createTable>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-17">
+    <changeSet author="Vladislav (generated)" id="1637784631729-18">
         <createTable tableName="offer">
             <column autoIncrement="true" name="offer_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="offer_pkey"/>
@@ -195,7 +182,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-18">
+    <changeSet author="Vladislav (generated)" id="1637784631729-19">
         <loadData commentLineStartsWith="#" encoding="UTF-8" file="src/main/resources/db/data/offer.csv"
                   quotchar="&quot;" separator="," tableName="offer">
             <column header="offer_id" name="offer_id" type="NUMERIC"/>
@@ -207,45 +194,7 @@
             <column header="needed_reputation_level" name="needed_reputation_level" type="NUMERIC"/>
         </loadData>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-19">
-        <createTable tableName="deal">
-            <column autoIncrement="true" name="deal_id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="deal_pkey"/>
-            </column>
-            <column name="offer_id" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="player_id" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="time" type="TIMESTAMP WITHOUT TIME ZONE"/>
-        </createTable>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-20">
-        <pro:createFunction functionName="make_new_deal" path="objects/function/make_new_deal-bcd8b0c2.sql"
-                            relativeToChangelogFile="true"/>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-21">
-        <pro:createFunction functionName="clear_inventory" path="objects/function/clear_inventory-bcd8b0c2.sql"
-                            relativeToChangelogFile="true"/>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-22">
-        <pro:createFunction functionName="give_kit_starter" path="objects/function/give_kit_starter-bcd8b0c2.sql"
-                            relativeToChangelogFile="true"/>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-23">
-        <createTable tableName="applied_effect">
-            <column name="effect_id" type="INTEGER">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="applied_effect_pkey"/>
-            </column>
-            <column name="player_id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="applied_effect_pkey"/>
-            </column>
-            <column name="start_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
-            <column name="end_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
-        </createTable>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-24">
+    <changeSet author="Vladislav (generated)" id="1637784631729-20">
         <createTable tableName="inventory">
             <column name="player_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="inventory_pkey"/>
@@ -256,7 +205,15 @@
             <column name="amount" type="INTEGER"/>
         </createTable>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-25">
+    <changeSet author="Vladislav (generated)" id="1637784631729-21">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="src/main/resources/db/data/inventory.csv"
+                  quotchar="&quot;" separator="," tableName="inventory">
+            <column header="player_id" name="player_id" type="NUMERIC"/>
+            <column header="item_id" name="item_id" type="NUMERIC"/>
+            <column header="amount" name="amount" type="NUMERIC"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-22">
         <createTable tableName="kit_composition">
             <column name="kit_id" type="INTEGER">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="kit_composition_pkey"/>
@@ -267,7 +224,7 @@
             <column name="amount" type="INTEGER"/>
         </createTable>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-26">
+    <changeSet author="Vladislav (generated)" id="1637784631729-23">
         <loadData commentLineStartsWith="#" encoding="UTF-8" file="src/main/resources/db/data/kit_composition.csv"
                   quotchar="&quot;" separator="," tableName="kit_composition">
             <column header="kit_id" name="kit_id" type="NUMERIC"/>
@@ -275,7 +232,24 @@
             <column header="amount" name="amount" type="NUMERIC"/>
         </loadData>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-27">
+    <changeSet author="Vladislav (generated)" id="1637784631729-24">
+        <createTable tableName="kit">
+            <column autoIncrement="true" name="kit_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="kit_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-25">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="src/main/resources/db/data/kit.csv" quotchar="&quot;"
+                  separator="," tableName="kit">
+            <column header="kit_id" name="kit_id" type="NUMERIC"/>
+            <column header="name" name="name" type="STRING"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-26">
         <createTable tableName="kit_obtainment">
             <column name="player_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="kit_obtainment_pkey"/>
@@ -286,7 +260,79 @@
             <column name="last_obtainment" type="TIMESTAMP WITHOUT TIME ZONE"/>
         </createTable>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-28">
+    <changeSet author="Vladislav (generated)" id="1637784631729-27">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="src/main/resources/db/data/kit_obtainment.csv"
+                  quotchar="&quot;" separator="," tableName="kit_obtainment">
+            <column header="player_id" name="player_id" type="NUMERIC"/>
+            <column header="kit_id" name="kit_id" type="NUMERIC"/>
+            <column header="last_obtainment" name="last_obtainment" type="DATE"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-28">
+        <addPrimaryKey columnNames="reputation_level_id" constraintName="reputation_level_pkey"
+                       tableName="reputation_level"/>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-29">
+        <createTable tableName="villager">
+            <column autoIncrement="true" name="villager_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="villager_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="profession_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="village_id" type="INTEGER"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-30">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="src/main/resources/db/data/villager.csv"
+                  quotchar="&quot;" separator="," tableName="villager">
+            <column header="villager_id" name="villager_id" type="NUMERIC"/>
+            <column header="name" name="name" type="STRING"/>
+            <column header="profession_id" name="profession_id" type="NUMERIC"/>
+            <column header="village_id" name="village_id" type="NUMERIC"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-31">
+        <createTable tableName="raid">
+            <column autoIncrement="true" name="raid_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="raid_pkey"/>
+            </column>
+            <column name="village_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="end_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-32">
+        <createTable tableName="village">
+            <column autoIncrement="true" name="village_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="village_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="x_coordinate" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="z_coordinate" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-33">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="src/main/resources/db/data/village.csv"
+                  quotchar="&quot;" separator="," tableName="village">
+            <column header="village_id" name="village_id" type="NUMERIC"/>
+            <column header="name" name="name" type="STRING"/>
+            <column header="x_coordinate" name="x_coordinate" type="NUMERIC"/>
+            <column header="z_coordinate" name="z_coordinate" type="NUMERIC"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-34">
         <createTable tableName="withdrawal_composition">
             <column name="withdrawal_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="withdrawal_composition_pkey"/>
@@ -297,110 +343,104 @@
             <column name="amount" type="INTEGER"/>
         </createTable>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-29">
+    <changeSet author="Vladislav (generated)" id="1637784631729-35">
+        <loadData commentLineStartsWith="#" encoding="UTF-8"
+                  file="src/main/resources/db/data/withdrawal_composition.csv" quotchar="&quot;" separator=","
+                  tableName="withdrawal_composition">
+            <column header="withdrawal_id" name="withdrawal_id" type="NUMERIC"/>
+            <column header="item_id" name="item_id" type="NUMERIC"/>
+            <column header="amount" name="amount" type="NUMERIC"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-36">
+        <createTable tableName="profession">
+            <column autoIncrement="true" name="profession_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="profession_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-37">
+        <loadData commentLineStartsWith="#" encoding="UTF-8" file="src/main/resources/db/data/profession.csv"
+                  quotchar="&quot;" separator="," tableName="profession">
+            <column header="profession_id" name="profession_id" type="NUMERIC"/>
+            <column header="name" name="name" type="STRING"/>
+        </loadData>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-38">
         <addForeignKeyConstraint baseColumnNames="item_id" baseTableName="inventory"
                                  constraintName="inventory_item_id_fkey" deferrable="false" initiallyDeferred="false"
                                  onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="item_id"
                                  referencedTableName="item" validate="true"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-30">
+    <changeSet author="Vladislav (generated)" id="1637784631729-39">
         <addForeignKeyConstraint baseColumnNames="item_id" baseTableName="kit_composition"
                                  constraintName="kit_composition_item_id_fkey" deferrable="false"
                                  initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
                                  referencedColumnNames="item_id" referencedTableName="item" validate="true"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-31">
+    <changeSet author="Vladislav (generated)" id="1637784631729-40">
         <addForeignKeyConstraint baseColumnNames="buying_item_id" baseTableName="offer"
                                  constraintName="offer_buying_item_id_fkey" deferrable="false" initiallyDeferred="false"
                                  onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="item_id"
                                  referencedTableName="item" validate="true"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-32">
+    <changeSet author="Vladislav (generated)" id="1637784631729-41">
         <addForeignKeyConstraint baseColumnNames="selling_item_id" baseTableName="offer"
                                  constraintName="offer_selling_item_id_fkey" deferrable="false"
                                  initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
                                  referencedColumnNames="item_id" referencedTableName="item" validate="true"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-33">
+    <changeSet author="Vladislav (generated)" id="1637784631729-42">
         <addForeignKeyConstraint baseColumnNames="item_id" baseTableName="withdrawal_composition"
                                  constraintName="withdrawal_composition_item_id_fkey" deferrable="false"
                                  initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
                                  referencedColumnNames="item_id" referencedTableName="item" validate="true"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-34">
+    <changeSet author="Vladislav (generated)" id="1637784631729-43">
         <addUniqueConstraint columnNames="name" constraintName="item_name_key" tableName="item"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-35">
+    <changeSet author="Vladislav (generated)" id="1637784631729-44">
         <addForeignKeyConstraint baseColumnNames="player_id" baseTableName="applied_effect"
                                  constraintName="applied_effect_player_id_fkey" deferrable="false"
                                  initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION"
                                  referencedColumnNames="player_id" referencedTableName="player" validate="true"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-36">
+    <changeSet author="Vladislav (generated)" id="1637784631729-45">
         <addForeignKeyConstraint baseColumnNames="player_id" baseTableName="deal" constraintName="deal_player_id_fkey"
                                  deferrable="false" initiallyDeferred="false" onDelete="SET NULL" onUpdate="NO ACTION"
                                  referencedColumnNames="player_id" referencedTableName="player" validate="true"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-37">
+    <changeSet author="Vladislav (generated)" id="1637784631729-46">
         <addForeignKeyConstraint baseColumnNames="player_id" baseTableName="inventory"
                                  constraintName="inventory_player_id_fkey" deferrable="false" initiallyDeferred="false"
                                  onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="player_id"
                                  referencedTableName="player" validate="true"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-38">
+    <changeSet author="Vladislav (generated)" id="1637784631729-47">
         <addForeignKeyConstraint baseColumnNames="player_id" baseTableName="kit_obtainment"
                                  constraintName="kit_obtainment_player_id_fkey" deferrable="false"
                                  initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION"
                                  referencedColumnNames="player_id" referencedTableName="player" validate="true"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-39">
+    <changeSet author="Vladislav (generated)" id="1637784631729-48">
         <addForeignKeyConstraint baseColumnNames="player_id" baseTableName="trading_reputation"
                                  constraintName="trading_reputation_player_id_fkey" deferrable="false"
                                  initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION"
                                  referencedColumnNames="player_id" referencedTableName="player" validate="true"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-40">
+    <changeSet author="Vladislav (generated)" id="1637784631729-49">
         <addForeignKeyConstraint baseColumnNames="player_id" baseTableName="withdrawal"
                                  constraintName="withdrawal_player_id_fkey" deferrable="false" initiallyDeferred="false"
                                  onDelete="SET NULL" onUpdate="NO ACTION" referencedColumnNames="player_id"
                                  referencedTableName="player" validate="true"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-41">
+    <changeSet author="Vladislav (generated)" id="1637784631729-50">
         <addUniqueConstraint columnNames="username" constraintName="player_username_key" tableName="player"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-42">
-        <addForeignKeyConstraint baseColumnNames="village_id" baseTableName="raid" constraintName="raid_village_id_fkey"
-                                 deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION"
-                                 referencedColumnNames="village_id" referencedTableName="village" validate="true"/>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-43">
-        <addForeignKeyConstraint baseColumnNames="village_id" baseTableName="villager"
-                                 constraintName="villager_village_id_fkey" deferrable="false" initiallyDeferred="false"
-                                 onDelete="SET NULL" onUpdate="NO ACTION" referencedColumnNames="village_id"
-                                 referencedTableName="village" validate="true"/>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-44">
-        <addForeignKeyConstraint baseColumnNames="village_id" baseTableName="withdrawal"
-                                 constraintName="withdrawal_village_id_fkey" deferrable="false"
-                                 initiallyDeferred="false" onDelete="SET NULL" onUpdate="NO ACTION"
-                                 referencedColumnNames="village_id" referencedTableName="village" validate="true"/>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-45">
-        <addUniqueConstraint columnNames="name" constraintName="profession_name_key" tableName="profession"/>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-46">
-        <addForeignKeyConstraint baseColumnNames="villager_id" baseTableName="offer"
-                                 constraintName="offer_villager_id_fkey" deferrable="false" initiallyDeferred="false"
-                                 onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="villager_id"
-                                 referencedTableName="villager" validate="true"/>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-47">
-        <addForeignKeyConstraint baseColumnNames="villager_id" baseTableName="trading_reputation"
-                                 constraintName="trading_reputation_villager_id_fkey" deferrable="false"
-                                 initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION"
-                                 referencedColumnNames="villager_id" referencedTableName="villager" validate="true"/>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-48">
+    <changeSet author="Vladislav (generated)" id="1637784631729-51">
         <createTable tableName="reputation_level">
             <column autoIncrement="true" name="reputation_level_id" type="INTEGER">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="reputation_level_pkey"/>
@@ -411,7 +451,7 @@
             <column name="needed_reputation" type="INTEGER"/>
         </createTable>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-50">
+    <changeSet author="Vladislav (generated)" id="1637784631729-52">
         <loadData commentLineStartsWith="#" encoding="UTF-8" file="src/main/resources/db/data/reputation_level.csv"
                   quotchar="&quot;" separator="," tableName="reputation_level">
             <column header="reputation_level_id" name="reputation_level_id" type="NUMERIC"/>
@@ -419,84 +459,116 @@
             <column header="needed_reputation" name="needed_reputation" type="NUMERIC"/>
         </loadData>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-51">
-        <addForeignKeyConstraint baseColumnNames="kit_id" baseTableName="kit_composition"
-                                 constraintName="kit_composition_kit_id_fkey" deferrable="false"
+    <changeSet author="Vladislav (generated)" id="1637784631729-53">
+        <addForeignKeyConstraint baseColumnNames="villager_id" baseTableName="trading_reputation"
+                                 constraintName="trading_reputation_villager_id_fkey" deferrable="false"
                                  initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION"
-                                 referencedColumnNames="kit_id" referencedTableName="kit" validate="true"/>
+                                 referencedColumnNames="villager_id" referencedTableName="villager" validate="true"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-52">
-        <addForeignKeyConstraint baseColumnNames="kit_id" baseTableName="kit_obtainment"
-                                 constraintName="kit_obtainment_kit_id_fkey" deferrable="false"
-                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
-                                 referencedColumnNames="kit_id" referencedTableName="kit" validate="true"/>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-53">
-        <addUniqueConstraint columnNames="name" constraintName="kit_name_key" tableName="kit"/>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-54">
-        <addForeignKeyConstraint baseColumnNames="effect_id" baseTableName="applied_effect"
-                                 constraintName="applied_effect_effect_id_fkey" deferrable="false"
-                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
-                                 referencedColumnNames="effect_id" referencedTableName="effect" validate="true"/>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-55">
-        <addUniqueConstraint columnNames="name" constraintName="effect_name_key" tableName="effect"/>
-    </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-56">
+    <changeSet author="Vladislav (generated)" id="1637784631729-54">
         <addForeignKeyConstraint baseColumnNames="withdrawal_id" baseTableName="withdrawal_composition"
                                  constraintName="withdrawal_composition_withdrawal_id_fkey" deferrable="false"
                                  initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION"
                                  referencedColumnNames="withdrawal_id" referencedTableName="withdrawal"
                                  validate="true"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-57">
+    <changeSet author="Vladislav (generated)" id="1637784631729-55">
+        <addForeignKeyConstraint baseColumnNames="village_id" baseTableName="withdrawal"
+                                 constraintName="withdrawal_village_id_fkey" deferrable="false"
+                                 initiallyDeferred="false" onDelete="SET NULL" onUpdate="NO ACTION"
+                                 referencedColumnNames="village_id" referencedTableName="village" validate="true"/>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-56">
         <addForeignKeyConstraint baseColumnNames="offer_id" baseTableName="deal" constraintName="deal_offer_id_fkey"
                                  deferrable="false" initiallyDeferred="false" onDelete="SET NULL" onUpdate="NO ACTION"
                                  referencedColumnNames="offer_id" referencedTableName="offer" validate="true"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-58">
+    <changeSet author="Vladislav (generated)" id="1637784631729-57">
+        <addForeignKeyConstraint baseColumnNames="effect_id" baseTableName="applied_effect"
+                                 constraintName="applied_effect_effect_id_fkey" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="effect_id" referencedTableName="effect" validate="true"/>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-58">
+        <addUniqueConstraint columnNames="name" constraintName="effect_name_key" tableName="effect"/>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-59">
         <addForeignKeyConstraint baseColumnNames="needed_reputation_level" baseTableName="offer"
                                  constraintName="offer_needed_reputation_level_fkey" deferrable="false"
                                  initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
                                  referencedColumnNames="reputation_level_id" referencedTableName="reputation_level"
                                  validate="true"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-59">
+    <changeSet author="Vladislav (generated)" id="1637784631729-60">
+        <addForeignKeyConstraint baseColumnNames="villager_id" baseTableName="offer"
+                                 constraintName="offer_villager_id_fkey" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="villager_id"
+                                 referencedTableName="villager" validate="true"/>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-61">
+        <addForeignKeyConstraint baseColumnNames="kit_id" baseTableName="kit_composition"
+                                 constraintName="kit_composition_kit_id_fkey" deferrable="false"
+                                 initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION"
+                                 referencedColumnNames="kit_id" referencedTableName="kit" validate="true"/>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-62">
+        <addForeignKeyConstraint baseColumnNames="kit_id" baseTableName="kit_obtainment"
+                                 constraintName="kit_obtainment_kit_id_fkey" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="kit_id" referencedTableName="kit" validate="true"/>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-63">
+        <addUniqueConstraint columnNames="name" constraintName="kit_name_key" tableName="kit"/>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-64">
+        <addForeignKeyConstraint baseColumnNames="village_id" baseTableName="villager"
+                                 constraintName="villager_village_id_fkey" deferrable="false" initiallyDeferred="false"
+                                 onDelete="SET NULL" onUpdate="NO ACTION" referencedColumnNames="village_id"
+                                 referencedTableName="village" validate="true"/>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-65">
+        <addForeignKeyConstraint baseColumnNames="village_id" baseTableName="raid" constraintName="raid_village_id_fkey"
+                                 deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION"
+                                 referencedColumnNames="village_id" referencedTableName="village" validate="true"/>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-66">
+        <addUniqueConstraint columnNames="name" constraintName="profession_name_key" tableName="profession"/>
+    </changeSet>
+    <changeSet author="Vladislav (generated)" id="1637784631729-67">
         <addUniqueConstraint columnNames="name" constraintName="reputation_level_name_key"
                              tableName="reputation_level"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-60">
+    <changeSet author="Vladislav (generated)" id="1637784631729-68">
         <pro:createFunction functionName="add_reputation" path="objects/function/add_reputation-ed2c76ac.sql"
                             relativeToChangelogFile="true"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-61">
+    <changeSet author="Vladislav (generated)" id="1637784631729-69">
         <pro:createFunction functionName="check_player_items_availability"
                             path="objects/function/check_player_items_availability-ed2c76ac.sql"
                             relativeToChangelogFile="true"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-62">
+    <changeSet author="Vladislav (generated)" id="1637784631729-70">
         <pro:createFunction functionName="check_players_trading_reputation"
                             path="objects/function/check_players_trading_reputation-ed2c76ac.sql"
                             relativeToChangelogFile="true"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-63">
+    <changeSet author="Vladislav (generated)" id="1637784631729-71">
         <pro:createFunction functionName="exchange" path="objects/function/exchange-ed2c76ac.sql"
                             relativeToChangelogFile="true"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-64">
+    <changeSet author="Vladislav (generated)" id="1637784631729-72">
         <pro:createFunction functionName="give_kit" path="objects/function/give_kit-8a4b20f2.sql"
                             relativeToChangelogFile="true"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-65">
+    <changeSet author="Vladislav (generated)" id="1637784631729-73">
         <pro:createTrigger disabled="false" path="objects/trigger/clear_inventory.sql" relativeToChangelogFile="true"
                            tableName="withdrawal" triggerName="clear_inventory"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-66">
+    <changeSet author="Vladislav (generated)" id="1637784631729-74">
         <pro:createTrigger disabled="false" path="objects/trigger/give_kit_starter.sql" relativeToChangelogFile="true"
                            tableName="player" triggerName="give_kit_starter"/>
     </changeSet>
-    <changeSet author="Vladislav (generated)" id="1636984275245-67">
+    <changeSet author="Vladislav (generated)" id="1637784631729-75">
         <pro:createTrigger disabled="false" path="objects/trigger/make_new_deal.sql" relativeToChangelogFile="true"
                            tableName="deal" triggerName="make_new_deal"/>
     </changeSet>
