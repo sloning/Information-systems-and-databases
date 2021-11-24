@@ -1,6 +1,6 @@
 package com.isbd.service.auth;
 
-import com.isbd.dto.UserDto;
+import com.isbd.dto.LoginDto;
 import com.isbd.model.Player;
 
 import java.util.Map;
@@ -12,7 +12,7 @@ public interface AuthService {
 
     boolean isPlayerExists(String username);
 
-    Map<String, String> login(UserDto userDTO);
+    Map<String, String> login(LoginDto loginDto);
 
-    Map<String, String> register(UserDto userDTO);
+    Map<String, String> register(LoginDto loginDto);
 }

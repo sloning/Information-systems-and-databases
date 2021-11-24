@@ -1,6 +1,6 @@
 package com.isbd.service.auth;
 
-import com.isbd.dto.UserDto;
+import com.isbd.dto.LoginDto;
 import com.isbd.exception.EntityAlreadyExists;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.Player;
@@ -40,20 +40,20 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Map<String, String> login(UserDto userDTO) {
-        Player player = getByUsernameAndPassword(userDTO.getUsername(), userDTO.getPassword());
+    public Map<String, String> login(LoginDto loginDTO) {
+        Player player = getByUsernameAndPassword(loginDTO.getUsername(), loginDTO.getPassword());
 
         return getToken(player.getId());
     }
 
     @Override
-    public Map<String, String> register(UserDto userDTO) {
-        if (isPlayerExists(userDTO.getUsername()))
+    public Map<String, String> register(LoginDto loginDto) {
+        if (isPlayerExists(loginDto.getUsername()))
             throw new EntityAlreadyExists("Пользователь с таким именем уже зарегестрирован");
 
         Player player = new Player();
-        player.setUsername(userDTO.getUsername());
-        player.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
+        player.setUsername(loginDto.getUsername());
+        player.setPassword(bCryptPasswordEncoder.encode(loginDto.getPassword()));
         playerRepository.save(player);
         player = getPlayerByUsername(player.getUsername());
 

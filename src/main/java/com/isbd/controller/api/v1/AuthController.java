@@ -1,6 +1,6 @@
 package com.isbd.controller.api.v1;
 
-import com.isbd.dto.UserDto;
+import com.isbd.dto.LoginDto;
 import com.isbd.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -21,12 +21,12 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@Valid @RequestBody final UserDto userDTO) {
-        return ResponseEntity.ok(authService.login(userDTO));
+    public ResponseEntity<Map<String, String>> login(@Valid @RequestBody final LoginDto loginDto) {
+        return ResponseEntity.ok(authService.login(loginDto));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Map<String, String>> register(@Valid @RequestBody final UserDto userDTO) {
-        return ResponseEntity.ok(authService.register(userDTO));
+    public ResponseEntity<Map<String, String>> register(@Valid @RequestBody final LoginDto loginDto) {
+        return ResponseEntity.ok(authService.register(loginDto));
     }
 }
