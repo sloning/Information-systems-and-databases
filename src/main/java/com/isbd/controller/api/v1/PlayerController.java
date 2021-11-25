@@ -1,7 +1,7 @@
 package com.isbd.controller.api.v1;
 
 import com.isbd.dto.PlayerDto;
-import com.isbd.service.player.PlayerService;
+import com.isbd.service.PlayerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.isbd.service.raid;
+package com.isbd.service;
 
 import com.isbd.dto.RaidDto;
 import com.isbd.exception.EntityNotFoundException;
@@ -8,8 +8,6 @@ import com.isbd.model.Village;
 import com.isbd.repository.RaidRepository;
 import com.isbd.repository.VillageRepository;
 import com.isbd.security.AuthenticationFacade;
-import com.isbd.service.effect.AppliedEffectService;
-import com.isbd.service.inventory.InventoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +17,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class RaidServiceImpl implements RaidService {
+public class RaidService {
     private final RaidRepository raidRepository;
     private final VillageRepository villageRepository;
     private final AppliedEffectService appliedEffectService;
     private final InventoryService inventoryService;
     private final AuthenticationFacade authenticationFacade;
 
-    @Override
     public void createRaid() {
         if (Math.random() < 0.7) return;
 
@@ -43,13 +40,11 @@ public class RaidServiceImpl implements RaidService {
         raidRepository.save(raid);
     }
 
-    @Override
     public List<Raid> getRaids() {
         createRaid();
         return raidRepository.getAll();
     }
 
-    @Override
     public RaidDto fightRaid(int raidId) {
         long playerId = authenticationFacade.getPlayerId();
         AppliedEffect appliedEffect;

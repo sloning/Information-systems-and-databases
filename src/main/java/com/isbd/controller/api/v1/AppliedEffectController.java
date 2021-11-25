@@ -1,7 +1,7 @@
 package com.isbd.controller.api.v1;
 
 import com.isbd.model.AppliedEffect;
-import com.isbd.service.effect.AppliedEffectService;
+import com.isbd.service.AppliedEffectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

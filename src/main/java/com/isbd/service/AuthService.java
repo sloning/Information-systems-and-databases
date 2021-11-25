@@ -1,4 +1,4 @@
-package com.isbd.service.auth;
+package com.isbd.service;
 
 import com.isbd.dto.LoginDto;
 import com.isbd.exception.EntityAlreadyExists;
@@ -15,18 +15,16 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class AuthServiceImpl implements AuthService {
+public class AuthService {
     private final PlayerRepository playerRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Override
     public Player getPlayerByUsername(String username) {
         return playerRepository.getByUsername(username).orElseThrow(() ->
                 new EntityNotFoundException("Пользователь не найден"));
     }
 
-    @Override
     public Player getByUsernameAndPassword(String username, String password) {
         Player player = getPlayerByUsername(username);
 
@@ -34,19 +32,16 @@ public class AuthServiceImpl implements AuthService {
         throw new EntityNotFoundException("Неверный пароль");
     }
 
-    @Override
     public boolean isPlayerExists(String username) {
         return playerRepository.getByUsername(username).isPresent();
     }
 
-    @Override
     public Map<String, String> login(LoginDto loginDTO) {
         Player player = getByUsernameAndPassword(loginDTO.getUsername(), loginDTO.getPassword());
 
         return getToken(player.getId());
     }
 
-    @Override
     public Map<String, String> register(LoginDto loginDto) {
         if (isPlayerExists(loginDto.getUsername()))
             throw new EntityAlreadyExists("Пользователь с таким именем уже зарегестрирован");

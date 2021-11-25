@@ -2,7 +2,7 @@ package com.isbd.controller.api.v1;
 
 import com.isbd.dto.OfferDto;
 import com.isbd.model.Offer;
-import com.isbd.service.offer.OfferService;
+import com.isbd.service.OfferService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;

@@ -1,4 +1,4 @@
-package com.isbd.service.villager;
+package com.isbd.service;
 
 import com.isbd.dto.VillagerDto;
 import com.isbd.exception.EntityNotFoundException;
@@ -9,7 +9,6 @@ import com.isbd.repository.ReputationLevelRepository;
 import com.isbd.repository.TradingReputationRepository;
 import com.isbd.repository.VillagerRepository;
 import com.isbd.security.AuthenticationFacade;
-import com.isbd.service.offer.OfferService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,25 +18,22 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class VillagerServiceImpl implements VillagerService {
+public class VillagerService {
     private final VillagerRepository villagerRepository;
     private final OfferService offerService;
     private final ReputationLevelRepository reputationLevelRepository;
     private final AuthenticationFacade authenticationFacade;
     private final TradingReputationRepository tradingReputationRepository;
 
-    @Override
     public List<Villager> getVillagers(int limit, int offset) {
         return villagerRepository.getAll();
     }
 
-    @Override
     public Villager getVillager(int id) {
         return villagerRepository.get(id).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Житель с идентификатором %d не найден", id)));
     }
 
-    @Override
     public List<Villager> getVillagersOfVillage(int villageId, int limit, int offset) {
         List<Villager> villagers = villagerRepository.getVillagersByVillage(villageId);
         if (villagers.isEmpty()) throw new EntityNotFoundException(
@@ -45,7 +41,6 @@ public class VillagerServiceImpl implements VillagerService {
         return villagers;
     }
 
-    @Override
     public List<VillagerDto> getVillagersWithExtraData(int villageId, int limit, int offset) {
         List<VillagerDto> villagerDtos = new ArrayList<>();
         List<Villager> villagers = getVillagersOfVillage(villageId, Integer.MAX_VALUE, 0);

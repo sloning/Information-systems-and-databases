@@ -1,7 +1,7 @@
 package com.isbd.security.jwt;
 
 import com.isbd.model.Player;
-import com.isbd.service.auth.AuthService;
+import com.isbd.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

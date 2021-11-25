@@ -1,11 +1,11 @@
-package com.isbd.service.player;
+package com.isbd.service;
 
 import com.isbd.dto.PlayerDto;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.InventoryItem;
 import com.isbd.model.Player;
 import com.isbd.repository.InventoryRepository;
-import com.isbd.repository.Repository;
+import com.isbd.repository.PlayerRepository;
 import com.isbd.security.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,12 +15,11 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class PlayerServiceImpl implements PlayerService {
-    private final Repository<Player> playerRepository;
+public class PlayerService {
+    private final PlayerRepository playerRepository;
     private final AuthenticationFacade authenticationFacade;
     private final InventoryRepository inventoryRepository;
 
-    @Override
     public PlayerDto getPlayer() {
         long playerId = authenticationFacade.getPlayerId();
         Player player = playerRepository.get(playerId).orElseThrow(() ->

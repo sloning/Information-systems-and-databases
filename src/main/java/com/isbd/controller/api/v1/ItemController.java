@@ -1,7 +1,7 @@
 package com.isbd.controller.api.v1;
 
 import com.isbd.model.Item;
-import com.isbd.service.item.ItemService;
+import com.isbd.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

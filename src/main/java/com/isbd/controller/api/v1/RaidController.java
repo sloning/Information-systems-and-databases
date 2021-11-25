@@ -2,7 +2,7 @@ package com.isbd.controller.api.v1;
 
 import com.isbd.dto.RaidDto;
 import com.isbd.model.Raid;
-import com.isbd.service.raid.RaidService;
+import com.isbd.service.RaidService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

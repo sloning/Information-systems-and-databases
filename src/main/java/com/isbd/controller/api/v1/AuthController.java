@@ -1,7 +1,7 @@
 package com.isbd.controller.api.v1;
 
 import com.isbd.dto.LoginDto;
-import com.isbd.service.auth.AuthService;
+import com.isbd.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

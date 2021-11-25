@@ -1,4 +1,4 @@
-package com.isbd.service.offer;
+package com.isbd.service;
 
 import com.isbd.dto.OfferDto;
 import com.isbd.exception.EntityNotFoundException;
@@ -7,8 +7,6 @@ import com.isbd.model.InventoryItem;
 import com.isbd.model.Offer;
 import com.isbd.repository.OfferRepository;
 import com.isbd.security.AuthenticationFacade;
-import com.isbd.service.effect.AppliedEffectService;
-import com.isbd.service.inventory.InventoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,37 +15,34 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class OfferServiceImpl implements OfferService {
+public class OfferService {
     private final OfferRepository offerRepository;
     private final AppliedEffectService appliedEffectService;
     private final InventoryService inventoryService;
     private final AuthenticationFacade authenticationFacade;
 
-    @Override
     public List<Offer> getOffers(int limit, int offset) {
         return offerRepository.getAllWithPagination(offset, limit);
     }
 
-    @Override
     public Offer getOffer(long id) {
         return offerRepository.get(id).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Предложение с идентификатором %d не найден", id)));
     }
 
     // TODO добавить предмет продажи
-    @Override
     public List<OfferDto> getOffers(Integer itemId, Integer amount, Integer villagerId, Integer reputationLevel,
                                     int limit, int offset) {
         List<Offer> offers = getFilteredOffers(itemId, amount, villagerId, reputationLevel, limit, offset);
         return convertToDtoList(offers);
     }
 
-    @Override
     public long getAmountOfOffersByVillagerIdAndReputationLevel(int villagerId, int reputationLevel) {
         return offerRepository.getOffersByVillagerIdAndReputationLevel(villagerId, reputationLevel,
                 Integer.MAX_VALUE, 0).size();
     }
 
+    // TODO factory + special class
     private List<Offer> getFilteredOffers(Integer itemId, Integer amount, Integer villagerId, Integer reputationLevel,
                                           int limit, int offset) {
         if (itemId != null && amount != null && villagerId != null && reputationLevel != null) {
@@ -84,7 +79,7 @@ public class OfferServiceImpl implements OfferService {
         return null;
     }
 
-    // TODO fabric?
+    // TODO factory?
     private List<OfferDto> convertToDtoList(List<Offer> offers) {
         List<OfferDto> offerDtos = new ArrayList<>();
         long playerId = authenticationFacade.getPlayerId();

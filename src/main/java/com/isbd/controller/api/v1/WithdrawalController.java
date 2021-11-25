@@ -1,7 +1,7 @@
 package com.isbd.controller.api.v1;
 
 import com.isbd.model.Withdrawal;
-import com.isbd.service.withdrawal.WithdrawalService;
+import com.isbd.service.WithdrawalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

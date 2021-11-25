@@ -2,7 +2,7 @@ package com.isbd.repository;
 
 import com.isbd.model.InventoryItem;
 import com.isbd.model.Item;
-import com.isbd.service.item.ItemService;
+import com.isbd.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
