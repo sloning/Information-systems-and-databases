@@ -29,7 +29,7 @@ services:
     restart: always
     network_mode: bridge
     ports:
-      - "443:8080"
+      - "443:8443"
     depends_on:
       - isbd_postgres_db
     links:
