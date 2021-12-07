@@ -2,6 +2,7 @@ package com.isbd.service;
 
 import com.isbd.dto.VillageDto;
 import com.isbd.exception.EntityNotFoundException;
+import com.isbd.model.Pageable;
 import com.isbd.model.Village;
 import com.isbd.repository.VillageRepository;
 import com.isbd.service.mapper.VillageMapper;
@@ -18,12 +19,12 @@ public class VillageService {
     private final VillageRepository villageRepository;
     private final VillageMapper villageMapper;
 
-    public List<Village> getVillages(int limit, int offset) {
-        return villageRepository.getAll(limit, offset);
+    public List<Village> getVillages(Pageable pageable) {
+        return villageRepository.getAll(pageable);
     }
 
-    public List<VillageDto> getVillagesWithExtraData(int limit, int offset) {
-        return getVillages(limit, offset).stream().map(villageMapper::createFrom).collect(Collectors.toList());
+    public List<VillageDto> getVillagesWithExtraData(Pageable pageable) {
+        return getVillages(pageable).stream().map(villageMapper::createFrom).collect(Collectors.toList());
     }
 
     public Village getVillage(int id) {
@@ -48,7 +49,7 @@ public class VillageService {
     }
 
     private List<Village> getValidatedVillages() {
-        List<Village> villages = new ArrayList<>(villageRepository.getAll(Integer.MAX_VALUE, 0));
+        List<Village> villages = new ArrayList<>(villageRepository.getAll(new Pageable(-1, -1)));
         if (villages.isEmpty()) {
             throw new EntityNotFoundException("Деревень не существует");
         }

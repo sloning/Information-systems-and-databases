@@ -2,6 +2,7 @@ package com.isbd.controller.api.v1;
 
 import com.isbd.dto.VillageDto;
 import com.isbd.dto.VillagerDto;
+import com.isbd.model.Pageable;
 import com.isbd.model.Village;
 import com.isbd.model.Villager;
 import com.isbd.service.VillageService;
@@ -22,15 +23,15 @@ public class VillageController {
     private final VillagerService villagerService;
 
     @GetMapping()
-    public ResponseEntity<List<Village>> getVillages(@RequestParam(defaultValue = "25") final int limit,
-                                                     @RequestParam(defaultValue = "0") final int offset) {
-        return ResponseEntity.ok(villageService.getVillages(limit, offset));
+    public ResponseEntity<List<Village>> getVillages(@RequestParam(defaultValue = "0") final int page,
+                                                     @RequestParam(defaultValue = "25") final int size) {
+        return ResponseEntity.ok(villageService.getVillages(new Pageable(page, size)));
     }
 
     @GetMapping("/villagesWithExtraData")
-    public ResponseEntity<List<VillageDto>> getVillagesWithExtraData(@RequestParam(defaultValue = "25") final int limit,
-                                                                     @RequestParam(defaultValue = "0") final int offset) {
-        return ResponseEntity.ok(villageService.getVillagesWithExtraData(limit, offset));
+    public ResponseEntity<List<VillageDto>> getVillagesWithExtraData(@RequestParam(defaultValue = "0") final int page,
+                                                                     @RequestParam(defaultValue = "25") final int size) {
+        return ResponseEntity.ok(villageService.getVillagesWithExtraData(new Pageable(page, size)));
     }
 
     @GetMapping("/{villageId}")
@@ -40,16 +41,16 @@ public class VillageController {
 
     @GetMapping("/{villageId}/villagers")
     public ResponseEntity<List<Villager>> getVillagersOfVillage(@PathVariable final int villageId,
-                                                                @RequestParam(defaultValue = "0") final int offset,
-                                                                @RequestParam(defaultValue = "25") final int limit) {
-        return ResponseEntity.ok(villagerService.getVillagersOfVillage(villageId, offset, limit));
+                                                                @RequestParam(defaultValue = "0") final int page,
+                                                                @RequestParam(defaultValue = "25") final int size) {
+        return ResponseEntity.ok(villagerService.getVillagersOfVillage(villageId, new Pageable(page, size)));
     }
 
     @GetMapping("/{villageId}/villagersWithExtraData")
     public ResponseEntity<List<VillagerDto>> villagersWithExtraData(@PathVariable final int villageId,
-                                                                    @RequestParam(defaultValue = "0") final int offset,
-                                                                    @RequestParam(defaultValue = "25") final int limit) {
-        return ResponseEntity.ok(villagerService.getVillagersWithExtraData(villageId, offset, limit));
+                                                                    @RequestParam(defaultValue = "0") final int page,
+                                                                    @RequestParam(defaultValue = "25") final int size) {
+        return ResponseEntity.ok(villagerService.getVillagersWithExtraData(villageId, new Pageable(page, size)));
     }
 
     @GetMapping("/nearest")

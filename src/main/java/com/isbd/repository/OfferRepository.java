@@ -3,6 +3,7 @@ package com.isbd.repository;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.Item;
 import com.isbd.model.Offer;
+import com.isbd.model.Pageable;
 import com.isbd.model.ReputationLevel;
 import com.isbd.service.ItemService;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,12 @@ public class OfferRepository {
         return jdbcTemplate.query(sql, this::mapRowToOffer);
     }
 
+    public List<Offer> getAll(Pageable pageable) {
+        String sql = "select * from offer limit ? offset ?";
+
+        return jdbcTemplate.query(sql, this::mapRowToOffer, pageable.getLimit(), pageable.getOffset());
+    }
+
     public int save(Offer offer) {
         String sql = "insert into offer(villager_id, selling_item_id, amount_of_selling_items, buying_item_id, " +
                 "amount_of_buying_items, needed_reputation_level) values(?, ?, ?, ?, ?, ?)";
@@ -55,23 +62,17 @@ public class OfferRepository {
         return jdbcTemplate.update("delete from offer where offer_id = ?", offer.getId());
     }
 
-    public List<Offer> getAllWithPagination(int limit, int offset) {
-        String sql = "select * from offer limit ? offset ?";
-
-        return jdbcTemplate.query(sql, this::mapRowToOffer, limit, offset);
-    }
-
-    public List<Offer> getOffersByVillagerId(int villagerId, int limit, int offset) {
+    public List<Offer> getOffersByVillagerId(int villagerId, Pageable pageable) {
         String sql = "select * from offer where villager_id = ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, this::mapRowToOffer, villagerId, limit, offset);
+        return jdbcTemplate.query(sql, this::mapRowToOffer, villagerId, pageable.getLimit(), pageable.getOffset());
     }
 
-    public List<Offer> getOffersByVillagerIdAndReputationLevel(int villagerId, int reputationLevel,
-                                                               int limit, int offset) {
+    public List<Offer> getOffersByVillagerIdAndReputationLevel(int villagerId, int reputationLevel, Pageable pageable) {
         String sql = "select * from offer where villager_id = ? and needed_reputation_level <= ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, this::mapRowToOffer, villagerId, reputationLevel, limit, offset);
+        return jdbcTemplate.query(sql, this::mapRowToOffer, villagerId, reputationLevel,
+                pageable.getLimit(), pageable.getOffset());
     }
 
     private Offer mapRowToOffer(ResultSet rs, int rowNum) throws SQLException {

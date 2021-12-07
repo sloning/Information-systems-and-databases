@@ -1,6 +1,7 @@
 package com.isbd.repository;
 
 import com.isbd.exception.EntityNotFoundException;
+import com.isbd.model.Pageable;
 import com.isbd.model.Profession;
 import com.isbd.model.Villager;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +25,10 @@ public class VillagerRepository {
         return jdbcTemplate.query(sql, ResultSetExtractorFactory.optionalExtractor(this::mapRowToVillager), id);
     }
 
-    public List<Villager> getAll(int limit, int offset) {
+    public List<Villager> getAll(Pageable pageable) {
         String sql = "select * from villager limit ? offset ?";
 
-        return jdbcTemplate.query(sql, this::mapRowToVillager, limit, offset);
+        return jdbcTemplate.query(sql, this::mapRowToVillager, pageable.getLimit(), pageable.getOffset());
     }
 
     public int save(Villager villager) {
@@ -46,10 +47,10 @@ public class VillagerRepository {
         return jdbcTemplate.update("delete from villager where village_id = ?", villager.getId());
     }
 
-    public List<Villager> getVillagersByVillage(int villageId, int limit, int offset) {
+    public List<Villager> getVillagersByVillage(int villageId, Pageable pageable) {
         String sql = "select * from villager where village_id = ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, this::mapRowToVillager, villageId, limit, offset);
+        return jdbcTemplate.query(sql, this::mapRowToVillager, villageId, pageable.getLimit(), pageable.getOffset());
     }
 
     public Villager mapRowToVillager(ResultSet rs, int rowNum) throws SQLException {

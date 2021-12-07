@@ -3,6 +3,7 @@ package com.isbd.service;
 import com.isbd.dto.RaidDto;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.AppliedEffect;
+import com.isbd.model.Pageable;
 import com.isbd.model.Raid;
 import com.isbd.model.Village;
 import com.isbd.repository.RaidRepository;
@@ -27,7 +28,7 @@ public class RaidService {
     private final AuthenticationFacade authenticationFacade;
 
     public void createRaid() {
-        List<Village> villages = villageRepository.getAll(Integer.MAX_VALUE, 0);
+        List<Village> villages = villageRepository.getAll(new Pageable(-1, -1));
         if (!canRaidBeCreated(villages)) {
             return;
         }

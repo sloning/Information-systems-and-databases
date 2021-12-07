@@ -1,5 +1,6 @@
 package com.isbd.repository;
 
+import com.isbd.model.Pageable;
 import com.isbd.model.Village;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,10 +22,10 @@ public class VillageRepository {
         return jdbcTemplate.query(sql, ResultSetExtractorFactory.optionalExtractor(this::mapRowToVillage), id);
     }
 
-    public List<Village> getAll(int limit, int offset) {
+    public List<Village> getAll(Pageable pageable) {
         String sql = "select * from village limit ? offset ?";
 
-        return jdbcTemplate.query(sql, this::mapRowToVillage, limit, offset);
+        return jdbcTemplate.query(sql, this::mapRowToVillage, pageable.getLimit(), pageable.getOffset());
     }
 
     public int save(Village village) {
