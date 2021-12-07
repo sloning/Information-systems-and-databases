@@ -5,7 +5,10 @@ import com.isbd.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -24,14 +27,5 @@ public class ItemController {
     @GetMapping("/{id}")
     public ResponseEntity<Item> getItem(@PathVariable final int id) {
         return ResponseEntity.ok(itemService.getItem(id));
-    }
-
-    @GetMapping(
-            value = "/{id}/icon",
-            produces = MediaType.IMAGE_PNG_VALUE
-    )
-    public @ResponseBody
-    byte[] getIcon(@PathVariable final int id) {
-        return itemService.getIcon(id);
     }
 }

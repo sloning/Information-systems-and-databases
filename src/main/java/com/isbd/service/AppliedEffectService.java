@@ -21,9 +21,9 @@ public class AppliedEffectService {
     private final AuthenticationFacade authenticationFacade;
 
     public AppliedEffect applyEffect(int effectId, long playerId) {
-        AppliedEffect appliedEffect = new AppliedEffect();
         Effect effect = effectRepository.get(effectId).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Эффект с идентификатором %d не найден", effectId)));
+        AppliedEffect appliedEffect = new AppliedEffect();
         appliedEffect.setId(effect.getId());
         appliedEffect.setPlayerId(playerId);
         appliedEffect.setName(effect.getName());
@@ -36,8 +36,9 @@ public class AppliedEffectService {
     }
 
     public List<AppliedEffect> getAppliedEffectsByPlayer(long playerId) {
-        if (playerId != authenticationFacade.getPlayerId())
+        if (playerId != authenticationFacade.getPlayerId()) {
             throw new WrongCredentialsException("У вас не прав на просмотр данной информации");
+        }
         deleteEndedEffectsOfPlayer(playerId);
         return appliedEffectRepository.getByPlayer(playerId);
     }

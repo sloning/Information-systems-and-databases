@@ -1,6 +1,6 @@
 package com.isbd.service;
 
-import com.isbd.exception.EntityNotFoundException;
+import com.isbd.dto.DealDto;
 import com.isbd.model.Deal;
 import com.isbd.repository.DealRepository;
 import com.isbd.security.AuthenticationFacade;
@@ -17,21 +17,16 @@ public class DealService {
     private final AuthenticationFacade authenticationFacade;
     private final OfferService offerService;
 
-    public Deal getDeal(long id) {
-        return dealRepository.get(id).orElseThrow(() ->
-                new EntityNotFoundException(String.format("Сделка с идентификатором %d не найдена", id)));
-    }
-
     public List<Deal> getByPlayer() {
         long playerId = authenticationFacade.getPlayerId();
         return dealRepository.getByPlayer(playerId);
     }
 
-    public void createDeal(long offerId) {
+    public void createDeal(DealDto dealDto) {
         long playerId = authenticationFacade.getPlayerId();
         Deal deal = new Deal();
         deal.setPlayerId(playerId);
-        deal.setOffer(offerService.getOffer(offerId));
+        deal.setOffer(offerService.getOffer(dealDto.getOfferId()));
         deal.setTime(LocalDateTime.now());
         dealRepository.save(deal);
     }

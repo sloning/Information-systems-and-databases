@@ -17,49 +17,43 @@ public class ExceptionController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleEntityNotFoundException(Exception ex) {
-        return new ResponseEntity<>(new ErrorResponse(400, ex.getMessage()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ErrorResponse(400, 1, ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(EntityNotSavedException.class)
     public ResponseEntity<ErrorResponse> handleEntityNotSavedException(Exception ex) {
-        return new ResponseEntity<>(new ErrorResponse(400, ex.getMessage()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ErrorResponse(400, 2, ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(WrongCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleWrongCredentialsException(Exception ex) {
-        return new ResponseEntity<>(new ErrorResponse(401, ex.getMessage()), HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(new ErrorResponse(401, 3, ex.getMessage()), HttpStatus.UNAUTHORIZED);
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(JwtAuthenticationException.class)
     public ResponseEntity<ErrorResponse> handleJwtAuthenticationException(Exception ex) {
-        return new ResponseEntity<>(new ErrorResponse(401, ex.getMessage()), HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(new ErrorResponse(401, 4, ex.getMessage()), HttpStatus.UNAUTHORIZED);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(EntityAlreadyExists.class)
-    public ResponseEntity<ErrorResponse> handleEntityAlreadyExists(Exception ex) {
-        return new ResponseEntity<>(new ErrorResponse(400, ex.getMessage()), HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(EntityAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleEntityAlreadyExistsException(Exception ex) {
+        return new ResponseEntity<>(new ErrorResponse(400, 5, ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(KitHaveBeenAlreadyGivenException.class)
     public ResponseEntity<ErrorResponse> handleKitHaveBeenAlreadyGivenException(Exception ex) {
-        return new ResponseEntity<>(new ErrorResponse(400, ex.getMessage()), HttpStatus.BAD_REQUEST);
-    }
-
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(ReputationLevelsNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleReputationLevelsNotFoundException(Exception ex) {
-        return new ResponseEntity<>(new ErrorResponse(500, ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new ErrorResponse(400, 6, ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorResponse> handleConstraintValidationException(ConstraintViolationException ex) {
-        return new ResponseEntity<>(new ErrorResponse(400,
+        return new ResponseEntity<>(new ErrorResponse(400, 7,
                 Objects.requireNonNull(ex.getConstraintViolations().iterator().next().getMessage())),
                 HttpStatus.BAD_REQUEST);
     }
@@ -67,7 +61,7 @@ public class ExceptionController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException ex) {
-        return new ResponseEntity<>(new ErrorResponse(400,
+        return new ResponseEntity<>(new ErrorResponse(400, 8,
                 Objects.requireNonNull(ex.getBindingResult().getFieldError()).getDefaultMessage()),
                 HttpStatus.BAD_REQUEST);
     }

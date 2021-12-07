@@ -1,7 +1,7 @@
 package com.isbd.controller.api.v1;
 
+import com.isbd.dto.ObtainedKitDto;
 import com.isbd.model.InventoryItem;
-import com.isbd.model.ObtainedKit;
 import com.isbd.service.KitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -21,7 +21,7 @@ public class KitController {
     private final KitService kitService;
 
     @GetMapping()
-    public ResponseEntity<List<ObtainedKit>> getKitsList() {
+    public ResponseEntity<List<ObtainedKitDto>> getKitsList() {
         return ResponseEntity.ok(kitService.getAll());
     }
 

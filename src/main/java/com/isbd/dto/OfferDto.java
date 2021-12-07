@@ -14,5 +14,5 @@ public class OfferDto {
     private int amountOfBuyingItems;
     private int amountOfBuyingItemsWithDiscount;
     private boolean hasDiscount;
-    private boolean canBeTraded;
+    private OfferAvailability offerAvailability;
 }

@@ -1,5 +1,6 @@
 package com.isbd.controller.api.v1;
 
+import com.isbd.dto.DealDto;
 import com.isbd.model.Deal;
 import com.isbd.service.DealService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class DealController {
     }
 
     @PostMapping()
-    public void makeNewDeal(@RequestBody final long offerId) {
-        dealService.createDeal(offerId);
+    public void makeNewDeal(@RequestBody final DealDto dealDto) {
+        dealService.createDeal(dealDto);
     }
 }

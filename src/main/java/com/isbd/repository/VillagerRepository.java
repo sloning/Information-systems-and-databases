@@ -24,10 +24,10 @@ public class VillagerRepository {
         return jdbcTemplate.query(sql, ResultSetExtractorFactory.optionalExtractor(this::mapRowToVillager), id);
     }
 
-    public List<Villager> getAll() {
-        String sql = "select * from villager";
+    public List<Villager> getAll(int limit, int offset) {
+        String sql = "select * from villager limit ? offset ?";
 
-        return jdbcTemplate.query(sql, this::mapRowToVillager);
+        return jdbcTemplate.query(sql, this::mapRowToVillager, limit, offset);
     }
 
     public int save(Villager villager) {
@@ -46,10 +46,10 @@ public class VillagerRepository {
         return jdbcTemplate.update("delete from villager where village_id = ?", villager.getId());
     }
 
-    public List<Villager> getVillagersByVillage(int villageId) {
-        String sql = "select * from villager where village_id = ?";
+    public List<Villager> getVillagersByVillage(int villageId, int limit, int offset) {
+        String sql = "select * from villager where village_id = ? limit ? offset ?";
 
-        return jdbcTemplate.query(sql, this::mapRowToVillager, villageId);
+        return jdbcTemplate.query(sql, this::mapRowToVillager, villageId, limit, offset);
     }
 
     public Villager mapRowToVillager(ResultSet rs, int rowNum) throws SQLException {

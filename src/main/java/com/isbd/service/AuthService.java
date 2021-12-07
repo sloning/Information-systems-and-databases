@@ -1,7 +1,7 @@
 package com.isbd.service;
 
 import com.isbd.dto.LoginDto;
-import com.isbd.exception.EntityAlreadyExists;
+import com.isbd.exception.EntityAlreadyExistsException;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.Player;
 import com.isbd.repository.PlayerRepository;
@@ -28,7 +28,9 @@ public class AuthService {
     public Player getByUsernameAndPassword(String username, String password) {
         Player player = getPlayerByUsername(username);
 
-        if (bCryptPasswordEncoder.matches(password, player.getPassword())) return player;
+        if (bCryptPasswordEncoder.matches(password, player.getPassword())) {
+            return player;
+        }
         throw new EntityNotFoundException("Неверный пароль");
     }
 
@@ -44,7 +46,7 @@ public class AuthService {
 
     public Map<String, String> register(LoginDto loginDto) {
         if (isPlayerExists(loginDto.getUsername()))
-            throw new EntityAlreadyExists("Пользователь с таким именем уже зарегестрирован");
+            throw new EntityAlreadyExistsException("Пользователь с таким именем уже зарегестрирован");
 
         Player player = new Player();
         player.setUsername(loginDto.getUsername());

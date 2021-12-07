@@ -15,10 +15,10 @@ public class InventoryRepository {
     private final JdbcTemplate jdbcTemplate;
     private final ResultSetExtractor<List<InventoryItem>> resultSetExtractor;
 
-    public Optional<List<InventoryItem>> get(long playerId) {
+    public List<InventoryItem> get(long playerId) {
         String sql = "select * from inventory where player_id = ?";
 
-        return Optional.ofNullable(jdbcTemplate.query(sql, resultSetExtractor, playerId));
+        return jdbcTemplate.query(sql, resultSetExtractor, playerId);
     }
 
     public int delete(long playerId) {
@@ -31,7 +31,7 @@ public class InventoryRepository {
         String sql = "select * from inventory where player_id = ? and item_id = 1";
 
         List<InventoryItem> emeralds = jdbcTemplate.query(sql, resultSetExtractor, playerId);
-        if (emeralds.size() == 0) {
+        if (emeralds.isEmpty()) {
             return Optional.empty();
         }
         return Optional.of(emeralds.get(0));

@@ -1,5 +1,6 @@
 package com.isbd.controller.api.v1;
 
+import com.isbd.dto.WithdrawalDto;
 import com.isbd.model.Withdrawal;
 import com.isbd.service.WithdrawalService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class WithdrawalController {
     }
 
     @PostMapping()
-    public void makeNewWithdrawal(@RequestBody final int villageId) {
-        withdrawalService.createWithdrawal(villageId);
+    public void makeNewWithdrawal(@RequestBody final WithdrawalDto withdrawalDto) {
+        withdrawalService.createWithdrawal(withdrawalDto);
     }
 }

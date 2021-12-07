@@ -1,6 +1,5 @@
 package com.isbd.service;
 
-import com.isbd.exception.EntityNotFoundException;
 import com.isbd.exception.WrongCredentialsException;
 import com.isbd.model.InventoryItem;
 import com.isbd.repository.InventoryRepository;
@@ -19,8 +18,7 @@ public class InventoryService {
     public List<InventoryItem> getByPlayerId(long playerId) {
         if (playerId != authenticationFacade.getPlayerId())
             throw new WrongCredentialsException("У вас не прав на просмотр данной информации");
-        return inventoryRepository.get(playerId).orElseThrow(() ->
-                new EntityNotFoundException(String.format("Инвентарь пользователя с идентификатором %d не найден", playerId)));
+        return inventoryRepository.get(playerId);
     }
 
     public void deleteByPlayerId(long playerId) {

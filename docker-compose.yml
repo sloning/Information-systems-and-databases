@@ -39,6 +39,10 @@ services:
       db_username: postgres
       db_password: $db_password
       SECURITY_SECRET: $SECURITY_SECRET
+      key_store: $key_store
+      key_store_password: $key_store_password
+    volumes:
+      - /home/azure/certs/isbd_keystore.p12:/home/azure/certs/isbd_keystore.p12
 
 volumes:
   postgres_data:

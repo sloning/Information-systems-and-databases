@@ -2,9 +2,9 @@ package com.isbd.service;
 
 import com.isbd.dto.VillageDto;
 import com.isbd.exception.EntityNotFoundException;
-import com.isbd.model.Raid;
 import com.isbd.model.Village;
 import com.isbd.repository.VillageRepository;
+import com.isbd.service.mapper.VillageMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +16,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class VillageService {
     private final VillageRepository villageRepository;
-    private final RaidService raidService;
+    private final VillageMapper villageMapper;
 
     public List<Village> getVillages(int limit, int offset) {
         return villageRepository.getAll(limit, offset);
     }
 
     public List<VillageDto> getVillagesWithExtraData(int limit, int offset) {
-        return getVillages(limit, offset).stream().map(this::convertToDto).collect(Collectors.toList());
+        return getVillages(limit, offset).stream().map(villageMapper::createFrom).collect(Collectors.toList());
     }
 
     public Village getVillage(int id) {
@@ -32,8 +32,7 @@ public class VillageService {
     }
 
     public Village getNearestVillage(int xCoordinate, int zCoordinate) {
-        ArrayList<Village> villages = new ArrayList<>(villageRepository.getAll(Integer.MAX_VALUE, 0));
-        if (villages.isEmpty()) throw new EntityNotFoundException("Деревень не существует");
+        List<Village> villages = getValidatedVillages();
         Village nearestVillage = villages.get(0);
         int current_distance = Math.abs(xCoordinate - nearestVillage.getXCoordinate()) +
                 Math.abs(zCoordinate - nearestVillage.getZCoordinate());
@@ -48,15 +47,11 @@ public class VillageService {
         return nearestVillage;
     }
 
-    private VillageDto convertToDto(Village village) {
-        boolean hasRaid = raidService.getRaids().stream().map(Raid::getVillageId).anyMatch(villageID ->
-                villageID == village.getId());
-        VillageDto villageDto = new VillageDto();
-        villageDto.setId(village.getId());
-        villageDto.setName(village.getName());
-        villageDto.setXCoordinate(village.getXCoordinate());
-        villageDto.setZCoordinate(village.getZCoordinate());
-        villageDto.setHasRaid(hasRaid);
-        return villageDto;
+    private List<Village> getValidatedVillages() {
+        List<Village> villages = new ArrayList<>(villageRepository.getAll(Integer.MAX_VALUE, 0));
+        if (villages.isEmpty()) {
+            throw new EntityNotFoundException("Деревень не существует");
+        }
+        return villages;
     }
 }

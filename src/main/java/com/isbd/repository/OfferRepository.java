@@ -61,51 +61,10 @@ public class OfferRepository {
         return jdbcTemplate.query(sql, this::mapRowToOffer, limit, offset);
     }
 
-    public List<Offer> getOffersByItemId(int itemId, int limit, int offset) {
-        String sql = "select * from offer where buying_item_id = ? limit ? offset ?";
-
-        return jdbcTemplate.query(sql, this::mapRowToOffer, itemId, limit, offset);
-    }
-
-    public List<Offer> getOffersByItemIdAndAmount(int itemId, int amount, int limit, int offset) {
-        String sql = "select * from offer where buying_item_id = ? and amount_of_buying_items <= ? limit ? offset ?";
-
-        return jdbcTemplate.query(sql, this::mapRowToOffer, itemId, amount, limit, offset);
-    }
-
     public List<Offer> getOffersByVillagerId(int villagerId, int limit, int offset) {
         String sql = "select * from offer where villager_id = ? limit ? offset ?";
 
         return jdbcTemplate.query(sql, this::mapRowToOffer, villagerId, limit, offset);
-    }
-
-    public List<Offer> getOffersByReputationLevel(int reputationLevel, int limit, int offset) {
-        String sql = "select * from offer where needed_reputation_level <= ? limit ? offset ?";
-
-        return jdbcTemplate.query(sql, this::mapRowToOffer, reputationLevel, limit, offset);
-    }
-
-    public List<Offer> getOffersByVillagerIdAndItemId(int villagerId, int itemId, int limit, int offset) {
-        String sql = "select * from offer where villager_id = ? and buying_item_id = ? limit ? offset ?";
-
-        return jdbcTemplate.query(sql, this::mapRowToOffer, villagerId, itemId, limit, offset);
-    }
-
-    public List<Offer> getOffersByVillagerIdAndItemIdAndAmount(int villagerId, int itemId, int amount,
-                                                               int limit, int offset) {
-        String sql = "select * from offer where buying_item_id = ? and amount_of_buying_items <= ? and villager_id = ?" +
-                " limit ? offset ?";
-
-        return jdbcTemplate.query(sql, this::mapRowToOffer, itemId, amount, villagerId, limit, offset);
-    }
-
-    public List<Offer> getOffersByVillagerIdAndItemIdAndAmountAndReputationLevel(int villagerId, int itemId,
-                                                                                 int amount, int reputationLevel,
-                                                                                 int limit, int offset) {
-        String sql = "select * from offer where buying_item_id = ? and amount_of_buying_items <= ? and " +
-                "villager_id = ? and needed_reputation_level <= ? limit ? offset ?";
-
-        return jdbcTemplate.query(sql, this::mapRowToOffer, itemId, amount, villagerId, reputationLevel, limit, offset);
     }
 
     public List<Offer> getOffersByVillagerIdAndReputationLevel(int villagerId, int reputationLevel,
@@ -113,20 +72,6 @@ public class OfferRepository {
         String sql = "select * from offer where villager_id = ? and needed_reputation_level <= ? limit ? offset ?";
 
         return jdbcTemplate.query(sql, this::mapRowToOffer, villagerId, reputationLevel, limit, offset);
-    }
-
-    public List<Offer> getOffersByItemIdAndAmountAndReputationLevel(int itemId, int amount, int reputationLevel,
-                                                                    int limit, int offset) {
-        String sql = "select * from offer where buying_item_id = ? and amount_of_buying_items <= ? and " +
-                "needed_reputation_level <= ? limit ? offset ?";
-
-        return jdbcTemplate.query(sql, this::mapRowToOffer, itemId, amount, reputationLevel, limit, offset);
-    }
-
-    public List<Offer> getOffersByItemIdAndReputationLevel(int itemId, int reputationLevel, int limit, int offset) {
-        String sql = "select * from offer where buying_item_id = ? and needed_reputation_level <= ? limit ? offset ?";
-
-        return jdbcTemplate.query(sql, this::mapRowToOffer, itemId, reputationLevel, limit, offset);
     }
 
     private Offer mapRowToOffer(ResultSet rs, int rowNum) throws SQLException {
