@@ -22,7 +22,7 @@ public class AuthService {
 
     public Player getPlayerByUsername(String username) {
         return playerRepository.getByUsername(username).orElseThrow(() ->
-                new EntityNotFoundException("Пользователь не найден"));
+                new EntityNotFoundException("Неверные имя пользователя или пароль"));
     }
 
     public Player getByUsernameAndPassword(String username, String password) {
