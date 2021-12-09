@@ -80,7 +80,7 @@ public class OfferRepository {
         Item buyingItem = itemService.getItem(rs.getInt("buying_item_id"));
         Item sellingItem = itemService.getItem(rs.getInt("selling_item_id"));
         ReputationLevel reputationLevel = reputationLevelRepository.get(neededReputationLevel).orElseThrow(() ->
-                new EntityNotFoundException(String.format("Reputation level with id: %d was not found",
+                new EntityNotFoundException(String.format("Уровень репутации с идентификатором %d не найден",
                         neededReputationLevel)));
 
         Offer offer = new Offer();

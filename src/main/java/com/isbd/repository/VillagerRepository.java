@@ -56,7 +56,7 @@ public class VillagerRepository {
     public Villager mapRowToVillager(ResultSet rs, int rowNum) throws SQLException {
         int professionId = rs.getInt("profession_id");
         Profession profession = professionRepository.get(professionId).orElseThrow(() ->
-                new EntityNotFoundException(String.format("Profession with id: %d was not found", professionId)));
+                new EntityNotFoundException(String.format("Профессия с идентификатором %d не найдена", professionId)));
 
         Villager villager = new Villager();
         villager.setId(rs.getInt("villager_id"));

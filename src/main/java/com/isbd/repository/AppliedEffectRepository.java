@@ -40,7 +40,7 @@ public class AppliedEffectRepository {
     private AppliedEffect mapRowToAppliedEffect(ResultSet rs, int rowNum) throws SQLException {
         int effectId = rs.getInt("effect_id");
         Effect effect = effectRepository.get(effectId).orElseThrow(() ->
-                new EntityNotFoundException(String.format("Effect with id: %d was not found", effectId)));
+                new EntityNotFoundException(String.format("Эффект с идентификатором %d не найден", effectId)));
 
         AppliedEffect appliedEffect = new AppliedEffect();
         appliedEffect.setPlayerId(rs.getLong("player_id"));

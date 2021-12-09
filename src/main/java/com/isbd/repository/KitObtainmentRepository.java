@@ -38,7 +38,7 @@ public class KitObtainmentRepository {
         while (rs.next()) {
             int kitId = rs.getInt("kit_id");
             Kit kit = kitRepository.get(kitId).orElseThrow(() ->
-                    new EntityNotFoundException(String.format("Kit with id: %d was not found", kitId)));
+                    new EntityNotFoundException(String.format("Набор с идентификатором %d не найден", kitId)));
             ObtainedKit obtainedKit = new ObtainedKit();
             obtainedKit.setLastObtained(rs.getTimestamp("last_obtainment").toLocalDateTime());
             obtainedKit.setId(kit.getId());

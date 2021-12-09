@@ -48,7 +48,7 @@ public class KitRepository {
     private Kit mapRowToKit(ResultSet rs, int rowNum) throws SQLException {
         int kitId = rs.getInt("kit_id");
         List<InventoryItem> items = kitItemsRepository.get(kitId).orElseThrow(() ->
-                new EntityNotFoundException(String.format("Items for kid: %d was not found", kitId)));
+                new EntityNotFoundException(String.format("Предметы для набора %d не найдены", kitId)));
 
         Kit kit = new Kit();
         kit.setId(kitId);
