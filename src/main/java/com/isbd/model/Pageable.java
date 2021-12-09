@@ -14,6 +14,18 @@ public class Pageable {
         }
     }
 
+    public static Pageable all() {
+        return new Pageable(-1, -1);
+    }
+
+    public boolean isEmpty() {
+        return limit == 0;
+    }
+
+    public boolean isPresent() {
+        return limit != 0;
+    }
+
     public int getOffset() {
         return offset;
     }
