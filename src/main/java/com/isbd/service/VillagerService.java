@@ -28,7 +28,15 @@ public class VillagerService {
     }
 
     public List<Villager> getVillagersOfVillage(int villageId, Pageable pageable) {
-        return villagerRepository.getVillagersByVillage(villageId, pageable);
+        return getValidatedVillagers(villageId, pageable);
+    }
+
+    private List<Villager> getValidatedVillagers(int villageId, Pageable pageable) {
+        List<Villager> villagers = villagerRepository.getVillagersByVillage(villageId, pageable);
+        if (villagers.isEmpty() && pageable.isPresent()) {
+            throw new EntityNotFoundException(String.format("В деревне %d не существует жителей", villageId));
+        }
+        return villagers;
     }
 
     public List<VillagerDto> getVillagersWithExtraData(int villageId, Pageable pageable) {

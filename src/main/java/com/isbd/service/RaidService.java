@@ -28,7 +28,7 @@ public class RaidService {
     private final AuthenticationFacade authenticationFacade;
 
     public void createRaid() {
-        List<Village> villages = villageRepository.getAll(new Pageable(-1, -1));
+        List<Village> villages = villageRepository.getAll(Pageable.all());
         if (!canRaidBeCreated(villages)) {
             return;
         }

@@ -16,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OfferService {
     private final ReputationLevelService reputationLevelService;
+    private final Validator validator;
     private final OfferRepository offerRepository;
     private final OfferMapper offerMapper;
 
@@ -29,6 +30,7 @@ public class OfferService {
     }
 
     public List<OfferDto> getAllowedOffers(int villagerId, Pageable pageable) {
+        validator.validateVillager(villagerId);
         ReputationLevel reputationLevel = reputationLevelService.getReputationLevelByVillagerId(villagerId);
         List<Offer> offers = offerRepository.getOffersByVillagerIdAndReputationLevel(villagerId, reputationLevel.getId(),
                 pageable);
@@ -42,6 +44,6 @@ public class OfferService {
 
     public long getAmountOfOffersByVillagerIdAndReputationLevel(int villagerId, int reputationLevel) {
         return offerRepository.getOffersByVillagerIdAndReputationLevel(villagerId, reputationLevel,
-                new Pageable(-1, -1)).size();
+                Pageable.all()).size();
     }
 }

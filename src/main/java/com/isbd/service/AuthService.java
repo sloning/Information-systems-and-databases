@@ -38,6 +38,11 @@ public class AuthService {
         return playerRepository.getByUsername(username).isPresent();
     }
 
+    public boolean isPlayerExists(long playerId) {
+        return playerRepository.get(playerId).isPresent();
+    }
+
+
     public Map<String, String> login(LoginDto loginDTO) {
         Player player = getByUsernameAndPassword(loginDTO.getUsername(), loginDTO.getPassword());
 
