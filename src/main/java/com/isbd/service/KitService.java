@@ -19,8 +19,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.isbd.service.ServicesConstants.HOURS_TO_RELOAD_KIT;
-
 @Service
 @RequiredArgsConstructor
 public class KitService {
@@ -37,8 +35,33 @@ public class KitService {
 
     public List<ObtainedKitDto> getAll() {
         long playerId = authenticationFacade.getPlayerId();
-        return kitObtainmentRepository.getByPlayer(playerId).stream().map(obtainedKitMapper::createFrom)
+        List<ObtainedKitDto> kits = kitObtainmentRepository.getByPlayer(playerId).stream().map(obtainedKitMapper::createFrom)
                 .collect(Collectors.toList());
+        if (kits.size() < 2) {
+            List<Kit> actualKits = kitRepository.getAll();
+            for (int i = 0; i < actualKits.size(); ++i) {
+                try {
+                    if (actualKits.get(i).getId() != kits.get(i).getId()) {
+                        kits.add(obtainedKitMapper.createFrom(convertToObtainedKit(actualKits.get(i))));
+                    }
+                } catch (Exception e) {
+                    kits.add(obtainedKitMapper.createFrom(convertToObtainedKit(actualKits.get(i))));
+                }
+            }
+        }
+        return kits;
+    }
+
+    private ObtainedKit convertToObtainedKit(Kit kit) {
+        ObtainedKit obtainedKit = new ObtainedKit();
+
+        obtainedKit.setId(kit.getId());
+        obtainedKit.setName(kit.getName());
+        obtainedKit.setItems(kit.getItems());
+        obtainedKit.setReload(kit.getReload());
+        obtainedKit.setLastObtained(LocalDateTime.now().minusSeconds(kit.getReload() + 1));
+
+        return obtainedKit;
     }
 
     public List<InventoryItem> obtainKit(int obtainingKitId) {
@@ -60,12 +83,15 @@ public class KitService {
     }
 
     private void checkReloadOfKit(ObtainedKit obtainedKit) {
-        long hoursPassedSinceLastObtainment =
-                ChronoUnit.HOURS.between(obtainedKit.getLastObtained(), LocalDateTime.now());
-        if (HOURS_TO_RELOAD_KIT > hoursPassedSinceLastObtainment) {
+        long secondsToReload = obtainedKit.getReload();
+        long secondsPassedSinceLastObtainment =
+                ChronoUnit.SECONDS.between(obtainedKit.getLastObtained(), LocalDateTime.now());
+        if (secondsToReload > secondsPassedSinceLastObtainment) {
+            long hoursToWait = (secondsToReload - secondsPassedSinceLastObtainment) / 3600;
+            long minutesToWait = ((secondsToReload - secondsPassedSinceLastObtainment) % 3600) / 60;
             throw new KitHaveBeenAlreadyGivenException(
-                    String.format("Для получения данного набора вы должны подождать ещё %d часов",
-                            HOURS_TO_RELOAD_KIT - hoursPassedSinceLastObtainment));
+                    String.format("Для получения данного набора вы должны подождать ещё %d часов %d минут",
+                            hoursToWait, minutesToWait));
         }
     }
 }

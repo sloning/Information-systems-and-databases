@@ -53,6 +53,7 @@ public class KitRepository {
         Kit kit = new Kit();
         kit.setId(kitId);
         kit.setName(rs.getString("name"));
+        kit.setReload(rs.getLong("reload"));
         kit.setItems(items);
         return kit;
     }

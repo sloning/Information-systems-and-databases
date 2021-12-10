@@ -15,15 +15,16 @@ public class ObtainedKitMapper {
         dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setItems(entity.getItems());
-        dto.setSecondsBeforeObtainment(getSecondsBeforeObtainment(entity.getLastObtained()));
+        dto.setSecondsBeforeObtainment(getSecondsBeforeObtainment(entity));
 
         return dto;
     }
 
-    private long getSecondsBeforeObtainment(LocalDateTime lastObtained) {
-        long secondsBeforeObtainment = ChronoUnit.SECONDS.between(lastObtained, LocalDateTime.now());
-        if (secondsBeforeObtainment < 86400) {
-            return secondsBeforeObtainment;
+    private long getSecondsBeforeObtainment(ObtainedKit entity) {
+        long secondsToReload = entity.getReload();
+        long secondsAfterObtainment = ChronoUnit.SECONDS.between(entity.getLastObtained(), LocalDateTime.now());
+        if (secondsAfterObtainment < secondsToReload) {
+            return secondsToReload - secondsAfterObtainment;
         } else {
             return -1;
         }

@@ -10,5 +10,6 @@ import java.util.List;
 public class Kit {
     private int id;
     private String name;
+    private long reload;
     private List<InventoryItem> items;
 }

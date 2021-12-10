@@ -18,7 +18,7 @@ public class InventoryService {
     public List<InventoryItem> getByPlayerId(long playerId) {
         if (playerId != authenticationFacade.getPlayerId())
             throw new WrongCredentialsException("У вас не прав на просмотр данной информации");
-        return inventoryRepository.get(playerId);
+        return inventoryRepository.getNonZeroItems(playerId);
     }
 
     public void deleteByPlayerId(long playerId) {

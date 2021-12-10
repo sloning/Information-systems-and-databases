@@ -21,6 +21,12 @@ public class InventoryRepository {
         return jdbcTemplate.query(sql, resultSetExtractor, playerId);
     }
 
+    public List<InventoryItem> getNonZeroItems(long playerId) {
+        String sql = "select * from inventory where player_id = ? and amount > 0";
+
+        return jdbcTemplate.query(sql, resultSetExtractor, playerId);
+    }
+
     public int delete(long playerId) {
         String sql = "delete from inventory where player_id = ?";
 

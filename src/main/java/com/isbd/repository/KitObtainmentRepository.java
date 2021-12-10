@@ -43,6 +43,7 @@ public class KitObtainmentRepository {
             obtainedKit.setLastObtained(rs.getTimestamp("last_obtainment").toLocalDateTime());
             obtainedKit.setId(kit.getId());
             obtainedKit.setName(kit.getName());
+            obtainedKit.setReload(kit.getReload());
             obtainedKit.setItems(kit.getItems());
             lastObtainedKits.add(obtainedKit);
         }
