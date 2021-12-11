@@ -5,10 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class Village {
+public class Biome {
     private int id;
     private String name;
-    private int xCoordinate;
-    private int zCoordinate;
-    private Biome biome;
 }

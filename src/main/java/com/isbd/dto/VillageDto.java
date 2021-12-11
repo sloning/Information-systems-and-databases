@@ -1,5 +1,6 @@
 package com.isbd.dto;
 
+import com.isbd.model.Biome;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,5 +11,6 @@ public class VillageDto {
     private String name;
     private int xCoordinate;
     private int zCoordinate;
+    private Biome biome;
     private boolean hasRaid;
 }

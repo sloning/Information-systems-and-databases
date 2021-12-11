@@ -12,15 +12,16 @@ import org.springframework.stereotype.Component;
 public class VillageMapper {
     private final RaidService raidService;
 
-    public VillageDto createFrom(Village village) {
+    public VillageDto createFrom(Village entity) {
         boolean hasRaid = raidService.getRaids().stream().map(Raid::getVillageId).anyMatch(villageID ->
-                villageID == village.getId());
-        VillageDto villageDto = new VillageDto();
-        villageDto.setId(village.getId());
-        villageDto.setName(village.getName());
-        villageDto.setXCoordinate(village.getXCoordinate());
-        villageDto.setZCoordinate(village.getZCoordinate());
-        villageDto.setHasRaid(hasRaid);
-        return villageDto;
+                villageID == entity.getId());
+        VillageDto dto = new VillageDto();
+        dto.setId(entity.getId());
+        dto.setName(entity.getName());
+        dto.setXCoordinate(entity.getXCoordinate());
+        dto.setZCoordinate(entity.getZCoordinate());
+        dto.setBiome(entity.getBiome());
+        dto.setHasRaid(hasRaid);
+        return dto;
     }
 }

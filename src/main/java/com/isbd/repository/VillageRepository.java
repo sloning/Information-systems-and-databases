@@ -1,5 +1,6 @@
 package com.isbd.repository;
 
+import com.isbd.model.Biome;
 import com.isbd.model.Pageable;
 import com.isbd.model.Village;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class VillageRepository {
+    private final BiomeRepository biomeRepository;
     private final JdbcTemplate jdbcTemplate;
 
     public Optional<Village> get(long id) {
@@ -44,11 +46,14 @@ public class VillageRepository {
     }
 
     public Village mapRowToVillage(ResultSet rs, int rowNum) throws SQLException {
+        Biome biome = biomeRepository.get(rs.getInt("biome_id")).orElse(null);
+
         Village village = new Village();
         village.setId(rs.getInt("village_id"));
         village.setName(rs.getString("name"));
         village.setXCoordinate(rs.getInt("x_coordinate"));
         village.setZCoordinate(rs.getInt("z_coordinate"));
+        village.setBiome(biome);
         return village;
     }
 }
