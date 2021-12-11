@@ -89,9 +89,10 @@ public class KitService {
         if (secondsToReload > secondsPassedSinceLastObtainment) {
             long hoursToWait = (secondsToReload - secondsPassedSinceLastObtainment) / 3600;
             long minutesToWait = ((secondsToReload - secondsPassedSinceLastObtainment) % 3600) / 60;
+            long secondsToWait = (secondsToReload - secondsPassedSinceLastObtainment) % 216000;
             throw new KitHaveBeenAlreadyGivenException(
-                    String.format("Для получения данного набора вы должны подождать ещё %d часов %d минут",
-                            hoursToWait, minutesToWait));
+                    String.format("Для получения данного набора вы должны подождать ещё %d часов %d минут %d секунд",
+                            hoursToWait, minutesToWait, secondsToWait));
         }
     }
 }
