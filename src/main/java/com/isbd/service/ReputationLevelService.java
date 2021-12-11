@@ -1,10 +1,12 @@
 package com.isbd.service;
 
+import com.isbd.dto.ReputationDto;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.ReputationLevel;
 import com.isbd.model.TradingReputation;
 import com.isbd.repository.ReputationLevelRepository;
 import com.isbd.security.AuthenticationFacade;
+import com.isbd.service.mapper.ReputationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ public class ReputationLevelService {
     private final ReputationLevelRepository reputationLevelRepository;
     private final TradingReputationService tradingReputationService;
     private final AuthenticationFacade authenticationFacade;
+    private final ReputationMapper reputationMapper;
 
     public ReputationLevel getReputationLevelByTradingReputation(TradingReputation tradingReputation) {
         List<ReputationLevel> reputationLevels = reputationLevelRepository.getAll();
@@ -36,5 +39,13 @@ public class ReputationLevelService {
         TradingReputation tradingReputation = tradingReputationService.
                 getTradingReputationByPlayerIdAndVillagerId(playerId, villagerId);
         return getReputationLevelByTradingReputation(tradingReputation);
+    }
+
+    public ReputationDto getReputationByVillagerId(int villagerId) {
+        long playerId = authenticationFacade.getPlayerId();
+        TradingReputation tradingReputation = tradingReputationService.
+                getTradingReputationByPlayerIdAndVillagerId(playerId, villagerId);
+        ReputationLevel reputationLevel = getReputationLevelByTradingReputation(tradingReputation);
+        return reputationMapper.createFrom(tradingReputation, reputationLevel);
     }
 }
