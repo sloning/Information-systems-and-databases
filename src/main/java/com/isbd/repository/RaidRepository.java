@@ -27,6 +27,12 @@ public class RaidRepository {
         return jdbcTemplate.query(sql, this::mapRowToRaid);
     }
 
+    public Optional<Raid> getByVillageId(int villageId) {
+        String sql = "select * from raid where village_id = ?";
+
+        return jdbcTemplate.query(sql, ResultSetExtractorFactory.optionalExtractor(this::mapRowToRaid), villageId);
+    }
+
     public int save(Raid raid) {
         String sql = "insert into raid(village_id, start_time, end_time) values(?, ?, ?)";
 

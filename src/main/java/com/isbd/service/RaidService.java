@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 import static com.isbd.service.ServicesConstants.*;
 
@@ -60,6 +61,11 @@ public class RaidService {
     public List<Raid> getRaids() {
         createRaid();
         return raidRepository.getAll();
+    }
+
+    public Optional<Raid> getRaidByVillageId(int villageId) {
+        createRaid();
+        return raidRepository.getByVillageId(villageId);
     }
 
     public RaidDto fightRaid(int raidId) {

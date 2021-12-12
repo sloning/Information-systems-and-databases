@@ -13,4 +13,5 @@ public class VillageDto {
     private int zCoordinate;
     private Biome biome;
     private boolean hasRaid;
+    private int raidId;
 }
