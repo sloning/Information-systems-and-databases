@@ -34,6 +34,11 @@ public class VillageController {
         return ResponseEntity.ok(villageService.getVillagesWithExtraData(new Pageable(page, size)));
     }
 
+    @GetMapping("/villageWithExtraData/{villageId}")
+    public ResponseEntity<VillageDto> getVillageWithExtraData(@PathVariable final int villageId) {
+        return ResponseEntity.ok(villageService.getVillageWithExtraData(villageId));
+    }
+
     @GetMapping("/{villageId}")
     public ResponseEntity<Village> getVillage(@PathVariable final int villageId) {
         return ResponseEntity.ok(villageService.getVillage(villageId));

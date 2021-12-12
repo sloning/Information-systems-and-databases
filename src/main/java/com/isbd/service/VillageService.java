@@ -26,6 +26,10 @@ public class VillageService {
         return getVillages(pageable).stream().map(villageMapper::createFrom).collect(Collectors.toList());
     }
 
+    public VillageDto getVillageWithExtraData(int villageId) {
+        return villageMapper.createFrom(getVillage(villageId));
+    }
+
     public Village getVillage(int id) {
         return villageRepository.get(id).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Дервня с идентификатором %d не найдена", id)));
