@@ -34,7 +34,7 @@ public class RaidRepository {
     }
 
     public int save(Raid raid) {
-        String sql = "insert into raid(village_id, start_time, end_time) values(?, ?, ?)";
+        String sql = "insert into raid(village_id, start_time, end_time) values(?, ?, ?) on conflict do nothing";
 
         return jdbcTemplate.update(sql, raid.getVillageId(), raid.getStartTime(), raid.getEndTime());
     }
