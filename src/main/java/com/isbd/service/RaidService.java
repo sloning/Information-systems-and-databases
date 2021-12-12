@@ -51,11 +51,7 @@ public class RaidService {
 
     private int getVillageForRaid(List<Village> villages) {
         int lastVillage = villages.stream().map(Village::getId).max(Comparator.comparing(Integer::valueOf)).get();
-        int villageWithRaid = (int) (Math.random() * lastVillage);
-        if (villageWithRaid < 1) {
-            villageWithRaid = 1;
-        }
-        return villageWithRaid;
+        return (int) (Math.random() * (lastVillage - 1) + 1);
     }
 
     public List<Raid> getRaids() {
