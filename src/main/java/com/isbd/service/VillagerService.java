@@ -48,4 +48,8 @@ public class VillagerService {
         }
         return villagerDtos;
     }
+
+    public VillagerDto getVillagerWithExtraData(int villagerId) {
+        return villagerMapper.createFrom(getVillager(villagerId));
+    }
 }

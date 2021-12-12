@@ -1,5 +1,6 @@
 package com.isbd.controller.api.v1;
 
+import com.isbd.dto.VillagerDto;
 import com.isbd.model.Pageable;
 import com.isbd.model.Villager;
 import com.isbd.service.VillagerService;
@@ -26,5 +27,10 @@ public class VillagerController {
     @GetMapping("/{id}")
     public ResponseEntity<Villager> getVillager(@PathVariable final int id) {
         return ResponseEntity.ok(villagerService.getVillager(id));
+    }
+
+    @GetMapping("/villagerWithExtraData/{id}")
+    public ResponseEntity<VillagerDto> getVillagerWithExtraData(@PathVariable final int id) {
+        return ResponseEntity.ok(villagerService.getVillagerWithExtraData(id));
     }
 }

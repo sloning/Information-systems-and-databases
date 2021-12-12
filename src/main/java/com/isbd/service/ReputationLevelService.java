@@ -48,4 +48,19 @@ public class ReputationLevelService {
         ReputationLevel reputationLevel = getReputationLevelByTradingReputation(tradingReputation);
         return reputationMapper.createFrom(tradingReputation, reputationLevel);
     }
+
+    public List<ReputationLevel> getReputationLevels() {
+        return reputationLevelRepository.getAll();
+    }
+
+    public ReputationLevel getReputationLevel(int reputationLevelId) {
+        return reputationLevelRepository.get(reputationLevelId).orElseThrow(() ->
+                new EntityNotFoundException(String.format("Уровень репутации с идентификатором %d не найден",
+                        reputationLevelId)));
+    }
+
+    public ReputationLevel getNextReputationLevelOrLast(int reputationLevelId) {
+        return reputationLevelRepository.get(++reputationLevelId)
+                .orElse(getReputationLevel(reputationLevelId));
+    }
 }
