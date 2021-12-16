@@ -2,6 +2,7 @@ package com.isbd.service;
 
 import com.isbd.dto.RaidDto;
 import com.isbd.exception.EntityNotFoundException;
+import com.isbd.exception.EntityNotSavedException;
 import com.isbd.model.AppliedEffect;
 import com.isbd.model.Pageable;
 import com.isbd.model.Raid;
@@ -39,7 +40,7 @@ public class RaidService {
         raid.setVillageId(villageWithRaid);
         raid.setStartTime(LocalDateTime.now());
         raid.setEndTime(raid.getStartTime().plusMinutes(RAID_DURATION_IN_MINUTES));
-        raidRepository.save(raid);
+        save(raid);
     }
 
     private boolean canRaidBeCreated(List<Village> villages) {
@@ -62,6 +63,12 @@ public class RaidService {
     public Optional<Raid> getRaidByVillageId(int villageId) {
         createRaid();
         return raidRepository.getByVillageId(villageId);
+    }
+
+    public void save(Raid raid) {
+        if (raidRepository.save(raid) == 0) {
+            throw new EntityNotSavedException(String.format("Рейд с идентификатором %d не сохранён", raid.getId()));
+        }
     }
 
     public RaidDto fightRaid(int raidId) {

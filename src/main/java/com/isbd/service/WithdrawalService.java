@@ -1,6 +1,7 @@
 package com.isbd.service;
 
 import com.isbd.dto.WithdrawalDto;
+import com.isbd.exception.EntityNotSavedException;
 import com.isbd.model.Withdrawal;
 import com.isbd.repository.WithdrawalRepository;
 import com.isbd.security.AuthenticationFacade;
@@ -27,6 +28,13 @@ public class WithdrawalService {
         withdrawal.setPlayerId(playerId);
         withdrawal.setVillageId(withdrawalDto.getVillageId());
         withdrawal.setItems(inventoryService.getByPlayerId(playerId));
-        withdrawalRepository.save(withdrawal);
+        save(withdrawal);
+    }
+
+    public void save(Withdrawal withdrawal) {
+        if (withdrawalRepository.save(withdrawal) == 0) {
+            throw new EntityNotSavedException(String.format("Вывод с идентификатором %d не сохранён",
+                    withdrawal.getId()));
+        }
     }
 }

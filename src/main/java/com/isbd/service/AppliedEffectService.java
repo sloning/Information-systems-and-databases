@@ -1,6 +1,7 @@
 package com.isbd.service;
 
 import com.isbd.exception.EntityNotFoundException;
+import com.isbd.exception.EntityNotSavedException;
 import com.isbd.exception.WrongCredentialsException;
 import com.isbd.model.AppliedEffect;
 import com.isbd.model.Effect;
@@ -44,7 +45,10 @@ public class AppliedEffectService {
     }
 
     public void save(AppliedEffect appliedEffect) {
-        appliedEffectRepository.save(appliedEffect);
+        if (appliedEffectRepository.save(appliedEffect) == 0) {
+            throw new EntityNotSavedException(String.format("Эффект с идентификатором %d не применён",
+                    appliedEffect.getId()));
+        }
     }
 
     public void deleteEndedEffectsOfPlayer(long playerId) {

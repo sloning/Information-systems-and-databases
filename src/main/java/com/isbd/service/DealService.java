@@ -1,6 +1,7 @@
 package com.isbd.service;
 
 import com.isbd.dto.DealDto;
+import com.isbd.exception.EntityNotSavedException;
 import com.isbd.model.Deal;
 import com.isbd.repository.DealRepository;
 import com.isbd.security.AuthenticationFacade;
@@ -29,5 +30,11 @@ public class DealService {
         deal.setOffer(offerService.getOffer(dealDto.getOfferId()));
         deal.setTime(LocalDateTime.now());
         dealRepository.save(deal);
+    }
+
+    public void save(Deal deal) {
+        if (dealRepository.save(deal) == 0) {
+            throw new EntityNotSavedException(String.format("Сделка с идентиффикатором %d не сохранена", deal.getId()));
+        }
     }
 }

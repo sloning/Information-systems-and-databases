@@ -3,6 +3,7 @@ package com.isbd.service;
 import com.isbd.dto.LoginDto;
 import com.isbd.exception.EntityAlreadyExistsException;
 import com.isbd.exception.EntityNotFoundException;
+import com.isbd.exception.EntityNotSavedException;
 import com.isbd.model.Player;
 import com.isbd.repository.PlayerRepository;
 import com.isbd.security.jwt.JwtTokenProvider;
@@ -50,16 +51,23 @@ public class AuthService {
     }
 
     public Map<String, String> register(LoginDto loginDto) {
-        if (isPlayerExists(loginDto.getUsername()))
+        if (isPlayerExists(loginDto.getUsername())) {
             throw new EntityAlreadyExistsException("Пользователь с таким именем уже зарегестрирован");
+        }
 
         Player player = new Player();
         player.setUsername(loginDto.getUsername());
         player.setPassword(bCryptPasswordEncoder.encode(loginDto.getPassword()));
-        playerRepository.save(player);
         player = getPlayerByUsername(player.getUsername());
-
+        save(player);
         return getToken(player.getId());
+    }
+
+    public void save(Player player) {
+        if (playerRepository.save(player) == 0) {
+            throw new EntityNotSavedException(String.format("Пользователь с идентификатором %d не сохранён",
+                    player.getId()));
+        }
     }
 
     private Map<String, String> getToken(Long playerId) {

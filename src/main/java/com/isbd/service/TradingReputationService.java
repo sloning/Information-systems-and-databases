@@ -1,5 +1,6 @@
 package com.isbd.service;
 
+import com.isbd.exception.EntityNotSavedException;
 import com.isbd.model.TradingReputation;
 import com.isbd.repository.TradingReputationRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,9 @@ public class TradingReputationService {
     }
 
     public void save(TradingReputation tradingReputation) {
-        tradingReputationRepository.save(tradingReputation);
+        if (tradingReputationRepository.save(tradingReputation) == 0) {
+            throw new EntityNotSavedException(String.format("Репутация игрока %d у жителя %d не сохранена",
+                    tradingReputation.getPlayerId(), tradingReputation.getVillagerId()));
+        }
     }
 }
