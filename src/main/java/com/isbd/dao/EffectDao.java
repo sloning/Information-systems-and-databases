@@ -1,4 +1,4 @@
-package com.isbd.repository;
+package com.isbd.dao;
 
 import com.isbd.model.Effect;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class EffectRepository {
+public class EffectDao {
     private final JdbcTemplate jdbcTemplate;
 
     public Optional<Effect> get(long id) {

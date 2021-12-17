@@ -1,4 +1,4 @@
-package com.isbd.repository;
+package com.isbd.dao;
 
 import com.isbd.model.Biome;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class BiomeRepository {
+public class BiomeDao {
     private final JdbcTemplate jdbcTemplate;
 
     public Optional<Biome> get(int id) {

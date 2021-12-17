@@ -1,4 +1,4 @@
-package com.isbd.repository;
+package com.isbd.dao;
 
 import com.isbd.model.InventoryItem;
 import com.isbd.model.Item;

@@ -1,4 +1,4 @@
-package com.isbd.repository;
+package com.isbd.dao;
 
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;

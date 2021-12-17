@@ -1,4 +1,4 @@
-package com.isbd.repository;
+package com.isbd.dao;
 
 import com.isbd.model.Biome;
 import com.isbd.model.Pageable;
@@ -14,8 +14,8 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class VillageRepository {
-    private final BiomeRepository biomeRepository;
+public class VillageDao {
+    private final BiomeDao biomeDao;
     private final JdbcTemplate jdbcTemplate;
 
     public Optional<Village> get(long id) {
@@ -46,7 +46,7 @@ public class VillageRepository {
     }
 
     public Village mapRowToVillage(ResultSet rs, int rowNum) throws SQLException {
-        Biome biome = biomeRepository.get(rs.getInt("biome_id")).orElse(null);
+        Biome biome = biomeDao.get(rs.getInt("biome_id")).orElse(null);
 
         Village village = new Village();
         village.setId(rs.getInt("village_id"));

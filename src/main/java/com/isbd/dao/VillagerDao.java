@@ -1,4 +1,4 @@
-package com.isbd.repository;
+package com.isbd.dao;
 
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.Pageable;
@@ -15,9 +15,9 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class VillagerRepository {
+public class VillagerDao {
     private final JdbcTemplate jdbcTemplate;
-    private final ProfessionRepository professionRepository;
+    private final ProfessionDao professionDao;
 
     public Optional<Villager> get(long id) {
         String sql = "select * from villager where villager_id = ?";
@@ -55,7 +55,7 @@ public class VillagerRepository {
 
     public Villager mapRowToVillager(ResultSet rs, int rowNum) throws SQLException {
         int professionId = rs.getInt("profession_id");
-        Profession profession = professionRepository.get(professionId).orElseThrow(() ->
+        Profession profession = professionDao.get(professionId).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Профессия с идентификатором %d не найдена", professionId)));
 
         Villager villager = new Villager();

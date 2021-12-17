@@ -1,11 +1,11 @@
 package com.isbd.service;
 
+import com.isbd.dao.PlayerDao;
 import com.isbd.dto.LoginDto;
 import com.isbd.exception.EntityAlreadyExistsException;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.exception.EntityNotSavedException;
 import com.isbd.model.Player;
-import com.isbd.repository.PlayerRepository;
 import com.isbd.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,12 +17,12 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-    private final PlayerRepository playerRepository;
+    private final PlayerDao playerDao;
     private final JwtTokenProvider jwtTokenProvider;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public Player getPlayerByUsername(String username) {
-        return playerRepository.getByUsername(username).orElseThrow(() ->
+        return playerDao.getByUsername(username).orElseThrow(() ->
                 new EntityNotFoundException("Неверные имя пользователя или пароль"));
     }
 
@@ -36,11 +36,11 @@ public class AuthService {
     }
 
     public boolean isPlayerExists(String username) {
-        return playerRepository.getByUsername(username).isPresent();
+        return playerDao.getByUsername(username).isPresent();
     }
 
     public boolean isPlayerExists(long playerId) {
-        return playerRepository.get(playerId).isPresent();
+        return playerDao.get(playerId).isPresent();
     }
 
 
@@ -64,7 +64,7 @@ public class AuthService {
     }
 
     public void save(Player player) {
-        if (playerRepository.save(player) == 0) {
+        if (playerDao.save(player) == 0) {
             throw new EntityNotSavedException(String.format("Пользователь с идентификатором %d не сохранён",
                     player.getId()));
         }

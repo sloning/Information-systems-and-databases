@@ -1,10 +1,10 @@
 package com.isbd.service;
 
+import com.isbd.dao.VillageDao;
 import com.isbd.dto.VillageDto;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.Pageable;
 import com.isbd.model.Village;
-import com.isbd.repository.VillageRepository;
 import com.isbd.service.mapper.VillageMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class VillageService {
-    private final VillageRepository villageRepository;
+    private final VillageDao villageDao;
     private final VillageMapper villageMapper;
 
     public List<Village> getVillages(Pageable pageable) {
@@ -31,7 +31,7 @@ public class VillageService {
     }
 
     public Village getVillage(int id) {
-        return villageRepository.get(id).orElseThrow(() ->
+        return villageDao.get(id).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Дервня с идентификатором %d не найдена", id)));
     }
 
@@ -52,7 +52,7 @@ public class VillageService {
     }
 
     private List<Village> getValidatedVillages(Pageable pageable) {
-        List<Village> villages = villageRepository.getAll(pageable);
+        List<Village> villages = villageDao.getAll(pageable);
         if (villages.isEmpty() && pageable.isPresent()) {
             throw new EntityNotFoundException("Деревень не существует");
         }

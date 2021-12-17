@@ -1,9 +1,9 @@
 package com.isbd.service;
 
+import com.isbd.dao.WithdrawalDao;
 import com.isbd.dto.WithdrawalDto;
 import com.isbd.exception.EntityNotSavedException;
 import com.isbd.model.Withdrawal;
-import com.isbd.repository.WithdrawalRepository;
 import com.isbd.security.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,13 +13,13 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class WithdrawalService {
-    private final WithdrawalRepository withdrawalRepository;
+    private final WithdrawalDao withdrawalDao;
     private final AuthenticationFacade authenticationFacade;
     private final InventoryService inventoryService;
 
     public List<Withdrawal> getByPlayer() {
         long playerId = authenticationFacade.getPlayerId();
-        return withdrawalRepository.getByPlayer(playerId);
+        return withdrawalDao.getByPlayer(playerId);
     }
 
     public void createWithdrawal(WithdrawalDto withdrawalDto) {
@@ -32,7 +32,7 @@ public class WithdrawalService {
     }
 
     public void save(Withdrawal withdrawal) {
-        if (withdrawalRepository.save(withdrawal) == 0) {
+        if (withdrawalDao.save(withdrawal) == 0) {
             throw new EntityNotSavedException(String.format("Вывод с идентификатором %d не сохранён",
                     withdrawal.getId()));
         }

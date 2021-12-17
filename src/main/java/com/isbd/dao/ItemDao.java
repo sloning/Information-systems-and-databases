@@ -1,4 +1,4 @@
-package com.isbd.repository;
+package com.isbd.dao;
 
 import com.isbd.model.Item;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class ItemRepository {
+public class ItemDao {
     private final JdbcTemplate jdbcTemplate;
 
     public Optional<Item> get(long id) {

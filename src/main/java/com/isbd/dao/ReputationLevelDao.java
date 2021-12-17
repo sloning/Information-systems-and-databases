@@ -1,4 +1,4 @@
-package com.isbd.repository;
+package com.isbd.dao;
 
 import com.isbd.model.ReputationLevel;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class ReputationLevelRepository {
+public class ReputationLevelDao {
     private final JdbcTemplate jdbcTemplate;
 
     public Optional<ReputationLevel> get(long id) {

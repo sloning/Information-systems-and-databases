@@ -1,4 +1,4 @@
-package com.isbd.repository;
+package com.isbd.dao;
 
 import com.isbd.exception.EntityNotSavedException;
 import com.isbd.model.Deal;
@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class DealRepository {
+public class DealDao {
     private final JdbcTemplate jdbcTemplate;
     private final OfferService offerService;
 

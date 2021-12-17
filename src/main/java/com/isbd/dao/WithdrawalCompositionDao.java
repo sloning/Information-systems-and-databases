@@ -1,4 +1,4 @@
-package com.isbd.repository;
+package com.isbd.dao;
 
 import com.isbd.model.InventoryItem;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class WithdrawalCompositionRepository {
+public class WithdrawalCompositionDao {
     private final JdbcTemplate jdbcTemplate;
     private final ResultSetExtractor<List<InventoryItem>> resultSetExtractor;
 

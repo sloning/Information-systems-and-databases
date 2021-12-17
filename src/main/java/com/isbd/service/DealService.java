@@ -1,9 +1,9 @@
 package com.isbd.service;
 
+import com.isbd.dao.DealDao;
 import com.isbd.dto.DealDto;
 import com.isbd.exception.EntityNotSavedException;
 import com.isbd.model.Deal;
-import com.isbd.repository.DealRepository;
 import com.isbd.security.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,13 +14,13 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class DealService {
-    private final DealRepository dealRepository;
+    private final DealDao dealDao;
     private final AuthenticationFacade authenticationFacade;
     private final OfferService offerService;
 
     public List<Deal> getByPlayer() {
         long playerId = authenticationFacade.getPlayerId();
-        return dealRepository.getByPlayer(playerId);
+        return dealDao.getByPlayer(playerId);
     }
 
     public void createDeal(DealDto dealDto) {
@@ -29,11 +29,11 @@ public class DealService {
         deal.setPlayerId(playerId);
         deal.setOffer(offerService.getOffer(dealDto.getOfferId()));
         deal.setTime(LocalDateTime.now());
-        dealRepository.save(deal);
+        dealDao.save(deal);
     }
 
     public void save(Deal deal) {
-        if (dealRepository.save(deal) == 0) {
+        if (dealDao.save(deal) == 0) {
             throw new EntityNotSavedException(String.format("Сделка с идентиффикатором %d не сохранена", deal.getId()));
         }
     }

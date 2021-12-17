@@ -1,5 +1,7 @@
 package com.isbd.service;
 
+import com.isbd.dao.RaidDao;
+import com.isbd.dao.VillageDao;
 import com.isbd.dto.RaidDto;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.exception.EntityNotSavedException;
@@ -7,8 +9,6 @@ import com.isbd.model.AppliedEffect;
 import com.isbd.model.Pageable;
 import com.isbd.model.Raid;
 import com.isbd.model.Village;
-import com.isbd.repository.RaidRepository;
-import com.isbd.repository.VillageRepository;
 import com.isbd.security.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,14 +23,14 @@ import static com.isbd.service.ServicesConstants.*;
 @Service
 @RequiredArgsConstructor
 public class RaidService {
-    private final RaidRepository raidRepository;
-    private final VillageRepository villageRepository;
+    private final RaidDao raidDao;
+    private final VillageDao villageDao;
     private final AppliedEffectService appliedEffectService;
     private final InventoryService inventoryService;
     private final AuthenticationFacade authenticationFacade;
 
     public void createRaid() {
-        List<Village> villages = villageRepository.getAll(Pageable.all());
+        List<Village> villages = villageDao.getAll(Pageable.all());
         if (!canRaidBeCreated(villages)) {
             return;
         }
@@ -57,16 +57,16 @@ public class RaidService {
 
     public List<Raid> getRaids() {
         createRaid();
-        return raidRepository.getAll();
+        return raidDao.getAll();
     }
 
     public Optional<Raid> getRaidByVillageId(int villageId) {
         createRaid();
-        return raidRepository.getByVillageId(villageId);
+        return raidDao.getByVillageId(villageId);
     }
 
     public void save(Raid raid) {
-        if (raidRepository.save(raid) == 0) {
+        if (raidDao.save(raid) == 0) {
             throw new EntityNotSavedException(String.format("Рейд с идентификатором %d не сохранён", raid.getId()));
         }
     }
@@ -87,16 +87,16 @@ public class RaidService {
     }
 
     private RaidDto winFight(long playerId, Raid raid) {
-        raidRepository.delete(raid);
+        raidDao.delete(raid);
         AppliedEffect appliedEffect = applyEffect(playerId);
         return new RaidDto(true, appliedEffect);
     }
 
     private Raid getValidatedRaid(int raidId) {
-        Raid raid = raidRepository.get(raidId).orElseThrow(() ->
+        Raid raid = raidDao.get(raidId).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Рейд с идентификатором %d не найден", raidId)));
         if (raid.getEndTime().isBefore(LocalDateTime.now())) {
-            raidRepository.delete(raid);
+            raidDao.delete(raid);
         }
         return raid;
     }

@@ -1,4 +1,4 @@
-package com.isbd.repository;
+package com.isbd.dao;
 
 import com.isbd.model.Raid;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class RaidRepository {
+public class RaidDao {
     private final JdbcTemplate jdbcTemplate;
 
     public Optional<Raid> get(long raidId) {

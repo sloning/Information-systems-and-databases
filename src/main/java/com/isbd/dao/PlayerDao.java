@@ -1,4 +1,4 @@
-package com.isbd.repository;
+package com.isbd.dao;
 
 import com.isbd.model.Player;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class PlayerRepository {
+public class PlayerDao {
     private final JdbcTemplate jdbcTemplate;
 
     public Optional<Player> get(long id) {

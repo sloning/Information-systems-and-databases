@@ -1,4 +1,4 @@
-package com.isbd.repository;
+package com.isbd.dao;
 
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.AppliedEffect;
@@ -13,8 +13,8 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class AppliedEffectRepository {
-    private final EffectRepository effectRepository;
+public class AppliedEffectDao {
+    private final EffectDao effectDao;
     private final JdbcTemplate jdbcTemplate;
 
     public List<AppliedEffect> getByPlayer(long playerId) {
@@ -39,7 +39,7 @@ public class AppliedEffectRepository {
 
     private AppliedEffect mapRowToAppliedEffect(ResultSet rs, int rowNum) throws SQLException {
         int effectId = rs.getInt("effect_id");
-        Effect effect = effectRepository.get(effectId).orElseThrow(() ->
+        Effect effect = effectDao.get(effectId).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Эффект с идентификатором %d не найден", effectId)));
 
         AppliedEffect appliedEffect = new AppliedEffect();

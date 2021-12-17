@@ -1,4 +1,4 @@
-package com.isbd.repository;
+package com.isbd.dao;
 
 import com.isbd.model.InventoryItem;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class KitItemsRepository {
+public class KitItemsDao {
     private final JdbcTemplate jdbcTemplate;
     private final InventoryResultSetExtractor inventoryResultSetExtractor;
 

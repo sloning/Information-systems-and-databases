@@ -1,4 +1,4 @@
-package com.isbd.repository;
+package com.isbd.dao;
 
 import com.isbd.model.InventoryItem;
 import com.isbd.model.Withdrawal;
@@ -13,9 +13,9 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class WithdrawalRepository {
+public class WithdrawalDao {
     private final JdbcTemplate jdbcTemplate;
-    private final WithdrawalCompositionRepository withdrawalCompositionRepository;
+    private final WithdrawalCompositionDao withdrawalCompositionDao;
 
     public Optional<Withdrawal> get(long id) {
         String sql = "select * from withdrawal where withdrawal_id = ?";
@@ -38,7 +38,7 @@ public class WithdrawalRepository {
     private Withdrawal mapRowToWithdrawal(ResultSet rs, int rowNum) throws SQLException {
         long playerId = rs.getLong("player_id");
         long withdrawalId = rs.getLong("withdrawal_id");
-        List<InventoryItem> items = withdrawalCompositionRepository.getByWithdrawal(withdrawalId);
+        List<InventoryItem> items = withdrawalCompositionDao.getByWithdrawal(withdrawalId);
 
         Withdrawal withdrawal = new Withdrawal();
         withdrawal.setId(withdrawalId);

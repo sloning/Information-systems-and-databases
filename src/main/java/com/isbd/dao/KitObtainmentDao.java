@@ -1,4 +1,4 @@
-package com.isbd.repository;
+package com.isbd.dao;
 
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.Kit;
@@ -16,9 +16,9 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class KitObtainmentRepository {
+public class KitObtainmentDao {
     private final JdbcTemplate jdbcTemplate;
-    private final KitRepository kitRepository;
+    private final KitDao kitDao;
 
     public List<ObtainedKit> getByPlayer(long playerId) {
         String sql = "select * from kit_obtainment where player_id = ?";
@@ -37,7 +37,7 @@ public class KitObtainmentRepository {
         List<ObtainedKit> lastObtainedKits = new ArrayList<>();
         while (rs.next()) {
             int kitId = rs.getInt("kit_id");
-            Kit kit = kitRepository.get(kitId).orElseThrow(() ->
+            Kit kit = kitDao.get(kitId).orElseThrow(() ->
                     new EntityNotFoundException(String.format("Набор с идентификатором %d не найден", kitId)));
             ObtainedKit obtainedKit = new ObtainedKit();
             obtainedKit.setLastObtained(rs.getTimestamp("last_obtainment").toLocalDateTime());

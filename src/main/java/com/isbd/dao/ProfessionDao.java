@@ -1,4 +1,4 @@
-package com.isbd.repository;
+package com.isbd.dao;
 
 import com.isbd.model.Profession;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class ProfessionRepository {
+public class ProfessionDao {
     private final JdbcTemplate jdbcTemplate;
 
     public Optional<Profession> get(long id) {

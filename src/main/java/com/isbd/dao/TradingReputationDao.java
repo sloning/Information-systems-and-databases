@@ -1,4 +1,4 @@
-package com.isbd.repository;
+package com.isbd.dao;
 
 import com.isbd.model.TradingReputation;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class TradingReputationRepository {
+public class TradingReputationDao {
     private final JdbcTemplate jdbcTemplate;
 
     public Optional<TradingReputation> getByPlayerAndVillager(long playerId, int villagerId) {

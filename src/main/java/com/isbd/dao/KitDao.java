@@ -1,4 +1,4 @@
-package com.isbd.repository;
+package com.isbd.dao;
 
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.InventoryItem;
@@ -17,9 +17,9 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class KitRepository {
+public class KitDao {
     private final JdbcTemplate jdbcTemplate;
-    private final KitItemsRepository kitItemsRepository;
+    private final KitItemsDao kitItemsDao;
 
     public Optional<Kit> get(long kitId) {
         String sql = "select * from kit where kit_id = ?";
@@ -47,7 +47,7 @@ public class KitRepository {
 
     private Kit mapRowToKit(ResultSet rs, int rowNum) throws SQLException {
         int kitId = rs.getInt("kit_id");
-        List<InventoryItem> items = kitItemsRepository.get(kitId).orElseThrow(() ->
+        List<InventoryItem> items = kitItemsDao.get(kitId).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Предметы для набора %d не найдены", kitId)));
 
         Kit kit = new Kit();

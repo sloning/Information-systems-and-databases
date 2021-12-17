@@ -1,12 +1,12 @@
 package com.isbd.service;
 
+import com.isbd.dao.AppliedEffectDao;
+import com.isbd.dao.EffectDao;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.exception.EntityNotSavedException;
 import com.isbd.exception.WrongCredentialsException;
 import com.isbd.model.AppliedEffect;
 import com.isbd.model.Effect;
-import com.isbd.repository.AppliedEffectRepository;
-import com.isbd.repository.EffectRepository;
 import com.isbd.security.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,12 +17,12 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AppliedEffectService {
-    private final EffectRepository effectRepository;
-    private final AppliedEffectRepository appliedEffectRepository;
+    private final EffectDao effectDao;
+    private final AppliedEffectDao appliedEffectDao;
     private final AuthenticationFacade authenticationFacade;
 
     public AppliedEffect applyEffect(int effectId, long playerId) {
-        Effect effect = effectRepository.get(effectId).orElseThrow(() ->
+        Effect effect = effectDao.get(effectId).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Эффект с идентификатором %d не найден", effectId)));
         AppliedEffect appliedEffect = new AppliedEffect();
         appliedEffect.setId(effect.getId());
@@ -41,17 +41,17 @@ public class AppliedEffectService {
             throw new WrongCredentialsException("У вас не прав на просмотр данной информации");
         }
         deleteEndedEffectsOfPlayer(playerId);
-        return appliedEffectRepository.getByPlayer(playerId);
+        return appliedEffectDao.getByPlayer(playerId);
     }
 
     public void save(AppliedEffect appliedEffect) {
-        if (appliedEffectRepository.save(appliedEffect) == 0) {
+        if (appliedEffectDao.save(appliedEffect) == 0) {
             throw new EntityNotSavedException(String.format("Эффект с идентификатором %d не применён",
                     appliedEffect.getId()));
         }
     }
 
     public void deleteEndedEffectsOfPlayer(long playerId) {
-        appliedEffectRepository.deleteEndedEffectsOfPlayer(playerId);
+        appliedEffectDao.deleteEndedEffectsOfPlayer(playerId);
     }
 }

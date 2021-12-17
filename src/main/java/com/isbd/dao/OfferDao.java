@@ -1,4 +1,4 @@
-package com.isbd.repository;
+package com.isbd.dao;
 
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.Item;
@@ -17,10 +17,10 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class OfferRepository {
+public class OfferDao {
     private final JdbcTemplate jdbcTemplate;
     private final ItemService itemService;
-    private final ReputationLevelRepository reputationLevelRepository;
+    private final ReputationLevelDao reputationLevelDao;
 
     public Optional<Offer> get(long id) {
         String sql = "select * from offer where offer_id = ?";
@@ -79,7 +79,7 @@ public class OfferRepository {
         int neededReputationLevel = rs.getInt("needed_reputation_level");
         Item buyingItem = itemService.getItem(rs.getInt("buying_item_id"));
         Item sellingItem = itemService.getItem(rs.getInt("selling_item_id"));
-        ReputationLevel reputationLevel = reputationLevelRepository.get(neededReputationLevel).orElseThrow(() ->
+        ReputationLevel reputationLevel = reputationLevelDao.get(neededReputationLevel).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Уровень репутации с идентификатором %d не найден",
                         neededReputationLevel)));
 

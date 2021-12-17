@@ -1,10 +1,10 @@
 package com.isbd.service;
 
+import com.isbd.dao.ReputationLevelDao;
 import com.isbd.dto.ReputationDto;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.model.ReputationLevel;
 import com.isbd.model.TradingReputation;
-import com.isbd.repository.ReputationLevelRepository;
 import com.isbd.security.AuthenticationFacade;
 import com.isbd.service.mapper.ReputationMapper;
 import lombok.RequiredArgsConstructor;
@@ -15,13 +15,13 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ReputationLevelService {
-    private final ReputationLevelRepository reputationLevelRepository;
+    private final ReputationLevelDao reputationLevelDao;
     private final TradingReputationService tradingReputationService;
     private final AuthenticationFacade authenticationFacade;
     private final ReputationMapper reputationMapper;
 
     public ReputationLevel getReputationLevelByTradingReputation(TradingReputation tradingReputation) {
-        List<ReputationLevel> reputationLevels = reputationLevelRepository.getAll();
+        List<ReputationLevel> reputationLevels = reputationLevelDao.getAll();
         if (reputationLevels.isEmpty()) {
             throw new EntityNotFoundException("Уровни репутации не существуют");
         }
@@ -50,17 +50,17 @@ public class ReputationLevelService {
     }
 
     public List<ReputationLevel> getReputationLevels() {
-        return reputationLevelRepository.getAll();
+        return reputationLevelDao.getAll();
     }
 
     public ReputationLevel getReputationLevel(int reputationLevelId) {
-        return reputationLevelRepository.get(reputationLevelId).orElseThrow(() ->
+        return reputationLevelDao.get(reputationLevelId).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Уровень репутации с идентификатором %d не найден",
                         reputationLevelId)));
     }
 
     public ReputationLevel getNextReputationLevelOrLast(int reputationLevelId) {
-        return reputationLevelRepository.get(++reputationLevelId)
+        return reputationLevelDao.get(++reputationLevelId)
                 .orElse(getReputationLevel(reputationLevelId));
     }
 }

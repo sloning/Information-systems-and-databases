@@ -1,13 +1,13 @@
 package com.isbd.service;
 
+import com.isbd.dao.KitDao;
+import com.isbd.dao.KitObtainmentDao;
 import com.isbd.dto.ObtainedKitDto;
 import com.isbd.exception.EntityNotFoundException;
 import com.isbd.exception.KitHaveBeenAlreadyGivenException;
 import com.isbd.model.InventoryItem;
 import com.isbd.model.Kit;
 import com.isbd.model.ObtainedKit;
-import com.isbd.repository.KitObtainmentRepository;
-import com.isbd.repository.KitRepository;
 import com.isbd.security.AuthenticationFacade;
 import com.isbd.service.mapper.ObtainedKitMapper;
 import lombok.RequiredArgsConstructor;
@@ -22,23 +22,23 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class KitService {
-    private final KitObtainmentRepository kitObtainmentRepository;
-    private final KitRepository kitRepository;
+    private final KitObtainmentDao kitObtainmentDao;
+    private final KitDao kitDao;
     private final InventoryService inventoryService;
     private final AuthenticationFacade authenticationFacade;
     private final ObtainedKitMapper obtainedKitMapper;
 
     public Kit getKit(int kitId) {
-        return kitRepository.get(kitId).orElseThrow(() ->
+        return kitDao.get(kitId).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Набор с идентификатором %d не найден", kitId)));
     }
 
     public List<ObtainedKitDto> getAll() {
         long playerId = authenticationFacade.getPlayerId();
-        List<ObtainedKitDto> kits = kitObtainmentRepository.getByPlayer(playerId).stream().map(obtainedKitMapper::createFrom)
+        List<ObtainedKitDto> kits = kitObtainmentDao.getByPlayer(playerId).stream().map(obtainedKitMapper::createFrom)
                 .collect(Collectors.toList());
         if (kits.size() < 2) {
-            List<Kit> actualKits = kitRepository.getAll();
+            List<Kit> actualKits = kitDao.getAll();
             for (int i = 0; i < actualKits.size(); ++i) {
                 try {
                     if (actualKits.get(i).getId() != kits.get(i).getId()) {
@@ -69,7 +69,7 @@ public class KitService {
         validateKitId(obtainingKitId);
         checkKitAvailabilityForPlayer(obtainingKitId, playerId);
 
-        kitRepository.obtainKit(playerId, obtainingKitId);
+        kitDao.obtainKit(playerId, obtainingKitId);
         return inventoryService.getByPlayerId(playerId);
     }
 
@@ -78,7 +78,7 @@ public class KitService {
     }
 
     private void checkKitAvailabilityForPlayer(int kitId, long playerId) {
-        Optional<ObtainedKit> optionalObtainedKit = kitObtainmentRepository.getByPlayerAndKit(playerId, kitId);
+        Optional<ObtainedKit> optionalObtainedKit = kitObtainmentDao.getByPlayerAndKit(playerId, kitId);
         optionalObtainedKit.ifPresent(this::checkReloadOfKit);
     }
 
