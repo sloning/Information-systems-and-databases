@@ -52,10 +52,9 @@ public class OfferDao {
         String sql = "update offer set villager_id = ?, selling_item_id = ?, amount_of_selling_items = ?, " +
                 "buying_item_id = ?, amount_of_buying_items = ?, needed_reputation_level = ? where offer_id = ?";
 
-        return jdbcTemplate.
-                update(sql, offer.getVillagerId(), offer.getSellingItem(), offer.getAmountOfSellingItems(),
-                        offer.getBuyingItem(), offer.getAmountOfBuyingItems(), offer.getReputationLevel(),
-                        offer.getId());
+        return jdbcTemplate.update(sql, offer.getVillagerId(), offer.getSellingItem(), offer.getAmountOfSellingItems(),
+                offer.getBuyingItem(), offer.getAmountOfBuyingItems(), offer.getReputationLevel(),
+                offer.getId());
     }
 
     public int delete(Offer offer) {

@@ -30,9 +30,9 @@ public class WithdrawalDao {
     }
 
     public int save(Withdrawal withdrawal) {
-        String sql1 = "insert into withdrawal(village_id, player_id) values(?, ?)";
+        String sql = "insert into withdrawal(village_id, player_id) values(?, ?)";
 
-        return jdbcTemplate.update(sql1, withdrawal.getVillageId(), withdrawal.getPlayerId());
+        return jdbcTemplate.update(sql, withdrawal.getVillageId(), withdrawal.getPlayerId());
     }
 
     private Withdrawal mapRowToWithdrawal(ResultSet rs, int rowNum) throws SQLException {

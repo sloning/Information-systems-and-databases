@@ -32,9 +32,8 @@ public class ProfessionDao {
     }
 
     public int update(Profession profession) {
-        return jdbcTemplate.
-                update("update profession set name = ? where profession_id = ?",
-                        profession.getName(), profession.getId());
+        return jdbcTemplate.update("update profession set name = ? where profession_id = ?",
+                profession.getName(), profession.getId());
     }
 
     public int delete(Profession profession) {

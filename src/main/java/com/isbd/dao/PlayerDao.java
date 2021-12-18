@@ -44,8 +44,7 @@ public class PlayerDao {
         String sql = "select * from player where username = ?";
 
         List<Player> playerList = jdbcTemplate.query(sql, this::mapRowToPlayer, username);
-        if (playerList.isEmpty()) return Optional.empty();
-        else return Optional.ofNullable(playerList.get(0));
+        return playerList.isEmpty() ? Optional.empty() : Optional.ofNullable(playerList.get(0));
     }
 
     private Player mapRowToPlayer(ResultSet rs, int rowNum) throws SQLException {

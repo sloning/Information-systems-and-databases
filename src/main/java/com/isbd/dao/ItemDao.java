@@ -34,9 +34,8 @@ public class ItemDao {
     }
 
     public int update(Item item) {
-        return jdbcTemplate.
-                update("update item set name = ?, icon_address = ? where item_id = ?",
-                        item.getName(), item.getIconAddress(), item.getId());
+        return jdbcTemplate.update("update item set name = ?, icon_address = ? where item_id = ?",
+                item.getName(), item.getIconAddress(), item.getId());
     }
 
     public int delete(Item item) {

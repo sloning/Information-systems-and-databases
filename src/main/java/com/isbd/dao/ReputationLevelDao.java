@@ -28,19 +28,22 @@ public class ReputationLevelDao {
     }
 
     public int save(ReputationLevel reputationLevel) {
-        return jdbcTemplate.update("insert into reputation_level(name, needed_reputation) values(?, ?)",
-                reputationLevel.getName(), reputationLevel.getNeededReputationLevel());
+        String sql = "insert into reputation_level(name, needed_reputation) values(?, ?)";
+
+        return jdbcTemplate.update(sql, reputationLevel.getName(), reputationLevel.getNeededReputationLevel());
     }
 
     public int update(ReputationLevel reputationLevel) {
-        return jdbcTemplate.
-                update("update reputation_level set name = ?, needed_reputation = ? where reputation_level_id = ?",
-                        reputationLevel.getName(), reputationLevel.getNeededReputationLevel(), reputationLevel.getId());
+        String sql = "update reputation_level set name = ?, needed_reputation = ? where reputation_level_id = ?";
+
+        return jdbcTemplate.update(sql, reputationLevel.getName(), reputationLevel.getNeededReputationLevel(),
+                reputationLevel.getId());
     }
 
     public int delete(ReputationLevel reputationLevel) {
-        return jdbcTemplate.update("delete from reputation_level where reputation_level_id = ?",
-                reputationLevel.getId());
+        String sql = "delete from reputation_level where reputation_level_id = ?";
+
+        return jdbcTemplate.update(sql, reputationLevel.getId());
     }
 
     private ReputationLevel mapRowToReputationLevel(ResultSet rs, int rowNum) throws SQLException {
