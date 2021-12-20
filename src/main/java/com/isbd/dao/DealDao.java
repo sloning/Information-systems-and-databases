@@ -5,7 +5,6 @@ import com.isbd.model.Deal;
 import com.isbd.model.Offer;
 import com.isbd.service.OfferService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -45,9 +44,8 @@ public class DealDao {
 
         try {
             rowsAffected += jdbcTemplate.update(sql, deal.getOffer().getId(), deal.getPlayerId(), deal.getTime());
-        } catch (DataAccessException e) {
-            if (e instanceof UncategorizedSQLException)
-                throw new EntityNotSavedException("Недостаточно предметов");
+        } catch (UncategorizedSQLException e) {
+            throw new EntityNotSavedException("Недостаточно предметов");
         }
         return rowsAffected;
     }
