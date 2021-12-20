@@ -2,7 +2,6 @@ package com.isbd.dao;
 
 import com.isbd.model.Item;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -29,24 +28,21 @@ public class ItemDao {
     }
 
     public int save(Item item) {
-        return jdbcTemplate.update("insert into item(name, icon_address) values(?, ?)",
-                item.getName(), item.getIconAddress());
+        String sql = "insert into item(name, icon_address) values(?, ?)";
+
+        return jdbcTemplate.update(sql, item.getName(), item.getIconAddress());
     }
 
     public int update(Item item) {
-        return jdbcTemplate.update("update item set name = ?, icon_address = ? where item_id = ?",
-                item.getName(), item.getIconAddress(), item.getId());
+        String sql = "update item set name = ?, icon_address = ? where item_id = ?";
+
+        return jdbcTemplate.update(sql, item.getName(), item.getIconAddress(), item.getId());
     }
 
     public int delete(Item item) {
-        return jdbcTemplate.update("delete from item where item_id = ?", item.getId());
-    }
+        String sql = "delete from item where item_id = ?";
 
-    public Optional<String> getIconAddress(int id) {
-        String sql = "select icon_address from item where item_id = ?";
-
-        return jdbcTemplate.query(sql,
-                ResultSetExtractorFactory.optionalExtractor(BeanPropertyRowMapper.newInstance(String.class)), id);
+        return jdbcTemplate.update(sql, item.getId());
     }
 
     private Item mapRowToItem(ResultSet rs, int rowNum) throws SQLException {
