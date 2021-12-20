@@ -5,6 +5,8 @@
 Приложение создано с использованием:
 
 * Spring Boot
+* JUnit
+* Mockito
 * OpenAPI
 * Liquibase
 * PostgreSQL
