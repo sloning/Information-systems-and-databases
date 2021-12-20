@@ -37,9 +37,6 @@ public class InventoryDao {
         String sql = "select * from inventory where player_id = ? and item_id = 1";
 
         List<InventoryItem> emeralds = jdbcTemplate.query(sql, resultSetExtractor, playerId);
-        if (emeralds.isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(emeralds.get(0));
+        return emeralds.isEmpty() ? Optional.empty() : Optional.of(emeralds.get(0));
     }
 }
