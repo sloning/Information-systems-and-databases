@@ -2,6 +2,7 @@ package com.isbd.service;
 
 import com.isbd.dao.WithdrawalDao;
 import com.isbd.dto.WithdrawalDto;
+import com.isbd.exception.EntityNotFoundException;
 import com.isbd.exception.EntityNotSavedException;
 import com.isbd.model.Withdrawal;
 import com.isbd.security.AuthenticationFacade;
@@ -19,7 +20,11 @@ public class WithdrawalService {
 
     public List<Withdrawal> getByPlayer() {
         long playerId = authenticationFacade.getPlayerId();
-        return withdrawalDao.getByPlayer(playerId);
+        List<Withdrawal> withdrawals = withdrawalDao.getByPlayer(playerId);
+        if (withdrawals.isEmpty()) {
+            throw new EntityNotFoundException(String.format("Игрок %d ещё не совершил ни одного вывода.", playerId));
+        }
+        return withdrawals;
     }
 
     public void createWithdrawal(WithdrawalDto withdrawalDto) {
