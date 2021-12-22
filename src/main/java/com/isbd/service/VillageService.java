@@ -18,25 +18,29 @@ public class VillageService {
     private final VillageDao villageDao;
     private final VillageMapper villageMapper;
 
-    public List<Village> getVillages(Pageable pageable) {
-        return getValidatedVillages(pageable);
+    public Village getVillage(int id) {
+        return villageDao.get(id).orElseThrow(() ->
+                new EntityNotFoundException(String.format("Дервня с идентификатором %d не найдена", id)));
     }
 
-    public List<VillageDto> getVillagesWithExtraData(Pageable pageable) {
-        return getVillages(pageable).stream().map(villageMapper::createFrom).collect(Collectors.toList());
+    public List<Village> getVillages(Pageable pageable) {
+        List<Village> villages = villageDao.getAll(pageable);
+        if (villages.isEmpty() && pageable.isPresent()) {
+            throw new EntityNotFoundException("Деревень не существует");
+        }
+        return villages;
     }
 
     public VillageDto getVillageWithExtraData(int villageId) {
         return villageMapper.createFrom(getVillage(villageId));
     }
 
-    public Village getVillage(int id) {
-        return villageDao.get(id).orElseThrow(() ->
-                new EntityNotFoundException(String.format("Дервня с идентификатором %d не найдена", id)));
+    public List<VillageDto> getVillagesWithExtraData(Pageable pageable) {
+        return getVillages(pageable).stream().map(villageMapper::createFrom).collect(Collectors.toList());
     }
 
     public Village getNearestVillage(int xCoordinate, int zCoordinate) {
-        List<Village> villages = getValidatedVillages(Pageable.all());
+        List<Village> villages = getVillages(Pageable.all());
         Village nearestVillage = villages.get(0);
         int current_distance = Math.abs(xCoordinate - nearestVillage.getXCoordinate()) +
                 Math.abs(zCoordinate - nearestVillage.getZCoordinate());
@@ -49,13 +53,5 @@ public class VillageService {
             }
         }
         return nearestVillage;
-    }
-
-    private List<Village> getValidatedVillages(Pageable pageable) {
-        List<Village> villages = villageDao.getAll(pageable);
-        if (villages.isEmpty() && pageable.isPresent()) {
-            throw new EntityNotFoundException("Деревень не существует");
-        }
-        return villages;
     }
 }
