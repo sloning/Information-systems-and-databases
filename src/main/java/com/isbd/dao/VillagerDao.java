@@ -19,7 +19,7 @@ public class VillagerDao {
     private final JdbcTemplate jdbcTemplate;
     private final ProfessionDao professionDao;
 
-    public Optional<Villager> get(long id) {
+    public Optional<Villager> get(int id) {
         String sql = "select * from villager where villager_id = ?";
 
         return jdbcTemplate.query(sql, ResultSetExtractorFactory.optionalExtractor(this::mapRowToVillager), id);
