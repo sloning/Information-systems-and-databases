@@ -58,8 +58,8 @@ public class AuthService {
         Player player = new Player();
         player.setUsername(loginDto.getUsername());
         player.setPassword(bCryptPasswordEncoder.encode(loginDto.getPassword()));
-        player = getPlayerByUsername(player.getUsername());
         save(player);
+        player = getPlayerByUsername(player.getUsername());
         return getToken(player.getId());
     }
 
