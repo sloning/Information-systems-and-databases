@@ -35,33 +35,8 @@ public class KitService {
 
     public List<ObtainedKitDto> getAll() {
         long playerId = authenticationFacade.getPlayerId();
-        List<ObtainedKitDto> kits = kitObtainmentDao.getByPlayer(playerId).stream().map(obtainedKitMapper::createFrom)
+        return kitObtainmentDao.getByPlayer(playerId).stream().map(obtainedKitMapper::createFrom)
                 .collect(Collectors.toList());
-        if (kits.size() < 2) {
-            List<Kit> actualKits = kitDao.getAll();
-            for (int i = 0; i < actualKits.size(); ++i) {
-                try {
-                    if (actualKits.get(i).getId() != kits.get(i).getId()) {
-                        kits.add(obtainedKitMapper.createFrom(convertToObtainedKit(actualKits.get(i))));
-                    }
-                } catch (Exception e) {
-                    kits.add(obtainedKitMapper.createFrom(convertToObtainedKit(actualKits.get(i))));
-                }
-            }
-        }
-        return kits;
-    }
-
-    private ObtainedKit convertToObtainedKit(Kit kit) {
-        ObtainedKit obtainedKit = new ObtainedKit();
-
-        obtainedKit.setId(kit.getId());
-        obtainedKit.setName(kit.getName());
-        obtainedKit.setItems(kit.getItems());
-        obtainedKit.setReload(kit.getReload());
-        obtainedKit.setLastObtained(LocalDateTime.now().minusSeconds(kit.getReload() + 1));
-
-        return obtainedKit;
     }
 
     public List<InventoryItem> obtainKit(int obtainingKitId) {
