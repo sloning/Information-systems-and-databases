@@ -29,7 +29,7 @@ public class DealService {
         deal.setPlayerId(playerId);
         deal.setOffer(offerService.getOffer(dealDto.getOfferId()));
         deal.setTime(LocalDateTime.now());
-        dealDao.save(deal);
+        save(deal);
     }
 
     public void save(Deal deal) {
