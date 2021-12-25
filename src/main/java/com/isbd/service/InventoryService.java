@@ -16,8 +16,9 @@ public class InventoryService {
     private final AuthenticationFacade authenticationFacade;
 
     public List<InventoryItem> getByPlayerId(long playerId) {
-        if (playerId != authenticationFacade.getPlayerId())
+        if (playerId != authenticationFacade.getPlayerId()) {
             throw new WrongCredentialsException("У вас не прав на просмотр данной информации");
+        }
         return inventoryDao.getNonZeroItems(playerId);
     }
 
