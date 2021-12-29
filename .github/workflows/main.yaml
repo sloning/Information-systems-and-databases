@@ -21,7 +21,7 @@ jobs:
       - run: ./gradlew test
         env:
           SECURITY_SECRET: ${{ secrets.SECURITY_SECRET }}
-      - run: ./gradlew -PspringProfile=prod bootJar
+      - run: SPRING_PROFILES_ACTIVE=prod ./gradlew bootJar
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
