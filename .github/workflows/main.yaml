@@ -26,7 +26,7 @@ jobs:
       - name: Build jar
         uses: gradle/gradle-build-action@v2.0.1
         with:
-          arguments: -PspringProfile=prod bootJar
+          arguments: bootJarProd
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
