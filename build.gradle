@@ -54,14 +54,3 @@ liquibase {
         }
     }
 }
-
-tasks.register('bootJarProd') {
-    group 'application'
-    description 'Runs the Spring Boot application with the dev profile'
-    doFirst {
-        tasks.bootJar.configure {
-            systemProperty('spring.profiles.active', 'prod')
-        }
-    }
-    finalizedBy('bootJar')
-}
