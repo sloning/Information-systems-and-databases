@@ -25,7 +25,7 @@ services:
 
   isbd:
     container_name: isbd
-    image: isbd:latest
+    image: "ghcr.io/sloning/isbd:latest"
     restart: always
     network_mode: bridge
     ports:
