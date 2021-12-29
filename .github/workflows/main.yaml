@@ -17,15 +17,11 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
-      - name: Test
-        uses: gradle/gradle-build-action@v2.0.1
-        with:
-          arguments: test
-        env:
+      - uses: gradle/gradle-build-action@v2
+      - run: ./gradlew test
+      - env:
           SECURITY_SECRET: ${{ secrets.SECURITY_SECRET }}
-      - name: Build jar
-        uses: gradle/gradle-build-action@v2.0.1
-        run: ./gradlew -PspringProfile=prod bootJar
+      - run: ./gradlew -PspringProfile=prod bootJar
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
