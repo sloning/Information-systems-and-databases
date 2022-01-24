@@ -19,19 +19,19 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.6.1'
-    implementation 'org.springframework.boot:spring-boot-starter-security:2.6.1'
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.1'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.6.2'
+    implementation 'org.springframework.boot:spring-boot-starter-security:2.6.2'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.2'
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
     implementation 'org.postgresql:postgresql:42.3.1'
     implementation 'com.auth0:java-jwt:3.18.2'
-    implementation 'org.springframework.boot:spring-boot-starter-validation:2.6.1'
+    implementation 'org.springframework.boot:spring-boot-starter-validation:2.6.2'
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.1'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.2'
     testImplementation 'org.springframework.security:spring-security-test:5.5.1'
     testImplementation 'org.assertj:assertj-core:3.21.0'
-    liquibaseRuntime 'org.liquibase:liquibase-core:4.6.1'
+    liquibaseRuntime 'org.liquibase:liquibase-core:4.6.2'
     liquibaseRuntime 'info.picocli:picocli:4.6.2'
     liquibaseRuntime 'org.postgresql:postgresql:42.3.1'
 }
