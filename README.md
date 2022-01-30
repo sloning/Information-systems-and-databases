@@ -33,9 +33,8 @@
 
 ## Сборка и запуск
 
-PostgreSQL должна быть установлена. Необходимо наличие SSL-сертификата, путь до него записать в системную переменную
-key_store. Необходимо задать следующие системные переменные: db_host, db_username, db_password, liquibaseProKey,
-key_store, key_store_password.
+PostgreSQL должна быть установлена. Необходимо задать следующие системные переменные: db_host, db_username, db_password,
+liquibaseProKey.
 
 Синхронизация сущностей и процедур базы данных:
 
@@ -52,7 +51,7 @@ key_store, key_store_password.
 Проверка работоспособности:
 
 ```
-curl "https://<your-domain-name>:8443/api/v1/offers"
+curl "http://localhost:8080/api/v1/offers"
 ```
 
 ## Запуск с помощью Docker
