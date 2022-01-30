@@ -1,15 +1,10 @@
 version: '3.8'
 
 services:
-  isbd_postgres_db:
-    container_name: isbd_postgres_db
+  isbd_postgres:
+    container_name: isbd_postgres
     image: postgres
     restart: always
-    network_mode: bridge
-    ports:
-      - "5432:5432"
-    expose:
-      - 5432
     environment:
       POSTGRES_DB: isbd
       POSTGRES_USER: postgres
@@ -27,23 +22,21 @@ services:
     container_name: isbd
     image: "ghcr.io/sloning/isbd:latest"
     restart: always
-    network_mode: bridge
-    ports:
-      - "443:8443"
     depends_on:
-      - isbd_postgres_db
+      - isbd_postgres
     links:
-      - isbd_postgres_db
+      - isbd_postgres
     environment:
-      db_host: $db_host
+      db_host: jdbc:postgresql://isbd_postgres:5432/isbd
       db_username: postgres
       db_password: $db_password
       SECURITY_SECRET: $SECURITY_SECRET
-      key_store: $key_store
-      key_store_password: $key_store_password
-    volumes:
-      - /home/azure/certs/isbd_keystore.p12:/home/azure/certs/isbd_keystore.p12
 
 volumes:
   postgres_data:
     driver: local
+
+networks:
+  default:
+    external:
+      name: nginx-proxy

@@ -14,7 +14,7 @@ public class JdbcConfig {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         Map<String, String> env = System.getenv();
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl(env.get("db_host") + "isbd");
+        dataSource.setUrl(env.get("db_host"));
         dataSource.setUsername(env.get("db_username"));
         dataSource.setPassword(env.get("db_password"));
 
